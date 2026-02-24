@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Cumbre Café — Menú Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream:    #faf0e6;
+            --espresso: #1c0d04;
+            --espresso2:#2c1a0e;
+            --caramel:  #c8874e;
+            --caramel2: #e8b98a;
+            --sage:     #6b9e70;
+            --muted:    rgba(250,240,230,0.45);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--espresso);
+            color: var(--cream);
+            font-family: 'Lato', sans-serif;
+            cursor: none;
+        }
+
+        /* ── LAYOUT ──────────────────────────────── */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 11vh 6vh 68vh 15vh;
+        }
+
+        /* ── HEADER ──────────────────────────────── */
+        .header {
+            background: var(--espresso2);
+            border-bottom: 3px solid var(--caramel);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3vw;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.4vw;
+        }
+        .brand-icon {
+            width: 6.5vh;
+            height: 6.5vh;
+            background: var(--caramel);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2vh;
+        }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8vh;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--cream);
+        }
+        .brand-sub {
+            font-size: 1.5vh;
+            color: var(--caramel2);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 0.2vh;
+            font-weight: 300;
+        }
+        .header-center {
+            display: flex;
+            gap: 2.5vw;
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 0.6vw;
+            font-size: 1.7vh;
+            color: var(--muted);
+            font-weight: 300;
+        }
+        .header-info strong { color: var(--cream); font-weight: 400; }
+        .open-badge {
+            background: var(--sage);
+            color: #fff;
+            font-size: 1.4vh;
+            font-weight: 700;
+            padding: 0.5vh 1.4vw;
+            border-radius: 20px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .clock {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8vh;
+            color: var(--caramel2);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-align: right;
+        }
+        .clock-date {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.4vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ── CATEGORY BAR ──────────────────────────── */
+        .cat-bar {
+            background: rgba(28,13,4,0.9);
+            border-bottom: 1px solid rgba(200,135,78,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3vw;
+            padding: 0 3vw;
+        }
+        .cat-item {
+            font-size: 1.7vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 0.8vw;
+            border-bottom: 2px solid transparent;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 0.5vw;
+            height: 100%;
+        }
+        .cat-item.active {
+            color: var(--caramel);
+            border-bottom-color: var(--caramel);
+        }
+
+        /* ── MAIN AREA ──────────────────────────────── */
+        .main {
+            display: grid;
+            grid-template-columns: 36% 64%;
+            gap: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Featured left */
+        .featured {
+            background: linear-gradient(160deg, var(--espresso2) 0%, #3b1a08 100%);
+            border-right: 1px solid rgba(200,135,78,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3vh 3vw;
+            position: relative;
+            overflow: hidden;
+        }
+        .featured::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -20%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(200,135,78,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .featured-badge {
+            font-size: 1.3vh;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--caramel2);
+            border: 1px solid rgba(200,135,78,0.4);
+            padding: 0.5vh 1.2vw;
+            border-radius: 20px;
+            margin-bottom: 2.5vh;
+        }
+        .featured-emoji {
+            font-size: 11vh;
+            margin-bottom: 2.5vh;
+            line-height: 1;
+            filter: drop-shadow(0 4px 20px rgba(200,135,78,0.3));
+        }
+        .featured-tag {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--caramel);
+            color: #fff;
+            padding: 0.4vh 1vw;
+            border-radius: 4px;
+            margin-bottom: 1.5vh;
+        }
+        .featured-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.4vh;
+            font-weight: 600;
+            text-align: center;
+            color: var(--cream);
+            margin-bottom: 1vh;
+            line-height: 1.2;
+        }
+        .featured-desc {
+            font-size: 1.7vh;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.5;
+            font-weight: 300;
+            margin-bottom: 3vh;
+            max-width: 90%;
+        }
+        .featured-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 6vh;
+            color: var(--caramel);
+            font-weight: 600;
+            line-height: 1;
+        }
+        .featured-size {
+            font-size: 1.5vh;
+            color: var(--muted);
+            font-weight: 300;
+            margin-top: 0.5vh;
+            text-align: center;
+        }
+
+        /* Right grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
+            background: var(--espresso);
+            transition: opacity 0.5s ease;
+        }
+        .items-grid.fading { opacity: 0; }
+
+        .item-card {
+            background: var(--espresso2);
+            border-right: 1px solid rgba(200,135,78,0.1);
+            border-bottom: 1px solid rgba(200,135,78,0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 2.5vh 2vw;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+        .item-card:nth-child(even) { background: rgba(28,13,4,0.6); }
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--caramel);
+            opacity: 0.3;
+        }
+        .item-card:nth-child(3n)::before { background: var(--sage); }
+
+        .item-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.5vh;
+        }
+        .item-emoji {
+            font-size: 5vh;
+            line-height: 1;
+        }
+        .item-badge {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.4vh 0.8vw;
+            border-radius: 3px;
+        }
+        .badge-promo { background: var(--caramel); color: #fff; }
+        .badge-new   { background: var(--sage); color: #fff; }
+        .badge-pop   { background: rgba(200,135,78,0.15); color: var(--caramel2); border: 1px solid rgba(200,135,78,0.3); }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4vh;
+            color: var(--cream);
+            margin-bottom: 0.8vh;
+            line-height: 1.2;
+            flex: 1;
+        }
+        .item-desc {
+            font-size: 1.5vh;
+            color: var(--muted);
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 1.5vh;
+            flex: 1;
+        }
+        .item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5vh;
+            color: var(--caramel);
+            font-weight: 600;
+            line-height: 1;
+        }
+        .item-size {
+            font-size: 1.3vh;
+            color: var(--muted);
+            font-weight: 300;
+            margin-top: 0.3vh;
+        }
+
+        /* ── FOOTER ──────────────────────────────── */
+        .footer {
+            background: var(--espresso2);
+            border-top: 2px solid rgba(200,135,78,0.25);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            align-items: center;
+        }
+        .footer-cell {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            padding: 0 2.5vw;
+            border-right: 1px solid rgba(200,135,78,0.15);
+        }
+        .footer-cell:last-child { border-right: none; }
+        .footer-icon {
+            font-size: 3.5vh;
+            flex-shrink: 0;
+        }
+        .footer-label {
+            font-size: 1.2vh;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--caramel2);
+            display: block;
+            margin-bottom: 0.4vh;
+        }
+        .footer-val {
+            font-size: 1.8vh;
+            color: var(--cream);
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        .footer-val small {
+            font-size: 1.4vh;
+            color: var(--muted);
+            font-weight: 300;
+            display: block;
+        }
+
+        /* ── PROGRESS BAR ──────────────────────────── */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--caramel);
+            transition: width 0.1s linear;
+            z-index: 100;
+        }
+
+        /* ── SLIDE TRANSITION ──────────────────────── */
+        .slide-transition {
+            transition: opacity 0.5s ease;
+        }
+        .slide-transition.hidden { opacity: 0; }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">☕</div>
+            <div>
+                <div class="brand-name">La Cumbre Café</div>
+                <span class="brand-sub">San Martín 842, Ushuaia · Desde 2019</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="header-info">🕐 <strong>Lun–Vie</strong> 8:00 – 21:00</div>
+            <div class="header-info">📶 <strong>WiFi:</strong> LaCumbre2024</div>
+            <div class="open-badge">Abierto</div>
+        </div>
+        <div>
+            <div class="clock" id="clock">00:00</div>
+            <div class="clock-date" id="clock-date"></div>
+        </div>
+    </header>
+
+    <!-- CATEGORY BAR -->
+    <div class="cat-bar" id="cat-bar">
+        <div class="cat-item active" data-idx="0">☕ Cafés de especialidad</div>
+        <div class="cat-item" data-idx="1">🧊 Bebidas frías</div>
+        <div class="cat-item" data-idx="2">🥐 Pastelería</div>
+        <div class="cat-item" data-idx="3">🥪 Sandwiches</div>
+    </div>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- FEATURED -->
+        <div class="featured">
+            <div class="featured-badge">✦ Destacado del día</div>
+            <div class="featured-emoji" id="feat-emoji">☕</div>
+            <div class="featured-tag" id="feat-tag">MÁS PEDIDO</div>
+            <div class="featured-name" id="feat-name">Cappuccino Clásico</div>
+            <div class="featured-desc" id="feat-desc">Espresso doble, leche vaporizada y espuma sedosa. El favorito de la casa.</div>
+            <div class="featured-price" id="feat-price">$1.200</div>
+            <div class="featured-size" id="feat-size">180 ml</div>
+        </div>
+
+        <!-- ITEMS GRID -->
+        <div class="items-grid" id="items-grid"></div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-cell">
+            <div class="footer-icon">📍</div>
+            <div>
+                <span class="footer-label">Dirección</span>
+                <div class="footer-val">San Martín 842<small>Ushuaia, Tierra del Fuego</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="footer-icon">🕐</div>
+            <div>
+                <span class="footer-label">Horario</span>
+                <div class="footer-val">Lun–Vie 8:00–21:00<small>Sáb–Dom 9:00–22:00</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="footer-icon">⭐</div>
+            <div>
+                <span class="footer-label">Especial del día</span>
+                <div class="footer-val">Flat White + 3 Medialunas<small>$2.800</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="footer-icon">💬</div>
+            <div>
+                <span class="footer-label">Contacto</span>
+                <div class="footer-val">+54 9 2901 555-123<small>@lacumbrecafe</small></div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progress"></div>
+
+<script>
+    // ── DATA ──────────────────────────────────────────────
+    const slides = [
+        {
+            cat: 0,
+            featured: { emoji:'☕', tag:'MÁS PEDIDO', name:'Cappuccino Clásico', desc:'Espresso doble, leche vaporizada y espuma sedosa. El favorito de la casa.', price:'$1.200', size:'180 ml' },
+            items: [
+                { emoji:'🥛', badge:'nuevo', badgeText:'Nuevo', name:'Flat White', desc:'Doble espresso con microespuma. Intenso y cremoso.', price:'$1.350', size:'160 ml' },
+                { emoji:'☕', badge:'', badgeText:'', name:'Americano', desc:'Espresso con agua. Grande, suave y reconfortante.', price:'$980', size:'250 ml' },
+                { emoji:'🍫', badge:'promo', badgeText:'Promo', name:'Mochaccino', desc:'Espresso, chocolate belga y leche caliente.', price:'$1.450', size:'220 ml' },
+                { emoji:'☕', badge:'', badgeText:'', name:'Cortado', desc:'Espresso con un toque de leche para suavizar.', price:'$900', size:'90 ml' },
+            ]
+        },
+        {
+            cat: 1,
+            featured: { emoji:'🧊', tag:'FAVORITO', name:'Cold Brew', desc:'Café macerado en frío por 18 horas. Sin amargor, muy suave y concentrado.', price:'$1.600', size:'300 ml' },
+            items: [
+                { emoji:'🍵', badge:'nuevo', badgeText:'Nuevo', name:'Matcha Latte Frío', desc:'Matcha ceremonial con leche de avena y hielo.', price:'$1.800', size:'350 ml' },
+                { emoji:'🍓', badge:'', badgeText:'', name:'Smoothie Calafate', desc:'Calafate, banana y yogur. Antioxidante natural.', price:'$1.950', size:'400 ml' },
+                { emoji:'🍋', badge:'', badgeText:'', name:'Limonada Jengibre', desc:'Limón natural, jengibre fresco y agua con gas.', price:'$1.200', size:'350 ml' },
+                { emoji:'🥤', badge:'promo', badgeText:'Promo', name:'Granizado de café', desc:'Cold brew sobre hielo con leche de coco.', price:'$1.700', size:'350 ml' },
+            ]
+        },
+        {
+            cat: 2,
+            featured: { emoji:'🥐', tag:'CLÁSICO', name:'Medialunas de manteca', desc:'Horneadas cada mañana. Hojaldradas, doradas y con azúcar glaseado.', price:'$350', size:'por unidad' },
+            items: [
+                { emoji:'🍰', badge:'nuevo', badgeText:'Nuevo', name:'Tarta de Calafate', desc:'Base sablée, crema pastelera y mermelada de calafate.', price:'$1.800', size:'porción' },
+                { emoji:'🧁', badge:'', badgeText:'', name:'Brownie con nueces', desc:'Chocolate amargo, nueces y sal marina en escamas.', price:'$1.200', size:'porción' },
+                { emoji:'🍩', badge:'', badgeText:'', name:'Banana Bread', desc:'Húmedo, con chips de chocolate y semillas de chía.', price:'$1.100', size:'porción' },
+                { emoji:'🍪', badge:'promo', badgeText:'Promo', name:'Cookies artesanales', desc:'Chocolate amargo y chips. Crujientes afuera, suaves adentro.', price:'$600', size:'x2 unidades' },
+            ]
+        },
+        {
+            cat: 3,
+            featured: { emoji:'🥪', tag:'MÁS PEDIDO', name:'Tostado Caprese', desc:'Mozzarella fresca, tomate cherry, albahaca y pesto casero en pan ciabatta.', price:'$2.200', size:'con papas fritas' },
+            items: [
+                { emoji:'🥑', badge:'nuevo', badgeText:'Nuevo', name:'Avocado Toast', desc:'Pan de masa madre, palta, huevo pochado y semillas.', price:'$2.600', size:'' },
+                { emoji:'🍗', badge:'promo', badgeText:'Promo', name:'Club Sándwich', desc:'Pollo, panceta, lechuga, tomate y mayonesa casera.', price:'$3.100', size:'triple piso' },
+                { emoji:'🧀', badge:'', badgeText:'', name:'Tostado Mixto', desc:'Jamón cocido y queso gouda fundido. Clásico infalible.', price:'$1.600', size:'' },
+                { emoji:'🍳', badge:'', badgeText:'', name:'Sándwich de huevo', desc:'Huevo revuelto, queso brie y rúcula en croissant.', price:'$2.100', size:'' },
+            ]
+        },
+    ];
+
+    const INTERVAL = 8000;
+    let current = 0;
+    let progressStart = null;
+    let animFrame;
+
+    // ── CLOCK ──────────────────────────────────────────────
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2,'0');
+        const m = String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('clock').textContent = `${h}:${m}`;
+        const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent =
+            `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}`;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    // ── RENDER ──────────────────────────────────────────────
+    function render(slide, instant) {
+        const grid = document.getElementById('items-grid');
+
+        if (!instant) { grid.classList.add('fading'); }
+
+        setTimeout(() => {
+            // Featured
+            document.getElementById('feat-emoji').textContent = slide.featured.emoji;
+            document.getElementById('feat-tag').textContent   = slide.featured.tag;
+            document.getElementById('feat-name').textContent  = slide.featured.name;
+            document.getElementById('feat-desc').textContent  = slide.featured.desc;
+            document.getElementById('feat-price').textContent = slide.featured.price;
+            document.getElementById('feat-size').textContent  = slide.featured.size;
+
+            // Grid items
+            grid.innerHTML = slide.items.map(it => `
+                <div class="item-card">
+                    <div class="item-top">
+                        <span class="item-emoji">${it.emoji}</span>
+                        ${it.badge ? `<span class="item-badge badge-${it.badge}">${it.badgeText}</span>` : ''}
+                    </div>
+                    <div class="item-name">${it.name}</div>
+                    <div class="item-desc">${it.desc}</div>
+                    <div class="item-price">${it.price}</div>
+                    <div class="item-size">${it.size}</div>
+                </div>
+            `).join('');
+
+            // Category bar
+            document.querySelectorAll('.cat-item').forEach((el,i) => {
+                el.classList.toggle('active', i === slide.cat);
+            });
+
+            if (!instant) { grid.classList.remove('fading'); }
+        }, instant ? 0 : 450);
+    }
+
+    // ── PROGRESS BAR ──────────────────────────────────────────────
+    function animateProgress(ts) {
+        if (!progressStart) progressStart = ts;
+        const elapsed = ts - progressStart;
+        const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+        document.getElementById('progress').style.width = pct + '%';
+        if (elapsed < INTERVAL) {
+            animFrame = requestAnimationFrame(animateProgress);
+        }
+    }
+
+    // ── ROTATE ──────────────────────────────────────────────
+    function next() {
+        current = (current + 1) % slides.length;
+        render(slides[current]);
+        progressStart = null;
+        cancelAnimationFrame(animFrame);
+        requestAnimationFrame(animateProgress);
+    }
+
+    // Init
+    render(slides[0], true);
+    requestAnimationFrame(animateProgress);
+    setInterval(next, INTERVAL);
+</script>
+</body>
+</html>

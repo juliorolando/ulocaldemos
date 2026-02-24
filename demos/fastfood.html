@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger del Fin del Mundo — Menú TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --red:    #D41B1B;
+            --yellow: #FFCC00;
+            --white:  #FFFFFF;
+            --dark:   #111111;
+            --gray:   #777777;
+            --line:   #DEDEDE;
+            --bev:    #191919;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--white);
+            font-family: 'Barlow', sans-serif;
+            cursor: none;
+        }
+
+        /* ═══════════════════════════════════════
+           LAYOUT: 3 filas fijas = 100vh exactos
+        ═══════════════════════════════════════ */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 62vh 26vh 12vh;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 1 — MENÚ PRINCIPAL
+        ═══════════════════════════════════════ */
+        .main {
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 64% 36%;
+        }
+
+        /* ── PANEL IZQUIERDO: grilla de ítems ── */
+        .menu-panel {
+            position: relative;
+            background: var(--white);
+            border-right: 2px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1.4vw 1.2vh;
+        }
+
+        .menu-badge {
+            position: absolute;
+            top: 0; left: 0;
+            background: var(--red);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 6vh;
+            letter-spacing: 0.08em;
+            padding: 0.8vh 4vw 0.9vh 2vw;
+            border-bottom-right-radius: 30px;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        .cat-label {
+            position: absolute;
+            top: 0; right: 1.4vw;
+            background: var(--dark);
+            color: rgba(255,255,255,0.88);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2vh;
+            letter-spacing: 0.18em;
+            padding: 0.7vh 1.8vw;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+            z-index: 10;
+        }
+
+        .grid-top { height: 8vh; flex-shrink: 0; }
+
+        /* Grilla de items — columnas dinámicas, filas automáticas */
+        .items-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 1.2vh 1vw;
+            overflow: hidden;
+        }
+
+        /* Tarjeta individual — imagen full-bleed */
+        .item-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+        }
+
+        /* Foto ocupa todo el espacio disponible */
+        .item-img-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            background: #e8e8e8;
+        }
+
+        .item-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Número — superpuesto sobre la foto */
+        .item-num {
+            position: absolute;
+            top: 0.7vh;
+            left: 0.7vh;
+            width: 3.2vh;
+            height: 3.2vh;
+            background: var(--red);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.55vh;
+            line-height: 1;
+            z-index: 2;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+        }
+
+        /* Badge — superpuesto sobre la foto */
+        .item-badge {
+            position: absolute;
+            top: 0.7vh;
+            right: 0.7vh;
+            font-size: 1.0vh;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.4vh 0.7vw;
+            border-radius: 5px;
+            line-height: 1;
+            z-index: 2;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+        .b-hot   { background: var(--red);    color: #fff; }
+        .b-new   { background: var(--yellow); color: var(--dark); }
+        .b-veg   { background: #16a34a;       color: #fff; }
+        .b-empty { display: none; }
+
+        /* Franja inferior con nombre, descripción y precio */
+        .item-info {
+            flex-shrink: 0;
+            padding: 0.55vh 0.9vw 0.65vh;
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        .item-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5vh;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+            line-height: 1.05;
+            margin-bottom: 0.1vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .item-sub {
+            font-size: 1.1vh;
+            color: var(--gray);
+            font-style: italic;
+            line-height: 1.2;
+            margin-bottom: 0.2vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .item-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.4vh;
+            color: var(--red);
+            line-height: 1;
+        }
+
+        /* ── PANEL DERECHO: producto destacado ── */
+        .featured-panel {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 2vw;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Foto grande del destacado (reemplaza emoji gigante) */
+        .feat-visual {
+            width: 100%;
+            height: 25vh;
+            margin-bottom: 1.2vh;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+            background: #f0f0f0;
+        }
+
+        .feat-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .feat-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5vh;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+            line-height: 1.05;
+            margin-bottom: 0.5vh;
+        }
+
+        .feat-sub {
+            font-size: 1.5vh;
+            color: var(--gray);
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            margin-bottom: 1vh;
+            line-height: 1.4;
+        }
+
+        .feat-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 10.5vh;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 1.8vh;
+        }
+
+        .brand-divider {
+            width: 76%;
+            height: 1px;
+            background: var(--line);
+            margin-bottom: 1.4vh;
+            flex-shrink: 0;
+        }
+
+        .brand-ornament {
+            font-size: 1.6vh;
+            color: var(--red);
+            letter-spacing: 0.5em;
+            margin-bottom: 0.5vh;
+        }
+
+        .brand-script {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 3.5vh;
+            color: var(--red);
+            line-height: 1.15;
+            margin-bottom: 0.4vh;
+        }
+
+        .brand-tagline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4vh;
+            letter-spacing: 0.28em;
+            color: var(--dark);
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 2 — BEBIDAS
+        ═══════════════════════════════════════ */
+        .beverages {
+            background: var(--bev);
+            display: grid;
+            grid-template-columns: 12vw 1fr;
+            overflow: hidden;
+            border-top: 3px solid #2c2c2c;
+        }
+
+        .bev-title-col {
+            background: #121212;
+            border-right: 2px solid #2c2c2c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1.5vw;
+            gap: 0.6vh;
+        }
+
+        /* Ícono SVG grande (reemplaza emoji) */
+        .bev-icon-big {
+            width: 5.5vh;
+            height: 5.5vh;
+        }
+
+        .bev-icon-big img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .bev-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5vh;
+            letter-spacing: 0.22em;
+            color: #fff;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .bev-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 2vh 2vw;
+            align-content: center;
+        }
+
+        .bev-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.4vh;
+            padding-right: 2vw;
+            border-right: 1px solid #2c2c2c;
+        }
+        .bev-col:last-child { border-right: none; padding-right: 0; }
+
+        .bev-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8vw;
+        }
+
+        /* Ícono SVG pequeño de bebida (reemplaza emoji) */
+        .bev-emoji {
+            width: 3vh;
+            height: 3vh;
+            flex-shrink: 0;
+        }
+
+        .bev-emoji img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .bev-name {
+            font-size: 2vh;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.92);
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .bev-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8vh;
+            color: var(--yellow);
+            white-space: nowrap;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 3 — FOOTER
+        ═══════════════════════════════════════ */
+        .footer-bar {
+            background: var(--dark);
+            border-top: 4px solid var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5vw;
+            overflow: hidden;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 3vw;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7vw;
+            font-size: 2.1vh;
+            font-weight: 700;
+            color: rgba(255,255,255,0.78);
+            white-space: nowrap;
+        }
+
+        /* Ícono de footer — Font Awesome (reemplaza emoji) */
+        .fi-icon {
+            font-size: 2.4vh;
+            color: var(--yellow);
+            width: 2.6vh;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .footer-right { text-align: right; }
+
+        .footer-clock {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5.8vh;
+            letter-spacing: 0.06em;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .footer-date {
+            font-size: 1.5vh;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- ═══ FILA 1: MENÚ PRINCIPAL ═══ -->
+    <div class="main">
+
+        <!-- PANEL IZQUIERDO: grilla 4×2 -->
+        <div class="menu-panel">
+            <div class="menu-badge">MENÚ</div>
+            <div class="cat-label">Burgers Clásicas</div>
+            <div class="grid-top"></div>
+            <div class="items-grid" id="items-grid">
+                <!-- Renderizado dinámicamente por JS desde /api/menu -->
+            </div><!-- /items-grid -->
+        </div><!-- /menu-panel -->
+
+        <!-- PANEL DERECHO: producto destacado -->
+        <div class="featured-panel" id="featured-panel">
+            <div id="featured-content"></div>
+            <div class="brand-divider"></div>
+            <div class="brand-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+            <div class="brand-script">Burger del Fin<br>del Mundo</div>
+            <div class="brand-tagline">Ushuaia · Desde 2021</div>
+        </div>
+
+    </div><!-- /main -->
+
+    <!-- ═══ FILA 2: BEBIDAS ═══ -->
+    <div class="beverages">
+        <div class="bev-title-col">
+            <div class="bev-icon-big">
+                <img src="https://openmoji.org/data/color/svg/1F964.svg" alt="Bebidas">
+            </div>
+            <div class="bev-title">BEBIDAS</div>
+        </div>
+        <div class="bev-grid" id="bev-grid">
+            <!-- Renderizado dinámicamente por JS desde /api/menu -->
+        </div>
+    </div>
+
+    <!-- ═══ FILA 3: FOOTER ═══ -->
+    <div class="footer-bar">
+        <div class="footer-info">
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-solid fa-location-dot"></i></span>
+                Yaganes 1204, Ushuaia
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-brands fa-whatsapp"></i></span>
+                WhatsApp: +54 9 2901 333-456
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-solid fa-motorcycle"></i></span>
+                Delivery 25–40 min · Lun–Dom 12–23hs
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-solid fa-credit-card"></i></span>
+                Efectivo · Mercado Pago · Sin recargo
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-clock" id="clock">--:--</div>
+            <div class="footer-date"  id="clock-date"></div>
+        </div>
+    </div>
+
+</div><!-- /screen -->
+
+<script>
+    /* ── Reloj ──────────────────────────────────────────────────── */
+    function updateClock() {
+        const now  = new Date();
+        const h    = String(now.getHours()).padStart(2,'0');
+        const m    = String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('clock').textContent = h + ':' + m;
+        const DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const MO   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent =
+            DAYS[now.getDay()] + ' ' + now.getDate() + ' ' + MO[now.getMonth()];
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    /* ── Badge helper ───────────────────────────────────────────── */
+    const BADGE_MAP = {
+        hot: ['b-hot', '🔥 PICANTE'],
+        new: ['b-new', '★ NUEVO'],
+        veg: ['b-veg', '🌿 VEGGIE']
+    };
+
+    function badgeHTML(badge) {
+        if (!badge || !BADGE_MAP[badge]) return '';
+        const [cls, label] = BADGE_MAP[badge];
+        return `<div class="item-badge ${cls}">${label}</div>`;
+    }
+
+    /* ── Render items grid ──────────────────────────────────────── */
+    function renderItems(items) {
+        // Filtrar items ocultos o sin nombre
+        const visible = items.filter(item => !item.hidden && item.name);
+        const grid = document.getElementById('items-grid');
+        // Ajustar columnas según cantidad visible
+        const cols = visible.length <= 3 ? Math.max(1, visible.length) : 4;
+        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        grid.innerHTML = visible.map(item => `
+            <div class="item-card">
+                <div class="item-img-wrap">
+                    <div class="item-num">${item.id}</div>
+                    ${badgeHTML(item.badge)}
+                    <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async">
+                </div>
+                <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-sub">${item.description}</div>
+                    <div class="item-price">${item.price}</div>
+                </div>
+            </div>`).join('');
+    }
+
+    /* ── Render featured panel ──────────────────────────────────── */
+    function renderFeatured(featured) {
+        document.getElementById('featured-content').innerHTML = `
+            <div class="feat-visual">
+                <img src="${featured.image}" alt="${featured.name}" loading="eager" decoding="async">
+            </div>
+            <div class="feat-name">${featured.name}</div>
+            <div class="feat-sub">${featured.description}</div>
+            <div class="feat-price">${featured.price}</div>`;
+    }
+
+    /* ── Render beverages ───────────────────────────────────────── */
+    function renderBeverages(beverages) {
+        // Filtrar bebidas ocultas o sin nombre y sin precio
+        const visible = beverages.filter(b => !b.hidden && (b.name || b.price));
+        const grid = document.getElementById('bev-grid');
+        const OPENMOJI = 'https://openmoji.org/data/color/svg/';
+
+        if (visible.length === 0) { grid.innerHTML = ''; return; }
+
+        // Distribuir en hasta 4 columnas lo más parejo posible
+        const numCols = Math.min(4, visible.length);
+        const perCol  = Math.ceil(visible.length / numCols);
+        grid.style.gridTemplateColumns = `repeat(${numCols}, 1fr)`;
+
+        let html = '';
+        for (let col = 0; col < numCols; col++) {
+            const slice = visible.slice(col * perCol, col * perCol + perCol);
+            if (!slice.length) break;
+            html += `<div class="bev-col">${
+                slice.map(b => `
+                <div class="bev-item">
+                    <span class="bev-emoji"><img src="${OPENMOJI}${b.icon}.svg" alt=""></span>
+                    <span class="bev-name">${b.name}</span>
+                    <span class="bev-price">${b.price}</span>
+                </div>`).join('')
+            }</div>`;
+        }
+        grid.innerHTML = html;
+    }
+
+    /* ── Carga y renderiza — compara JSON para evitar re-renders innecesarios */
+    let lastMenuJSON = null;
+
+    async function loadMenu() {
+        try {
+            const res  = await fetch('/api/menu');
+            if (!res.ok) throw new Error('Error al cargar el menú');
+            const menu = await res.json();
+            const json = JSON.stringify(menu);
+            if (json === lastMenuJSON) return; // sin cambios, no hacer nada
+            lastMenuJSON = json;
+            renderItems(menu.items);
+            renderFeatured(menu.featured);
+            renderBeverages(menu.beverages);
+        } catch (err) {
+            console.error('[fastfood] Error cargando menú:', err);
+        }
+    }
+
+    loadMenu(); // carga inicial
+
+    /* ── Polling cada 10 s — detecta cambios del admin al instante */
+    setInterval(loadMenu, 10 * 1000);
+
+    /* ── Reload completo cada hora (limpieza de memoria para pantallas TV) */
+    setTimeout(() => location.reload(), 60 * 60 * 1000);
+</script>
+</body>
+</html>

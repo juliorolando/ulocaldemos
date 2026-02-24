@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger del Fin del Mundo — Menú TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black:  #0a0a0a;
+            --black2: #111111;
+            --black3: #1a1a1a;
+            --red:    #cc2b2b;
+            --red2:   #ff3b3b;
+            --yellow: #ffd60a;
+            --white:  #f5f5f5;
+            --muted:  rgba(245,245,245,0.4);
+            --bdr:    rgba(255,255,255,0.06);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Barlow', sans-serif;
+            cursor: none;
+        }
+
+        /* ── LAYOUT ──────────────────────────────────── */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 5vh 11vh 68vh 16vh;
+        }
+
+        /* ── TICKER ──────────────────────────────────── */
+        .ticker {
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .ticker-label {
+            background: var(--yellow);
+            color: var(--black);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2vh;
+            letter-spacing: 0.14em;
+            padding: 0 1.4vw;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .ticker-track {
+            display: flex;
+            animation: ticker 24s linear infinite;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .ticker-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2vh;
+            letter-spacing: 0.12em;
+            color: #fff;
+            padding: 0 2.5vw;
+        }
+        .ticker-sep { color: var(--yellow); }
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ── HEADER ──────────────────────────────────── */
+        .header {
+            background: var(--black2);
+            border-bottom: 3px solid var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5vw;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.4vw;
+        }
+        .brand-icon {
+            width: 7vh;
+            height: 7vh;
+            background: var(--red);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4vh;
+            transform: rotate(-5deg);
+            flex-shrink: 0;
+        }
+        .brand-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5vh;
+            letter-spacing: 0.06em;
+            line-height: 1;
+            color: var(--white);
+        }
+        .brand-sub {
+            font-size: 1.4vh;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            display: block;
+            margin-top: 0.2vh;
+        }
+
+        .header-info {
+            display: flex;
+            gap: 2vw;
+            align-items: center;
+        }
+        .info-badge {
+            background: var(--black3);
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            padding: 0.8vh 1.2vw;
+            text-align: center;
+        }
+        .info-badge-label {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 0.3vh;
+        }
+        .info-badge-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8vh;
+            letter-spacing: 0.06em;
+            color: var(--yellow);
+        }
+
+        .header-clock { text-align: right; }
+        .clock {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5vh;
+            letter-spacing: 0.08em;
+            color: var(--white);
+            line-height: 1;
+        }
+        .clock-date {
+            font-size: 1.3vh;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.3vh;
+        }
+
+        /* ── MAIN ──────────────────────────────────── */
+        .main {
+            display: grid;
+            grid-template-columns: 38% 62%;
+            overflow: hidden;
+        }
+
+        /* FEATURED (left) */
+        .featured {
+            background: linear-gradient(160deg, #1a0505 0%, #0a0a0a 100%);
+            border-right: 1px solid var(--bdr);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3vh 2.5vw;
+            position: relative;
+            overflow: hidden;
+        }
+        .featured::before {
+            content: '';
+            position: absolute;
+            top: -20%; left: -20%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(204,43,43,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .feat-eyebrow {
+            font-size: 1.2vh;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red2);
+            margin-bottom: 1.5vh;
+        }
+        .feat-emoji {
+            font-size: 14vh;
+            line-height: 1;
+            margin-bottom: 2vh;
+            filter: drop-shadow(0 4px 30px rgba(204,43,43,0.4));
+        }
+        .feat-badge {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.4vh 1.2vw;
+            border-radius: 3px;
+            margin-bottom: 1.5vh;
+        }
+        .feat-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.2vh;
+            letter-spacing: 0.06em;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 1vh;
+            line-height: 1.1;
+        }
+        .feat-desc {
+            font-size: 1.6vh;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.5;
+            font-weight: 300;
+            margin-bottom: 2.5vh;
+            max-width: 85%;
+        }
+        .feat-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 7.5vh;
+            color: var(--red2);
+            line-height: 1;
+        }
+        .feat-sub {
+            font-size: 1.4vh;
+            color: var(--muted);
+            font-weight: 300;
+            margin-top: 0.5vh;
+        }
+
+        /* GRID (right) */
+        .items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
+            transition: opacity 0.5s ease;
+        }
+        .items-grid.fading { opacity: 0; }
+
+        .item-card {
+            border-right: 1px solid var(--bdr);
+            border-bottom: 1px solid var(--bdr);
+            background: var(--black2);
+            display: flex;
+            flex-direction: column;
+            padding: 2.5vh 2vw;
+            position: relative;
+            overflow: hidden;
+        }
+        .item-card:nth-child(even) { background: var(--black3); }
+        .item-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--red);
+            opacity: 0.3;
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5vh;
+        }
+        .item-emoji {
+            font-size: 5.5vh;
+            line-height: 1;
+        }
+        .item-badge {
+            font-size: 1vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.4vh 0.8vw;
+            border-radius: 3px;
+        }
+        .bb-hot  { background: var(--red); color: #fff; }
+        .bb-new  { background: var(--yellow); color: var(--black); }
+        .bb-best { background: transparent; border: 1px solid rgba(255,214,10,0.4); color: var(--yellow); }
+
+        .item-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3vh;
+            letter-spacing: 0.06em;
+            color: var(--white);
+            margin-bottom: 0.8vh;
+            line-height: 1;
+            flex: 1;
+        }
+        .item-desc {
+            font-size: 1.5vh;
+            color: var(--muted);
+            line-height: 1.4;
+            font-weight: 300;
+            margin-bottom: 1.5vh;
+            flex: 1;
+        }
+        .item-footer {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+        .item-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.8vh;
+            color: var(--red2);
+            line-height: 1;
+        }
+        .item-tags {
+            display: flex;
+            gap: 0.4vw;
+            flex-wrap: wrap;
+        }
+        .item-tag {
+            font-size: 1vh;
+            font-weight: 600;
+            padding: 0.3vh 0.6vw;
+            border-radius: 2px;
+            background: var(--black);
+            color: var(--muted);
+            border: 1px solid var(--bdr);
+            letter-spacing: 0.06em;
+        }
+
+        /* ── FOOTER ──────────────────────────────────── */
+        .footer {
+            background: var(--black2);
+            border-top: 2px solid var(--red);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .footer-cell {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            padding: 0 2.5vw;
+            border-right: 1px solid var(--bdr);
+        }
+        .footer-cell:last-child { border-right: none; }
+        .f-icon { font-size: 3.5vh; flex-shrink: 0; }
+        .f-label {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            display: block;
+            margin-bottom: 0.4vh;
+        }
+        .f-val {
+            font-size: 1.9vh;
+            color: var(--white);
+            line-height: 1.3;
+        }
+        .f-val small {
+            font-size: 1.3vh;
+            color: var(--muted);
+            font-weight: 300;
+            display: block;
+        }
+
+        /* Slide dots */
+        .slide-dots {
+            position: fixed;
+            bottom: 18vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.6vw;
+        }
+        .sdot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: background 0.4s;
+        }
+        .sdot.active { background: var(--red2); }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: var(--red2);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- TICKER -->
+    <div class="ticker">
+        <div class="ticker-label">🍔 HOY</div>
+        <div class="ticker-track">
+            <span class="ticker-item">Carne Angus 200g · Pan brioche artesanal</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Martes 2x1 en Classic FDM</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Delivery: 25–40 minutos</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">📍 Yaganes 1204, Ushuaia</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Pedí por WhatsApp: +54 9 2901 333-456</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Carne Angus 200g · Pan brioche artesanal</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Martes 2x1 en Classic FDM</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Delivery: 25–40 minutos</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">📍 Yaganes 1204, Ushuaia</span>
+            <span class="ticker-item ticker-sep">●</span>
+            <span class="ticker-item">Pedí por WhatsApp: +54 9 2901 333-456</span>
+            <span class="ticker-item ticker-sep">●</span>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">🍔</div>
+            <div>
+                <div class="brand-name">Burger del Fin del Mundo</div>
+                <span class="brand-sub">Yaganes 1204 · Ushuaia · Desde 2021</span>
+            </div>
+        </div>
+        <div class="header-info">
+            <div class="info-badge">
+                <span class="info-badge-label">Delivery aprox.</span>
+                <span class="info-badge-val">25–40 min</span>
+            </div>
+            <div class="info-badge">
+                <span class="info-badge-label">Horario</span>
+                <span class="info-badge-val">12 – 23hs</span>
+            </div>
+            <div class="info-badge">
+                <span class="info-badge-label">WhatsApp</span>
+                <span class="info-badge-val">333-456</span>
+            </div>
+        </div>
+        <div class="header-clock">
+            <div class="clock" id="clock">00:00</div>
+            <div class="clock-date" id="clock-date"></div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- FEATURED -->
+        <div class="featured">
+            <div class="feat-eyebrow" id="feat-eye">🔥 La más pedida</div>
+            <div class="feat-emoji" id="feat-emoji">🍔</div>
+            <div class="feat-badge" id="feat-badge">⭐ DESTACADA</div>
+            <div class="feat-name" id="feat-name">La Fueguina</div>
+            <div class="feat-desc" id="feat-desc">Angus 200g, cheddar fundido, panceta crocante, cebolla caramelizada y salsa secreta.</div>
+            <div class="feat-price" id="feat-price">$5.800</div>
+            <div class="feat-sub" id="feat-sub">Angus 200g · Pan brioche</div>
+        </div>
+
+        <!-- GRID -->
+        <div class="items-grid" id="items-grid"></div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-cell">
+            <div class="f-icon">📍</div>
+            <div>
+                <span class="f-label">Dirección</span>
+                <div class="f-val">Yaganes 1204<small>Ushuaia, Tierra del Fuego</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">🕐</div>
+            <div>
+                <span class="f-label">Horario</span>
+                <div class="f-val">Todos los días<small>12:00 – 23:00 hs</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">🛵</div>
+            <div>
+                <span class="f-label">Delivery & Take away</span>
+                <div class="f-val">WhatsApp: +54 9 2901 333-456<small>Pedidos en 2 clicks</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">💳</div>
+            <div>
+                <span class="f-label">Medios de pago</span>
+                <div class="f-val">Efectivo · MP · Transferencia<small>Sin recargo</small></div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<div class="slide-dots" id="slide-dots"></div>
+<div class="progress-bar" id="progress"></div>
+
+<script>
+    const slides = [
+        {
+            cat: 'Burgers — Carne Angus 200g',
+            featured: { eye:'🔥 La más pedida', emoji:'🍔', badge:'⭐ DESTACADA', name:'La Fueguina', desc:'Angus 200g, cheddar fundido, panceta crocante, cebolla caramelizada y salsa secreta.', price:'$5.800', sub:'Angus 200g · Pan brioche' },
+            items: [
+                { emoji:'🍔', badge:'hot', badgeText:'🔥 Picante', name:'La Antártida', desc:'Jalapeños, pepper jack, guacamole y sriracha. Para valientes.', price:'$6.200', tags:['Angus 200g'] },
+                { emoji:'🍔', badge:'new', badgeText:'Nuevo', name:'La Beagle', desc:'Angus, rúcula, brie, mermelada de calafate y mostaza Dijon.', price:'$6.500', tags:['Gourmet'] },
+                { emoji:'🍔', badge:'', badgeText:'', name:'Classic FDM', desc:'Lechuga, tomate, cebolla, pepinillos, queso americano y ketchup.', price:'$4.800', tags:['Sin TACC disp.'] },
+                { emoji:'🍄', badge:'new', badgeText:'Veggie', name:'La Verde', desc:'Medallón de garbanzos, queso de cabra, rúcula y alioli de lima.', price:'$4.500', tags:['Vegetariana'] },
+            ]
+        },
+        {
+            cat: 'Combos — Todo incluido',
+            featured: { eye:'⭐ Más elegido', emoji:'🍔🍟🥤', badge:'OFERTA COMBO', name:'Combo Simple', desc:'Cualquier burger clásica + papas fritas medianas + bebida 500ml.', price:'$6.200', sub:'vs $7.300 por separado' },
+            items: [
+                { emoji:'🍔🍟🧅🥤', badge:'best', badgeText:'⭐ Popular', name:'Combo Premium', desc:'Burger Fueguina + papas + aros de cebolla + bebida.', price:'$7.800', tags:['Para 1'] },
+                { emoji:'👫', badge:'', badgeText:'', name:'Combo Pareja', desc:'2 burgers a elección + papas compartidas + 2 bebidas.', price:'$12.500', tags:['Para 2'] },
+                { emoji:'👨‍👩‍👧‍👦', badge:'hot', badgeText:'¡Familiar!', name:'Combo Familiar', desc:'4 burgers Classic + 2 papas grandes + 4 bebidas.', price:'$22.000', tags:['Para 4'] },
+                { emoji:'🍟🧀', badge:'', badgeText:'', name:'Papas con Cheddar', desc:'Papas fritas bañadas en cheddar caliente y panceta.', price:'$2.800', tags:['Acomp.'] },
+            ]
+        },
+        {
+            cat: 'Burgers especiales & Bebidas',
+            featured: { eye:'🍺 Artesanal local', emoji:'🍺', badge:'CERVEZA DEL DÍA', name:'Birra Fueguina', desc:'Birra artesanal elaborada en Ushuaia. Rubia o stout. Tirada o en lata.', price:'$1.600', sub:'330 ml · Fresca siempre' },
+            items: [
+                { emoji:'🍔', badge:'hot', badgeText:'Doble', name:'La Gigante', desc:'Doble Angus 400g, doble cheddar, doble panceta y huevo frito.', price:'$8.900', tags:['400g Angus'] },
+                { emoji:'🥛', badge:'new', badgeText:'Nuevo', name:'Milkshake', desc:'Vainilla, chocolate o frutilla. Espeso y cremoso.', price:'$2.400', tags:['Postre'] },
+                { emoji:'🧅', badge:'', badgeText:'', name:'Aros de Cebolla', desc:'Rebozados en panko. Crujientes. Con dip de mostaza y miel.', price:'$2.200', tags:['Acomp.'] },
+                { emoji:'🥤', badge:'', badgeText:'', name:'Gaseosa 500ml', desc:'Coca-Cola, Sprite, Fanta o agua con gas. Bien fría.', price:'$900', tags:['Bebida'] },
+            ]
+        },
+    ];
+
+    const INTERVAL = 8000;
+    let current = 0;
+    let progressStart = null;
+    let animFrame;
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const mo = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent = `${days[now.getDay()]} ${now.getDate()} ${mo[now.getMonth()]}`;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    // Build dots
+    function buildDots() {
+        document.getElementById('slide-dots').innerHTML =
+            slides.map((_,i) => `<div class="sdot${i===0?' active':''}"></div>`).join('');
+    }
+    buildDots();
+
+    function render(slide, instant) {
+        const grid = document.getElementById('items-grid');
+        if (!instant) grid.classList.add('fading');
+
+        setTimeout(() => {
+            const f = slide.featured;
+            document.getElementById('feat-eye').textContent   = f.eye;
+            document.getElementById('feat-emoji').textContent = f.emoji;
+            document.getElementById('feat-badge').textContent = f.badge;
+            document.getElementById('feat-name').textContent  = f.name;
+            document.getElementById('feat-desc').textContent  = f.desc;
+            document.getElementById('feat-price').textContent = f.price;
+            document.getElementById('feat-sub').textContent   = f.sub;
+
+            grid.innerHTML = slide.items.map(it => `
+                <div class="item-card">
+                    <div class="item-top">
+                        <span class="item-emoji">${it.emoji}</span>
+                        ${it.badge ? `<span class="item-badge bb-${it.badge}">${it.badgeText}</span>` : ''}
+                    </div>
+                    <div class="item-name">${it.name}</div>
+                    <div class="item-desc">${it.desc}</div>
+                    <div class="item-footer">
+                        <span class="item-price">${it.price}</span>
+                        <div class="item-tags">${it.tags.map(t=>`<span class="item-tag">${t}</span>`).join('')}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.sdot').forEach((d,i) => d.classList.toggle('active', i === current));
+
+            if (!instant) grid.classList.remove('fading');
+        }, instant ? 0 : 450);
+    }
+
+    function animateProgress(ts) {
+        if (!progressStart) progressStart = ts;
+        const pct = Math.min(((ts - progressStart) / INTERVAL) * 100, 100);
+        document.getElementById('progress').style.width = pct + '%';
+        if (ts - progressStart < INTERVAL) animFrame = requestAnimationFrame(animateProgress);
+    }
+
+    function next() {
+        current = (current + 1) % slides.length;
+        render(slides[current]);
+        progressStart = null;
+        cancelAnimationFrame(animFrame);
+        requestAnimationFrame(animateProgress);
+    }
+
+    render(slides[0], true);
+    requestAnimationFrame(animateProgress);
+    setInterval(next, INTERVAL);
+</script>
+</body>
+</html>

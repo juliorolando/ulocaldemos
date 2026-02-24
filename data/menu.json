@@ -1,0 +1,137 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Classic FDM",
+      "description": "La original de siempre",
+      "price": "$14.800",
+      "image": "img/fastfood/01-classic-fdm.jpg",
+      "badge": null
+    },
+    {
+      "id": 2,
+      "name": "La Antártida",
+      "description": "Jalapeños · Sriracha",
+      "price": "$16.200",
+      "image": "img/fastfood/02-antartida.jpg",
+      "badge": "hot"
+    },
+    {
+      "id": 3,
+      "name": "La Beagle",
+      "description": "Brie · Mermelada calafate",
+      "price": "$24.252",
+      "image": "img/fastfood/03-beagle.jpg",
+      "badge": "new"
+    },
+    {
+      "id": 4,
+      "name": "La Fueguina",
+      "description": "Cheddar · Panceta",
+      "price": "$15.800",
+      "image": "img/fastfood/04-fueguina.jpg",
+      "badge": null,
+      "hidden": false
+    },
+    {
+      "id": 5,
+      "name": "Triple Verde",
+      "description": "Opciones veganas",
+      "price": "$14.500",
+      "image": "img/fastfood/05-verde.jpg",
+      "badge": "veg"
+    },
+    {
+      "id": 6,
+      "name": "La Gigante",
+      "description": "Doble Angus 400g",
+      "price": "$28.900",
+      "image": "img/fastfood/06-gigante.jpg",
+      "badge": null
+    },
+    {
+      "id": 7,
+      "name": "Bacon Lover",
+      "description": "Triple panceta crocante",
+      "price": "$27.200",
+      "image": "img/fastfood/07-bacon-lover.jpg",
+      "badge": null
+    },
+    {
+      "id": 8,
+      "name": "Cheese X2",
+      "description": "Doble queso americano",
+      "price": "$26.800",
+      "image": "img/fastfood/08-cheese-x2.jpg",
+      "badge": null
+    }
+  ],
+  "featured": {
+    "name": "LA MÁS AUSTRAL",
+    "description": "Angus 200g · Cheddar · Panceta · Salsa Tabasco",
+    "price": "$25.000",
+    "image": "img/fastfood/featured-fueguina.jpg"
+  },
+  "beverages": [
+    {
+      "name": "Coca-Cola",
+      "price": "$900",
+      "icon": "1F964"
+    },
+    {
+      "name": "Sprite",
+      "price": "$900",
+      "icon": "1F7E2"
+    },
+    {
+      "name": "Fanta",
+      "price": "$900",
+      "icon": "1F7E0"
+    },
+    {
+      "name": "Agua mineral",
+      "price": "$700",
+      "icon": "1F4A7"
+    },
+    {
+      "name": "Agua con gas",
+      "price": "$750",
+      "icon": "1F4A7"
+    },
+    {
+      "name": "Jugo caja",
+      "price": "$800",
+      "icon": "1F9C3"
+    },
+    {
+      "name": "Milkshake",
+      "price": "$2.400",
+      "icon": "1F95B"
+    },
+    {
+      "name": "Birra Fueguina",
+      "price": "$1.600",
+      "icon": "1F37A"
+    },
+    {
+      "name": "Artesanal lata",
+      "price": "$1.800",
+      "icon": "1F37A"
+    },
+    {
+      "name": "Americano",
+      "price": "$900",
+      "icon": "2615"
+    },
+    {
+      "name": "Limonada",
+      "price": "$1.300",
+      "icon": "1F34B"
+    },
+    {
+      "name": "Jugo Baggio Naranj",
+      "price": "$888",
+      "icon": "1F34A"
+    }
+  ]
+}

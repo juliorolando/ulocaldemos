@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Burger del Fin del Mundo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red:    #D41B1B;
+            --yellow: #FFCC00;
+            --green:  #16a34a;
+            --dark:   #111111;
+            --bg:     #F4F4F5;
+            --card:   #FFFFFF;
+            --border: #E4E4E7;
+            --text:   #18181B;
+            --muted:  #71717A;
+            --warn:   #F59E0B;
+            --danger: #EF4444;
+            --radius: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── LOGIN ─────────────────────────────────────────────── */
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-logo .brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--red);
+            letter-spacing: 0.03em;
+        }
+
+        .login-logo .sub {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .login-box h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .login-error {
+            background: #FEE2E2;
+            color: var(--danger);
+            border-radius: 8px;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.83rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .login-error.visible { display: block; }
+
+        /* ── CAMPO GENÉRICO ─────────────────────────────────────── */
+        .field { margin-bottom: 1rem; }
+
+        .field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 0.55rem 0.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .field input:focus,
+        .field select:focus { border-color: var(--red); }
+
+        /* Input cerca del límite */
+        .field input.warn  { border-color: var(--warn); }
+        .field input.limit { border-color: var(--danger); background: #fff5f5; }
+
+        .char-counter {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-align: right;
+            margin-top: 3px;
+        }
+        .char-counter.warn  { color: var(--warn); }
+        .char-counter.limit { color: var(--danger); font-weight: 600; }
+
+        /* ── BOTÓN PRIMARIO ─────────────────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: opacity .15s, transform .1s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-primary  { background: var(--red);   color: #fff; }
+        .btn-danger   { background: var(--danger); color: #fff; }
+        .btn-ghost    { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+        .btn-full     { width: 100%; justify-content: center; }
+        .btn-sm       { padding: 0.35rem 0.7rem; font-size: 0.78rem; }
+
+        /* ── ADMIN SCREEN ───────────────────────────────────────── */
+        #admin-screen { display: none; }
+        #admin-screen.visible { display: block; }
+
+        /* Header */
+        .admin-header {
+            background: var(--dark);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-header .title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .admin-header .title span {
+            color: var(--yellow);
+        }
+
+        /* Contenido principal */
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem;
+        }
+
+        /* Sección */
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ── IMAGEN UPLOAD ──────────────────────────────────────── */
+        .img-upload {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1.5px dashed var(--border);
+            cursor: pointer;
+            background: var(--bg);
+            margin-bottom: 0.5rem;
+            transition: border-color .15s;
+        }
+
+        .img-upload:hover { border-color: var(--red); }
+
+        .img-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-upload-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+
+        .img-upload:hover .img-upload-overlay { background: rgba(0,0,0,0.45); }
+
+        .img-upload-overlay span {
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity .2s;
+            text-align: center;
+            padding: 0.5rem;
+            pointer-events: none;
+        }
+
+        .img-upload:hover .img-upload-overlay span { opacity: 1; }
+
+        .img-upload input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-uploading {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .img-uploading.active { display: flex; }
+
+        /* ── GRID DE 8 CARDS ────────────────────────────────────── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .edit-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .edit-card .card-num {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.25rem;
+        }
+
+        /* ── PRODUCTO DESTACADO ─────────────────────────────────── */
+        .featured-editor {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 700px) {
+            .featured-editor { grid-template-columns: 1fr; }
+        }
+
+        /* ── TABLA BEBIDAS ──────────────────────────────────────── */
+        .bev-table {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .bev-table-header,
+        .bev-row {
+            display: grid;
+            grid-template-columns: 2rem 1fr 110px 80px;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1rem;
+        }
+
+        .bev-table-header {
+            background: var(--bg);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bev-row {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bev-row:last-child { border-bottom: none; }
+
+        .bev-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .bev-row .field { margin-bottom: 0; }
+        .bev-row .field input { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+
+        /* ── FOOTER STICKY — GUARDAR ────────────────────────────── */
+        .save-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark);
+            border-top: 3px solid var(--red);
+            padding: 0.9rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            z-index: 200;
+        }
+
+        .save-bar .save-status {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .save-bar .save-status.ok     { color: #4ade80; }
+        .save-bar .save-status.error  { color: #f87171; }
+
+        .save-btn-wrap {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* ── BADGE SELECTOR ─────────────────────────────────────── */
+        .badge-selector {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .badge-option {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: all .15s;
+            user-select: none;
+        }
+
+        .badge-option[data-badge="none"]  { background: #f4f4f5; color: var(--muted); }
+        .badge-option[data-badge="hot"]   { background: #fee2e2; color: var(--danger); border-color: var(--danger); }
+        .badge-option[data-badge="new"]   { background: #fef9c3; color: #854d0e; border-color: #ca8a04; }
+        .badge-option[data-badge="veg"]   { background: #dcfce7; color: #166534; border-color: var(--green); }
+
+        .badge-option.selected { box-shadow: 0 0 0 2px currentColor; }
+        .badge-option[data-badge="none"].selected { box-shadow: 0 0 0 2px #a1a1aa; }
+
+        /* ── TOGGLE OCULTAR ─────────────────────────────────────── */
+        .toggle-hide {
+            width: 100%;
+            padding: 0.28rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.69rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+            border: 1.5px solid;
+            text-align: center;
+            display: block;
+        }
+        .toggle-hide.is-visible {
+            background: #fef2f2;
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+        .toggle-hide.is-hidden {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #16a34a;
+        }
+        .edit-card.card-dimmed {
+            opacity: 0.45;
+            border-color: #ef4444 !important;
+            border-style: dashed !important;
+        }
+        .bev-row.row-dimmed {
+            opacity: 0.45;
+            background: #fff5f5;
+        }
+        .card-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        /* Shake animation para error de login */
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            20%,60%  { transform: translateX(-8px); }
+            40%,80%  { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+    </style>
+</head>
+<body>
+
+<!-- ═══ PANTALLA DE LOGIN ═══ -->
+<div id="login-screen">
+    <div class="login-box">
+        <div class="login-logo">
+            <div class="brand">Burger del Fin del Mundo</div>
+            <div class="sub">Panel de Administración</div>
+        </div>
+        <h2>Iniciar sesión</h2>
+        <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+        <form id="login-form">
+            <div class="field">
+                <label>Usuario</label>
+                <input type="text" id="login-user" autocomplete="username" required>
+            </div>
+            <div class="field">
+                <label>Contraseña</label>
+                <input type="password" id="login-pass" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" style="margin-top:.5rem">
+                Ingresar
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ═══ PANTALLA DE ADMINISTRACIÓN ═══ -->
+<div id="admin-screen">
+
+    <header class="admin-header">
+        <div class="title">
+            <span>Burger del Fin del Mundo</span> — Admin
+        </div>
+        <button class="btn btn-ghost btn-sm" id="btn-logout">Cerrar sesión</button>
+    </header>
+
+    <div class="admin-content">
+
+        <!-- PRODUCTO DESTACADO -->
+        <div class="section">
+            <div class="section-title">Producto Destacado (panel derecho)</div>
+            <div class="featured-editor" id="featured-editor">
+                <!-- Renderizado por JS -->
+            </div>
+        </div>
+
+        <!-- 8 CARDS DEL MENÚ -->
+        <div class="section">
+            <div class="section-title">Menú — 8 Productos</div>
+            <div class="cards-grid" id="cards-editor">
+                <!-- Renderizado por JS -->
+            </div>
+        </div>
+
+        <!-- BEBIDAS -->
+        <div class="section">
+            <div class="section-title">Bebidas (12 ítems)</div>
+            <div class="bev-table">
+                <div class="bev-table-header">
+                    <div></div>
+                    <div>Nombre</div>
+                    <div>Precio</div>
+                    <div>Estado</div>
+                </div>
+                <div id="bev-editor">
+                    <!-- Renderizado por JS -->
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /admin-content -->
+
+    <!-- BARRA INFERIOR: GUARDAR -->
+    <div class="save-bar">
+        <div class="save-status" id="save-status">Los cambios no guardados se perderán si recargás la página.</div>
+        <div class="save-btn-wrap">
+            <button class="btn btn-primary" id="btn-save">
+                Guardar cambios
+            </button>
+        </div>
+    </div>
+
+</div><!-- /admin-screen -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ESTADO
+═══════════════════════════════════════════════════════════════ */
+let menu = null;  // Se carga desde /api/menu
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS — INPUTS CON CONTADOR DE CARACTERES
+═══════════════════════════════════════════════════════════════ */
+function fieldHTML(id, label, value, maxLen) {
+    return `
+        <div class="field">
+            <label>${label}</label>
+            <input type="text"
+                   id="${id}"
+                   value="${escHtml(value)}"
+                   maxlength="${maxLen}"
+                   data-max="${maxLen}"
+                   oninput="updateCounter(this)">
+            <div class="char-counter" id="${id}-counter">${value.length}/${maxLen}</div>
+        </div>`;
+}
+
+function updateCounter(input) {
+    const max     = parseInt(input.dataset.max);
+    const len     = input.value.length;
+    const counter = document.getElementById(input.id + '-counter');
+    const pct     = len / max;
+    // Reset clases
+    input.classList.remove('warn', 'limit');
+    counter.classList.remove('warn', 'limit');
+    if (pct >= 1) {
+        input.classList.add('limit');
+        counter.classList.add('limit');
+    } else if (pct >= 0.9) {
+        input.classList.add('warn');
+        counter.classList.add('warn');
+    }
+    counter.textContent = `${len}/${max}`;
+}
+
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS — UPLOAD DE IMAGEN
+═══════════════════════════════════════════════════════════════ */
+function imgUploadHTML(wrapId, src) {
+    return `
+        <div class="img-upload" id="${wrapId}">
+            <img id="${wrapId}-img" src="${src}" alt="">
+            <div class="img-upload-overlay">
+                <span>Cambiar imagen<br><small>JPEG · PNG · WEBP · máx 5MB</small></span>
+            </div>
+            <div class="img-uploading" id="${wrapId}-uploading">Subiendo…</div>
+            <input type="file" accept="image/jpeg,image/png,image/webp"
+                   onchange="handleUpload(this,'${wrapId}')">
+        </div>`;
+}
+
+async function handleUpload(input, wrapId) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Validación cliente
+    const ALLOWED = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!ALLOWED.includes(file.type)) {
+        alert('Solo se permiten imágenes JPEG, PNG o WEBP.');
+        input.value = '';
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen no puede superar los 5 MB.');
+        input.value = '';
+        return;
+    }
+
+    // UI: spinner
+    const uploading = document.getElementById(wrapId + '-uploading');
+    uploading.classList.add('active');
+
+    try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res  = await fetch('/api/upload', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error al subir la imagen.');
+
+        // Actualizar preview y estado en memoria
+        document.getElementById(wrapId + '-img').src = data.path;
+        // Actualizar menu en memoria según el wrapId
+        updateMenuImage(wrapId, data.path);
+        markUnsaved();
+    } catch (err) {
+        alert(err.message);
+    } finally {
+        uploading.classList.remove('active');
+        input.value = '';
+    }
+}
+
+function updateMenuImage(wrapId, path) {
+    // wrapId tiene la forma: feat-img | item-img-0 | item-img-1 ...
+    if (wrapId === 'feat-img') {
+        menu.featured.image = path;
+    } else {
+        const idx = parseInt(wrapId.replace('item-img-', ''));
+        menu.items[idx].image = path;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — PRODUCTO DESTACADO
+═══════════════════════════════════════════════════════════════ */
+function renderFeaturedEditor(featured) {
+    const el = document.getElementById('featured-editor');
+    el.innerHTML = `
+        ${imgUploadHTML('feat-img', featured.image)}
+        <div>
+            ${fieldHTML('feat-name', 'Nombre (máx 16 chars)', featured.name, 16)}
+            ${fieldHTML('feat-desc', 'Descripción ingredientes (máx 55 chars)', featured.description, 55)}
+            ${fieldHTML('feat-price', 'Precio (máx 8 chars)', featured.price, 8)}
+        </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — 8 CARDS DEL MENÚ
+═══════════════════════════════════════════════════════════════ */
+const BADGE_LABELS = {
+    none: 'Sin badge',
+    hot:  '🔥 Picante',
+    new:  '★ Nuevo',
+    veg:  '🌿 Veggie'
+};
+
+function badgeSelectorHTML(idx, currentBadge) {
+    const val = currentBadge || 'none';
+    return `
+        <div class="field">
+            <label>Badge</label>
+            <div class="badge-selector">
+                ${Object.entries(BADGE_LABELS).map(([key, label]) => `
+                    <span class="badge-option ${val === key ? 'selected' : ''}"
+                          data-badge="${key}"
+                          data-idx="${idx}"
+                          onclick="selectBadge(this)">
+                        ${label}
+                    </span>`).join('')}
+            </div>
+        </div>`;
+}
+
+function selectBadge(el) {
+    const idx = parseInt(el.dataset.idx);
+    const badge = el.dataset.badge === 'none' ? null : el.dataset.badge;
+    // Deselect hermanos
+    el.closest('.badge-selector').querySelectorAll('.badge-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    menu.items[idx].badge = badge;
+    markUnsaved();
+}
+
+function renderCardsEditor(items) {
+    const grid = document.getElementById('cards-editor');
+    grid.innerHTML = items.map((item, idx) => {
+        const isHidden = item.hidden === true;
+        return `
+        <div class="edit-card ${isHidden ? 'card-dimmed' : ''}" id="item-card-${idx}">
+            <div class="card-topbar">
+                <div class="card-num">Producto #${item.id}</div>
+                <button id="item-hide-btn-${idx}"
+                        class="toggle-hide ${isHidden ? 'is-hidden' : 'is-visible'}"
+                        onclick="toggleItemHidden(${idx})"
+                        style="width:auto;padding:0.25rem 0.55rem">
+                    ${isHidden ? '✓ Mostrar' : '⊘ Ocultar'}
+                </button>
+            </div>
+            ${imgUploadHTML(`item-img-${idx}`, item.image)}
+            ${fieldHTML(`item-name-${idx}`,  'Nombre (máx 14)',  item.name,        14)}
+            ${fieldHTML(`item-desc-${idx}`,  'Descripción (máx 28)', item.description, 28)}
+            ${fieldHTML(`item-price-${idx}`, 'Precio (máx 8)',   item.price,        8)}
+            ${badgeSelectorHTML(idx, item.badge)}
+        </div>`;
+    }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — BEBIDAS
+═══════════════════════════════════════════════════════════════ */
+function renderBevEditor(beverages) {
+    const OPENMOJI = 'https://openmoji.org/data/color/svg/';
+    document.getElementById('bev-editor').innerHTML = beverages.map((b, i) => {
+        const isHidden = b.hidden === true;
+        return `
+        <div class="bev-row ${isHidden ? 'row-dimmed' : ''}" id="bev-row-${i}">
+            <img class="bev-icon" src="${OPENMOJI}${b.icon}.svg" alt="">
+            <div class="field">
+                <input type="text"
+                       id="bev-name-${i}"
+                       value="${escHtml(b.name)}"
+                       maxlength="18"
+                       data-max="18"
+                       oninput="updateCounter(this)">
+                <div class="char-counter" id="bev-name-${i}-counter">${b.name.length}/18</div>
+            </div>
+            <div class="field">
+                <input type="text"
+                       id="bev-price-${i}"
+                       value="${escHtml(b.price)}"
+                       maxlength="8"
+                       data-max="8"
+                       oninput="updateCounter(this)">
+                <div class="char-counter" id="bev-price-${i}-counter">${b.price.length}/8</div>
+            </div>
+            <div>
+                <button id="bev-hide-btn-${i}"
+                        class="toggle-hide ${isHidden ? 'is-hidden' : 'is-visible'}"
+                        onclick="toggleBevHidden(${i})">
+                    ${isHidden ? 'Mostrar' : 'Ocultar'}
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOGGLE OCULTAR — ITEMS Y BEBIDAS
+═══════════════════════════════════════════════════════════════ */
+function toggleItemHidden(idx) {
+    menu.items[idx].hidden = !menu.items[idx].hidden;
+    const isHidden = menu.items[idx].hidden;
+    document.getElementById(`item-card-${idx}`).classList.toggle('card-dimmed', isHidden);
+    const btn = document.getElementById(`item-hide-btn-${idx}`);
+    btn.className = `toggle-hide ${isHidden ? 'is-hidden' : 'is-visible'}`;
+    btn.textContent = isHidden ? '✓ Mostrar' : '⊘ Ocultar';
+    markUnsaved();
+}
+
+function toggleBevHidden(i) {
+    menu.beverages[i].hidden = !menu.beverages[i].hidden;
+    const isHidden = menu.beverages[i].hidden;
+    document.getElementById(`bev-row-${i}`).classList.toggle('row-dimmed', isHidden);
+    const btn = document.getElementById(`bev-hide-btn-${i}`);
+    btn.className = `toggle-hide ${isHidden ? 'is-hidden' : 'is-visible'}`;
+    btn.textContent = isHidden ? 'Mostrar' : 'Ocultar';
+    markUnsaved();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RECOLECTAR DATOS DEL FORMULARIO → objeto menu actualizado
+═══════════════════════════════════════════════════════════════ */
+function collectFormData() {
+    // Featured
+    menu.featured.name        = document.getElementById('feat-name').value.trim();
+    menu.featured.description = document.getElementById('feat-desc').value.trim();
+    menu.featured.price       = document.getElementById('feat-price').value.trim();
+
+    // Items
+    menu.items.forEach((item, idx) => {
+        item.name        = document.getElementById(`item-name-${idx}`).value.trim();
+        item.description = document.getElementById(`item-desc-${idx}`).value.trim();
+        item.price       = document.getElementById(`item-price-${idx}`).value.trim();
+        // badge ya se actualiza en selectBadge() en tiempo real
+    });
+
+    // Beverages
+    menu.beverages.forEach((b, i) => {
+        b.name  = document.getElementById(`bev-name-${i}`).value.trim();
+        b.price = document.getElementById(`bev-price-${i}`).value.trim();
+    });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ESTADO DE GUARDADO
+═══════════════════════════════════════════════════════════════ */
+function markUnsaved() {
+    const el = document.getElementById('save-status');
+    el.className = 'save-status';
+    el.textContent = 'Cambios sin guardar.';
+}
+
+function setSaveStatus(type, msg) {
+    const el = document.getElementById('save-status');
+    el.className = 'save-status ' + type;
+    el.textContent = msg;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GUARDAR
+═══════════════════════════════════════════════════════════════ */
+async function saveMenu() {
+    collectFormData();
+    const btn = document.getElementById('btn-save');
+    btn.disabled = true;
+    btn.textContent = 'Guardando…';
+    setSaveStatus('', 'Guardando…');
+    try {
+        const res = await fetch('/api/menu', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(menu)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        setSaveStatus('ok', '✓ Cambios guardados correctamente.');
+    } catch (err) {
+        setSaveStatus('error', '✗ Error al guardar: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Guardar cambios';
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const user = document.getElementById('login-user').value;
+    const pass = document.getElementById('login-pass').value;
+    const err  = document.getElementById('login-error');
+
+    try {
+        const res  = await fetch('/api/login', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ username: user, password: pass })
+        });
+        if (!res.ok) {
+            err.classList.add('visible');
+            document.getElementById('login-form').classList.add('shake');
+            setTimeout(() => document.getElementById('login-form').classList.remove('shake'), 400);
+            return;
+        }
+        err.classList.remove('visible');
+        showAdminScreen();
+    } catch {
+        err.textContent = 'Error de conexión. Verificá que el servidor esté activo.';
+        err.classList.add('visible');
+    }
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   LOGOUT
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('btn-logout').addEventListener('click', async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    document.getElementById('admin-screen').classList.remove('visible');
+    document.getElementById('login-screen').style.display = 'flex';
+    menu = null;
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   GUARDAR — evento
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('btn-save').addEventListener('click', saveMenu);
+
+/* ═══════════════════════════════════════════════════════════════
+   MOSTRAR PANTALLA ADMIN (carga el menú y renderiza todo)
+═══════════════════════════════════════════════════════════════ */
+async function showAdminScreen() {
+    document.getElementById('login-screen').style.display  = 'none';
+    document.getElementById('admin-screen').classList.add('visible');
+
+    try {
+        const res = await fetch('/api/menu');
+        menu = await res.json();
+        renderFeaturedEditor(menu.featured);
+        renderCardsEditor(menu.items);
+        renderBevEditor(menu.beverages);
+        // Marcar listeners de cambio para el status bar
+        document.getElementById('admin-content-area') // referencia para delegar eventos
+        document.querySelectorAll('input[type="text"]').forEach(inp => {
+            inp.addEventListener('input', markUnsaved);
+        });
+    } catch (err) {
+        alert('Error al cargar el menú: ' + err.message);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT — comprueba si ya hay sesión activa al abrir la página
+═══════════════════════════════════════════════════════════════ */
+(async () => {
+    try {
+        const res  = await fetch('/api/session');
+        const data = await res.json();
+        if (data.authenticated) {
+            showAdminScreen();
+        }
+    } catch {
+        // Si falla la comprobación de sesión, se queda en login
+    }
+})();
+</script>
+</body>
+</html>

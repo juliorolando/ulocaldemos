@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger del Fin del Mundo — Menú TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red:    #D41B1B;
+            --yellow: #FFCC00;
+            --white:  #FFFFFF;
+            --dark:   #111111;
+            --gray:   #777777;
+            --line:   #DEDEDE;
+            --bev:    #191919;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--white);
+            font-family: 'Barlow', sans-serif;
+            cursor: none;
+        }
+
+        /* ═══════════════════════════════════════
+           LAYOUT: 3 filas fijas = 100vh exactos
+        ═══════════════════════════════════════ */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 62vh 26vh 12vh;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 1 — MENÚ PRINCIPAL
+        ═══════════════════════════════════════ */
+        .main {
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 64% 36%;
+        }
+
+        /* ── PANEL IZQUIERDO: grilla de ítems ── */
+        .menu-panel {
+            position: relative;
+            background: var(--white);
+            border-right: 2px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1.4vw 1.2vh;
+        }
+
+        .menu-badge {
+            position: absolute;
+            top: 0; left: 0;
+            background: var(--red);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 6vh;
+            letter-spacing: 0.08em;
+            padding: 0.8vh 4vw 0.9vh 2vw;
+            border-bottom-right-radius: 30px;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        .cat-label {
+            position: absolute;
+            top: 0; right: 1.4vw;
+            background: var(--dark);
+            color: rgba(255,255,255,0.88);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2vh;
+            letter-spacing: 0.18em;
+            padding: 0.7vh 1.8vw;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+            z-index: 10;
+        }
+
+        .grid-top { height: 8vh; flex-shrink: 0; }
+
+        /* Grilla 4×2 — completamente fija */
+        .items-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1.2vh 1vw;
+            overflow: hidden;
+        }
+
+        /* Tarjeta individual */
+        .item-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1vh 0.8vw 1.5vh;
+            overflow: hidden;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+        }
+
+        /* Fila superior: número + badge */
+        .item-top-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.6vh;
+            flex-shrink: 0;
+            min-height: 4vh;
+        }
+
+        .item-num {
+            width: 4vh;
+            height: 4vh;
+            background: var(--red);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.9vh;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .item-badge {
+            font-size: 1.1vh;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.4vh 0.8vw;
+            border-radius: 5px;
+            line-height: 1;
+        }
+        .b-hot   { background: var(--red);    color: #fff; }
+        .b-new   { background: var(--yellow); color: var(--dark); }
+        .b-veg   { background: #16a34a;       color: #fff; }
+        .b-empty { visibility: hidden; }
+
+        .item-visual {
+            font-size: 8.5vh;
+            line-height: 1;
+            margin-bottom: 0.6vh;
+            flex-shrink: 0;
+        }
+
+        .item-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2vh;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+            line-height: 1.1;
+            margin-bottom: 0.2vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .item-sub {
+            font-size: 1.3vh;
+            color: var(--gray);
+            font-style: italic;
+            line-height: 1.2;
+            margin-bottom: 0.5vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .item-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5vh;
+            color: var(--red);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        /* ── PANEL DERECHO: producto destacado ── */
+        .featured-panel {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 2vw;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .feat-visual {
+            font-size: 19vh;
+            line-height: 1;
+            filter: drop-shadow(0 8px 28px rgba(0,0,0,0.15));
+            margin-bottom: 1.2vh;
+            flex-shrink: 0;
+        }
+
+        .feat-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5vh;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+            line-height: 1.05;
+            margin-bottom: 0.5vh;
+        }
+
+        .feat-sub {
+            font-size: 1.5vh;
+            color: var(--gray);
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            margin-bottom: 1vh;
+            line-height: 1.4;
+        }
+
+        .feat-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 10.5vh;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 1.8vh;
+        }
+
+        .brand-divider {
+            width: 76%;
+            height: 1px;
+            background: var(--line);
+            margin-bottom: 1.4vh;
+            flex-shrink: 0;
+        }
+
+        .brand-ornament {
+            font-size: 1.6vh;
+            color: var(--red);
+            letter-spacing: 0.5em;
+            margin-bottom: 0.5vh;
+        }
+
+        .brand-script {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 3.5vh;
+            color: var(--red);
+            line-height: 1.15;
+            margin-bottom: 0.4vh;
+        }
+
+        .brand-tagline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4vh;
+            letter-spacing: 0.28em;
+            color: var(--dark);
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 2 — BEBIDAS
+        ═══════════════════════════════════════ */
+        .beverages {
+            background: var(--bev);
+            display: grid;
+            grid-template-columns: 12vw 1fr;
+            overflow: hidden;
+            border-top: 3px solid #2c2c2c;
+        }
+
+        .bev-title-col {
+            background: #121212;
+            border-right: 2px solid #2c2c2c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1.5vw;
+            gap: 0.6vh;
+        }
+
+        .bev-icon-big { font-size: 4.5vh; }
+
+        .bev-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5vh;
+            letter-spacing: 0.22em;
+            color: #fff;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .bev-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 2vh 2vw;
+            align-content: center;
+        }
+
+        .bev-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.4vh;
+            padding-right: 2vw;
+            border-right: 1px solid #2c2c2c;
+        }
+        .bev-col:last-child { border-right: none; padding-right: 0; }
+
+        .bev-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8vw;
+        }
+
+        .bev-emoji { font-size: 2.5vh; flex-shrink: 0; }
+
+        .bev-name {
+            font-size: 2vh;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.92);
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .bev-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8vh;
+            color: var(--yellow);
+            white-space: nowrap;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 3 — FOOTER
+        ═══════════════════════════════════════ */
+        .footer-bar {
+            background: var(--dark);
+            border-top: 4px solid var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5vw;
+            overflow: hidden;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 3vw;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7vw;
+            font-size: 2.1vh;
+            font-weight: 700;
+            color: rgba(255,255,255,0.78);
+            white-space: nowrap;
+        }
+
+        .fi-icon { font-size: 2.6vh; }
+
+        .footer-right { text-align: right; }
+
+        .footer-clock {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5.8vh;
+            letter-spacing: 0.06em;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .footer-date {
+            font-size: 1.5vh;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- ═══ FILA 1: MENÚ PRINCIPAL ═══ -->
+    <div class="main">
+
+        <!-- PANEL IZQUIERDO: grilla 4×2 -->
+        <div class="menu-panel">
+            <div class="menu-badge">MENÚ</div>
+            <div class="cat-label">Burgers Clásicas</div>
+            <div class="grid-top"></div>
+            <div class="items-grid">
+
+                <!-- 1 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">1</div>
+                        <div class="item-badge b-empty">—</div>
+                    </div>
+                    <div class="item-visual">🍔</div>
+                    <div class="item-name">Classic FDM</div>
+                    <div class="item-sub">La original de siempre</div>
+                    <div class="item-price">$4.800</div>
+                </div>
+
+                <!-- 2 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">2</div>
+                        <div class="item-badge b-hot">🔥 PICANTE</div>
+                    </div>
+                    <div class="item-visual">🍔</div>
+                    <div class="item-name">La Antártida</div>
+                    <div class="item-sub">Jalapeños · Sriracha</div>
+                    <div class="item-price">$6.200</div>
+                </div>
+
+                <!-- 3 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">3</div>
+                        <div class="item-badge b-new">★ NUEVO</div>
+                    </div>
+                    <div class="item-visual">🍔</div>
+                    <div class="item-name">La Beagle</div>
+                    <div class="item-sub">Brie · Mermelada calafate</div>
+                    <div class="item-price">$6.500</div>
+                </div>
+
+                <!-- 4 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">4</div>
+                        <div class="item-badge b-empty">—</div>
+                    </div>
+                    <div class="item-visual">🍔</div>
+                    <div class="item-name">La Fueguina</div>
+                    <div class="item-sub">Cheddar · Panceta</div>
+                    <div class="item-price">$5.800</div>
+                </div>
+
+                <!-- 5 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">5</div>
+                        <div class="item-badge b-veg">🌿 VEGGIE</div>
+                    </div>
+                    <div class="item-visual">🍄</div>
+                    <div class="item-name">La Verde</div>
+                    <div class="item-sub">Medallón de garbanzos</div>
+                    <div class="item-price">$4.500</div>
+                </div>
+
+                <!-- 6 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">6</div>
+                        <div class="item-badge b-empty">—</div>
+                    </div>
+                    <div class="item-visual">🍔</div>
+                    <div class="item-name">La Gigante</div>
+                    <div class="item-sub">Doble Angus 400g</div>
+                    <div class="item-price">$8.900</div>
+                </div>
+
+                <!-- 7 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">7</div>
+                        <div class="item-badge b-empty">—</div>
+                    </div>
+                    <div class="item-visual">🥓</div>
+                    <div class="item-name">Bacon Lover</div>
+                    <div class="item-sub">Triple panceta crocante</div>
+                    <div class="item-price">$7.200</div>
+                </div>
+
+                <!-- 8 -->
+                <div class="item-card">
+                    <div class="item-top-row">
+                        <div class="item-num">8</div>
+                        <div class="item-badge b-empty">—</div>
+                    </div>
+                    <div class="item-visual">🧀</div>
+                    <div class="item-name">Cheese X2</div>
+                    <div class="item-sub">Doble queso americano</div>
+                    <div class="item-price">$6.800</div>
+                </div>
+
+            </div><!-- /items-grid -->
+        </div><!-- /menu-panel -->
+
+        <!-- PANEL DERECHO: producto destacado -->
+        <div class="featured-panel">
+            <div class="feat-visual">🍔</div>
+            <div class="feat-name">LA FUEGUINA</div>
+            <div class="feat-sub">Angus 200g · Cheddar · Panceta · Cebolla caramelizada</div>
+            <div class="feat-price">$5.800</div>
+            <div class="brand-divider"></div>
+            <div class="brand-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+            <div class="brand-script">Burger del Fin<br>del Mundo</div>
+            <div class="brand-tagline">Ushuaia · Desde 2021</div>
+        </div>
+
+    </div><!-- /main -->
+
+    <!-- ═══ FILA 2: BEBIDAS ═══ -->
+    <div class="beverages">
+        <div class="bev-title-col">
+            <div class="bev-icon-big">🥤</div>
+            <div class="bev-title">BEBIDAS</div>
+        </div>
+        <div class="bev-grid">
+            <div class="bev-col">
+                <div class="bev-item"><span class="bev-emoji">🥤</span><span class="bev-name">Coca-Cola</span><span class="bev-price">$900</span></div>
+                <div class="bev-item"><span class="bev-emoji">🟢</span><span class="bev-name">Sprite</span><span class="bev-price">$900</span></div>
+                <div class="bev-item"><span class="bev-emoji">🟠</span><span class="bev-name">Fanta</span><span class="bev-price">$900</span></div>
+            </div>
+            <div class="bev-col">
+                <div class="bev-item"><span class="bev-emoji">💧</span><span class="bev-name">Agua mineral</span><span class="bev-price">$700</span></div>
+                <div class="bev-item"><span class="bev-emoji">💧</span><span class="bev-name">Agua con gas</span><span class="bev-price">$750</span></div>
+                <div class="bev-item"><span class="bev-emoji">🧃</span><span class="bev-name">Jugo caja</span><span class="bev-price">$800</span></div>
+            </div>
+            <div class="bev-col">
+                <div class="bev-item"><span class="bev-emoji">🥛</span><span class="bev-name">Milkshake</span><span class="bev-price">$2.400</span></div>
+                <div class="bev-item"><span class="bev-emoji">🍺</span><span class="bev-name">Birra Fueguina</span><span class="bev-price">$1.600</span></div>
+                <div class="bev-item"><span class="bev-emoji">🍺</span><span class="bev-name">Artesanal lata</span><span class="bev-price">$1.800</span></div>
+            </div>
+            <div class="bev-col">
+                <div class="bev-item"><span class="bev-emoji">☕</span><span class="bev-name">Americano</span><span class="bev-price">$900</span></div>
+                <div class="bev-item"><span class="bev-emoji">🧋</span><span class="bev-name">Limonada</span><span class="bev-price">$1.300</span></div>
+                <div class="bev-item"><span class="bev-emoji">🍊</span><span class="bev-name">Jugo natural</span><span class="bev-price">$1.200</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ FILA 3: FOOTER ═══ -->
+    <div class="footer-bar">
+        <div class="footer-info">
+            <div class="footer-item"><span class="fi-icon">📍</span>Yaganes 1204, Ushuaia</div>
+            <div class="footer-item"><span class="fi-icon">📱</span>WhatsApp: +54 9 2901 333-456</div>
+            <div class="footer-item"><span class="fi-icon">🛵</span>Delivery 25–40 min · Lun–Dom 12–23hs</div>
+            <div class="footer-item"><span class="fi-icon">💳</span>Efectivo · Mercado Pago · Sin recargo</div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-clock" id="clock">--:--</div>
+            <div class="footer-date"  id="clock-date"></div>
+        </div>
+    </div>
+
+</div><!-- /screen -->
+
+<script>
+    /* Solo el reloj — nada más se mueve */
+    function updateClock() {
+        const now  = new Date();
+        const h    = String(now.getHours()).padStart(2,'0');
+        const m    = String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('clock').textContent = h + ':' + m;
+        const DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const MO   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent =
+            DAYS[now.getDay()] + ' ' + now.getDate() + ' ' + MO[now.getMonth()];
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+</script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecánica Austral — Servicios TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:    #0e1117;
+            --bg2:   #141920;
+            --bg3:   #1b222d;
+            --bg4:   #222c3a;
+            --ore:   #f97316;
+            --ore2:  #fb923c;
+            --yel:   #fbbf24;
+            --white: #e8edf5;
+            --muted: rgba(232,237,245,0.42);
+            --bdr:   rgba(255,255,255,0.07);
+            --grn:   #22c55e;
+            --red:   #ef4444;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'Roboto', sans-serif;
+            cursor: none;
+        }
+
+        /* ── URGENCIAS BAR ──────────────────────────────── */
+        .urgencias {
+            background: var(--red);
+            height: 5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+        }
+        .urgencias p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2vh;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #fff;
+        }
+        .urgencias-tel {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.4vh;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.1em;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3vh 1.5vw;
+            border-radius: 4px;
+        }
+        .urgencias-dot {
+            width: 8px; height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1.4s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* ── LAYOUT ──────────────────────────────────────── */
+        .screen {
+            width: 100vw;
+            height: 95vh;
+            display: grid;
+            grid-template-rows: 12vh 67vh 21vh;
+        }
+
+        /* ── HEADER ──────────────────────────────────────── */
+        .header {
+            background: var(--bg2);
+            border-bottom: 3px solid var(--ore);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5vw;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.6vw;
+        }
+        .brand-hex {
+            width: 7.5vh;
+            height: 7.5vh;
+            background: var(--ore);
+            clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5vh;
+            flex-shrink: 0;
+        }
+        .brand-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4.5vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--white);
+            line-height: 1;
+        }
+        .brand-sub {
+            font-size: 1.4vh;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ore);
+            display: block;
+            margin-top: 0.3vh;
+        }
+
+        .header-certs {
+            display: flex;
+            gap: 1.2vw;
+            align-items: center;
+        }
+        .cert {
+            background: var(--bg3);
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            padding: 0.8vh 1.3vw;
+            text-align: center;
+        }
+        .cert-icon { font-size: 2.5vh; display: block; margin-bottom: 0.3vh; }
+        .cert-label {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ore);
+            display: block;
+        }
+
+        .clock-wrap { text-align: right; }
+        .clock {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4.8vh;
+            font-weight: 700;
+            color: var(--ore2);
+            letter-spacing: 0.06em;
+            line-height: 1;
+        }
+        .clock-date {
+            font-size: 1.3vh;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.3vh;
+        }
+
+        /* ── MAIN ──────────────────────────────────────── */
+        .main {
+            display: grid;
+            grid-template-columns: 28% 72%;
+            overflow: hidden;
+        }
+
+        /* CATEGORY SIDEBAR (left) */
+        .sidebar {
+            background: var(--bg2);
+            border-right: 2px solid var(--ore);
+            display: flex;
+            flex-direction: column;
+            padding: 2vh 0;
+        }
+        .sidebar-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2vh;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ore);
+            padding: 0 2vw;
+            margin-bottom: 1.5vh;
+        }
+        .cat-item {
+            padding: 2.2vh 2vw;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            transition: all 0.4s;
+            cursor: default;
+        }
+        .cat-item.active {
+            background: rgba(249,115,22,0.08);
+            border-left-color: var(--ore);
+        }
+        .cat-item-icon { font-size: 3vh; flex-shrink: 0; }
+        .cat-item-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2vh;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--muted);
+            transition: color 0.4s;
+            line-height: 1.1;
+        }
+        .cat-item.active .cat-item-name { color: var(--white); }
+        .cat-item-count {
+            font-size: 1.2vh;
+            color: var(--muted);
+            font-weight: 300;
+            margin-top: 0.2vh;
+        }
+        .cat-item.active .cat-item-count { color: var(--ore); }
+
+        /* SERVICE GRID (right) */
+        .services-area {
+            padding: 2.5vh 2.5vw;
+            display: flex;
+            flex-direction: column;
+        }
+        .area-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5vw;
+            margin-bottom: 2vh;
+        }
+        .area-icon { font-size: 4vh; }
+        .area-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5vh;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+        .area-subtitle {
+            font-size: 1.5vh;
+            color: var(--muted);
+            font-weight: 300;
+        }
+        .area-count {
+            margin-left: auto;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3vh;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ore);
+            background: rgba(249,115,22,0.1);
+            border: 1px solid rgba(249,115,22,0.2);
+            padding: 0.4vh 1vw;
+            border-radius: 4px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.2vh 1.2vw;
+            flex: 1;
+            transition: opacity 0.5s ease;
+        }
+        .services-grid.fading { opacity: 0; }
+
+        .svc-card {
+            background: var(--bg3);
+            border: 1px solid var(--bdr);
+            border-radius: 10px;
+            padding: 2vh 1.8vw;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .svc-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--ore);
+            opacity: 0.4;
+        }
+        .svc-card.featured::before { opacity: 1; background: var(--yel); }
+
+        .svc-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.2vh;
+        }
+        .svc-icon { font-size: 3.5vh; }
+        .svc-badge {
+            font-size: 1vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.3vh 0.7vw;
+            border-radius: 3px;
+        }
+        .sb-avail { background: rgba(34,197,94,0.15); color: var(--grn); border: 1px solid rgba(34,197,94,0.3); }
+        .sb-pop   { background: rgba(251,191,36,0.15); color: var(--yel); border: 1px solid rgba(251,191,36,0.3); }
+        .sb-pres  { background: var(--ore); color: #fff; }
+
+        .svc-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2vh;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 0.5vh;
+            flex: 1;
+            line-height: 1.2;
+        }
+        .svc-desc {
+            font-size: 1.4vh;
+            color: var(--muted);
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 1.5vh;
+            flex: 1;
+        }
+        .svc-footer {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.5vw;
+        }
+        .svc-price {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.4vh;
+            font-weight: 700;
+            color: var(--ore);
+            line-height: 1;
+        }
+        .svc-from {
+            font-size: 1.1vh;
+            color: var(--muted);
+            font-weight: 300;
+        }
+        .svc-time {
+            font-size: 1.2vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 0.3vw;
+        }
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        .footer {
+            background: var(--bg2);
+            border-top: 2px solid var(--ore);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+        .footer-cell {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            padding: 0 2vw;
+            border-right: 1px solid var(--bdr);
+        }
+        .footer-cell:last-child { border-right: none; }
+        .f-icon { font-size: 3vh; flex-shrink: 0; }
+        .f-label {
+            font-size: 1vh;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--ore);
+            display: block;
+            margin-bottom: 0.4vh;
+        }
+        .f-val {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2vh;
+            color: var(--white);
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: 0.04em;
+        }
+        .f-val small {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0;
+            display: block;
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: var(--ore);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<!-- URGENCIAS -->
+<div class="urgencias">
+    <div class="urgencias-dot"></div>
+    <p>🚨 URGENCIAS MECÁNICAS — Llamanos al:</p>
+    <span class="urgencias-tel">+54 9 2901 667-890</span>
+    <p>Lun–Sáb 8:00 – 20:00 hs · Presupuesto SIEMPRE sin cargo</p>
+    <div class="urgencias-dot"></div>
+</div>
+
+<div class="screen">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-hex">🔧</div>
+            <div>
+                <div class="brand-name">Mecánica Austral</div>
+                <span class="brand-sub">Taller integral · Av. Belgrano 1570, Ushuaia · Desde 2011</span>
+            </div>
+        </div>
+        <div class="header-certs">
+            <div class="cert">
+                <span class="cert-icon">✅</span>
+                <span class="cert-label">RTO oficial</span>
+            </div>
+            <div class="cert">
+                <span class="cert-icon">🏆</span>
+                <span class="cert-label">Taller cert.</span>
+            </div>
+            <div class="cert">
+                <span class="cert-icon">🛡️</span>
+                <span class="cert-label">Garantía 90d</span>
+            </div>
+            <div class="cert">
+                <span class="cert-icon">🚗</span>
+                <span class="cert-label">Todas marcas</span>
+            </div>
+        </div>
+        <div class="clock-wrap">
+            <div class="clock" id="clock">00:00</div>
+            <div class="clock-date" id="clock-date"></div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="sidebar-title">Categorías</div>
+            <div id="cat-nav"></div>
+        </nav>
+
+        <!-- SERVICES AREA -->
+        <div class="services-area">
+            <div class="area-header">
+                <div class="area-icon" id="area-icon">🛢️</div>
+                <div>
+                    <div class="area-title" id="area-title">Mantenimiento</div>
+                    <div class="area-subtitle">Precios de referencia · Presupuesto sin cargo</div>
+                </div>
+                <div class="area-count" id="area-count">6 servicios</div>
+            </div>
+            <div class="services-grid" id="svc-grid"></div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-cell">
+            <div class="f-icon">📍</div>
+            <div>
+                <span class="f-label">Dirección</span>
+                <div class="f-val">Av. Belgrano 1570<small>Ushuaia, Tierra del Fuego</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">🕐</div>
+            <div>
+                <span class="f-label">Horario</span>
+                <div class="f-val">Lun–Sáb 8:00–20:00<small>Dom cerrado</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">📞</div>
+            <div>
+                <span class="f-label">Urgencias</span>
+                <div class="f-val">+54 9 2901 667-890<small>WhatsApp y llamadas</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">🛡️</div>
+            <div>
+                <span class="f-label">Garantía</span>
+                <div class="f-val">90 días escritos<small>En todos los trabajos</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">💳</div>
+            <div>
+                <span class="f-label">Medios de pago</span>
+                <div class="f-val">Efectivo · Transferencia<small>Mercado Pago · Cuotas</small></div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<div class="progress-bar" id="progress"></div>
+
+<script>
+    const categories = [
+        {
+            icon: '🛢️',
+            name: 'Mantenimiento',
+            count: '6 servicios',
+            services: [
+                { icon:'🛢️', badge:'pop', badgeText:'Popular', name:'Cambio de aceite y filtro', desc:'Mineral, semisintético o sintético. Revisión de niveles incluida.', price:'$8.500', from:true, time:'45 min' },
+                { icon:'🔧', badge:'', badgeText:'', name:'Service 10.000 km', desc:'Aceite + filtros (aceite, aire, habitáculo) + revisión general.', price:'$24.000', from:true, time:'2 hs' },
+                { icon:'⚡', badge:'avail', badgeText:'Sin turno', name:'Revisión de batería', desc:'Diagnóstico de batería, alternador y carga. Rápido y sin espera.', price:'$4.200', from:false, time:'30 min' },
+                { icon:'🔩', badge:'', badgeText:'', name:'Cambio de bujías', desc:'Bujías originales o equivalentes. Ajuste de inyección si aplica.', price:'$6.800', from:true, time:'1 hs' },
+                { icon:'💧', badge:'', badgeText:'', name:'Refrigerante y líquidos', desc:'Control y cambio de líquido de frenos, refrigerante y dirección.', price:'$3.500', from:true, time:'45 min' },
+                { icon:'🌬️', badge:'', badgeText:'', name:'Filtros de cabina y aire', desc:'Limpia el aire del habitáculo. Importante para la salud.', price:'$2.800', from:true, time:'20 min' },
+            ]
+        },
+        {
+            icon: '🛑',
+            name: 'Frenos',
+            count: '5 servicios',
+            services: [
+                { icon:'🛑', badge:'pop', badgeText:'Popular', name:'Pastillas delanteras', desc:'Pastillas de alta duración. Revisión de discos incluida.', price:'$12.000', from:true, time:'1 hs' },
+                { icon:'💧', badge:'', badgeText:'', name:'Líquido de frenos DOT 4', desc:'Purgado completo. Fundamental en rutas de montaña.', price:'$5.800', from:false, time:'45 min' },
+                { icon:'⭕', badge:'', badgeText:'', name:'Rectificado de discos', desc:'Diagnóstico con micrómetro. Rectificado si el espesor lo permite.', price:'$8.000', from:true, time:'1.5 hs' },
+                { icon:'⭕', badge:'', badgeText:'', name:'Cambio de discos', desc:'Discos originales o equivalentes certificados.', price:'$18.000', from:true, time:'2 hs' },
+                { icon:'🔩', badge:'avail', badgeText:'Sin turno', name:'Revisión de frenos', desc:'Diagnóstico completo del sistema. Sin cargo si hacemos el trabajo.', price:'Gratis', from:false, time:'20 min' },
+            ]
+        },
+        {
+            icon: '🔩',
+            name: 'Suspensión',
+            count: '5 servicios',
+            services: [
+                { icon:'🚗', badge:'pop', badgeText:'Popular', name:'Alineación y balanceo', desc:'Alineación computarizada 4 ruedas. Balanceo incluido.', price:'$6.500', from:false, time:'1 hs' },
+                { icon:'🔄', badge:'', badgeText:'', name:'Cambio de amortiguadores', desc:'Por par. Con repuestos originales o equivalentes.', price:'$28.000', from:true, time:'2-3 hs' },
+                { icon:'🔩', badge:'', badgeText:'', name:'Bujes y rótulas', desc:'Revisión de articulaciones. Cambio según diagnóstico.', price:'$15.000', from:true, time:'2 hs' },
+                { icon:'🔧', badge:'', badgeText:'', name:'Tren delantero completo', desc:'Diagnóstico integral. Presupuesto sin cargo.', price:'Presupuesto', from:false, time:'Consultar' },
+                { icon:'⚙️', badge:'', badgeText:'', name:'Rotación de neumáticos', desc:'Rotación en cruz. Inspección de desgaste y presión.', price:'$2.500', from:false, time:'30 min' },
+            ]
+        },
+        {
+            icon: '⚡',
+            name: 'Electricidad',
+            count: '5 servicios',
+            services: [
+                { icon:'💻', badge:'avail', badgeText:'Sin turno', name:'Diagnóstico OBD', desc:'Lectura de códigos de falla con scanner profesional.', price:'$3.500', from:false, time:'30 min' },
+                { icon:'🔌', badge:'', badgeText:'', name:'Reparación eléctrica', desc:'Luces, bocinas, vidrios eléctricos, fusibles, cableado.', price:'Presupuesto', from:false, time:'Consultar' },
+                { icon:'❄️', badge:'', badgeText:'', name:'Carga de aire acondicionado', desc:'Recarga de gas refrigerante. Revisión de compresor.', price:'$9.800', from:true, time:'1.5 hs' },
+                { icon:'⚡', badge:'', badgeText:'', name:'Cambio de batería', desc:'Batería original para tu vehículo. Instalación incluida.', price:'$22.000', from:true, time:'30 min' },
+                { icon:'🔦', badge:'', badgeText:'', name:'Luces y ópticas', desc:'Reemplazo de ópticas, LED y sistemas de iluminación.', price:'$4.500', from:true, time:'1 hs' },
+            ]
+        },
+    ];
+
+    const INTERVAL = 9000;
+    let current = 0;
+    let progressStart = null;
+    let animFrame;
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const mo = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent = `${days[now.getDay()]} ${now.getDate()} ${mo[now.getMonth()]}`;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    function buildNav() {
+        document.getElementById('cat-nav').innerHTML = categories.map((c,i) => `
+            <div class="cat-item${i===0?' active':''}" data-idx="${i}">
+                <div class="cat-item-icon">${c.icon}</div>
+                <div>
+                    <div class="cat-item-name">${c.name}</div>
+                    <div class="cat-item-count">${c.count}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+    buildNav();
+
+    function render(idx, instant) {
+        const cat = categories[idx];
+        const gridEl = document.getElementById('svc-grid');
+        if (!instant) gridEl.classList.add('fading');
+
+        setTimeout(() => {
+            document.getElementById('area-icon').textContent  = cat.icon;
+            document.getElementById('area-title').textContent = cat.name;
+            document.getElementById('area-count').textContent = cat.count;
+
+            // Pad to 6 items
+            const items = cat.services.slice(0, 6);
+            while (items.length < 6) items.push(null);
+
+            gridEl.innerHTML = items.map((s, i) => {
+                if (!s) return `<div class="svc-card" style="visibility:hidden"></div>`;
+                return `
+                <div class="svc-card${i===0?' featured':''}">
+                    <div class="svc-top">
+                        <span class="svc-icon">${s.icon}</span>
+                        ${s.badge ? `<span class="svc-badge sb-${s.badge}">${s.badgeText}</span>` : ''}
+                    </div>
+                    <div class="svc-name">${s.name}</div>
+                    <div class="svc-desc">${s.desc}</div>
+                    <div class="svc-footer">
+                        <div>
+                            <div class="svc-price">${s.price}${s.from ? '<span class="svc-from"> desde</span>' : ''}</div>
+                        </div>
+                        <div class="svc-time">⏱ ${s.time}</div>
+                    </div>
+                </div>
+            `}).join('');
+
+            document.querySelectorAll('.cat-item').forEach((el,i) => el.classList.toggle('active', i===idx));
+
+            if (!instant) gridEl.classList.remove('fading');
+        }, instant ? 0 : 450);
+    }
+
+    function animateProgress(ts) {
+        if (!progressStart) progressStart = ts;
+        const pct = Math.min(((ts - progressStart) / INTERVAL) * 100, 100);
+        document.getElementById('progress').style.width = pct + '%';
+        if (ts - progressStart < INTERVAL) animFrame = requestAnimationFrame(animateProgress);
+    }
+
+    function next() {
+        current = (current + 1) % categories.length;
+        render(current);
+        progressStart = null;
+        cancelAnimationFrame(animFrame);
+        requestAnimationFrame(animateProgress);
+    }
+
+    render(0, true);
+    requestAnimationFrame(animateProgress);
+    setInterval(next, INTERVAL);
+</script>
+</body>
+</html>

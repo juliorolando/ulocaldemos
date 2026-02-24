@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tail:*)",
+      "Bash(cd \"C:/Users/NetCell/Desktop/Nevado LAB/Code Vibing Factory/UshuaiaLocal.com emprendimiento\" && npm install 2>&1)"
+    ]
+  }
+}

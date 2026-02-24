@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbería El Filo — Servicios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:    #080808;
+            --bg2:   #101010;
+            --bg3:   #181818;
+            --gold:  #c9a84c;
+            --gold2: #e8c97a;
+            --red:   #9b1c1c;
+            --white: #f0ece4;
+            --muted: rgba(240,236,228,0.38);
+            --bdr:   rgba(201,168,76,0.14);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'Oswald', sans-serif;
+            cursor: none;
+        }
+
+        /* ── BARBER POLE STRIP ──────────────────────────── */
+        .pole-strip {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--red)   0px, var(--red)   16px,
+                #fff        16px, #fff        32px,
+                #1a3c8a     32px, #1a3c8a     48px,
+                #fff        48px, #fff        64px
+            );
+            z-index: 200;
+        }
+
+        /* ── LAYOUT ──────────────────────────────────────── */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 12vh 72vh 16vh;
+            padding-top: 4px;
+        }
+
+        /* ── HEADER ──────────────────────────────────────── */
+        .header {
+            background: var(--bg2);
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3vw;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.6vw;
+        }
+        .brand-icon {
+            font-size: 5.5vh;
+            line-height: 1;
+        }
+        .brand-name {
+            font-size: 4.5vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+        .brand-name span { color: var(--gold); }
+        .brand-tagline {
+            font-family: 'IM Fell English', serif;
+            font-size: 1.7vh;
+            font-style: italic;
+            color: var(--muted);
+            display: block;
+            margin-top: 0.3vh;
+        }
+
+        .header-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8vh;
+        }
+        .open-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7vw;
+            background: rgba(20,80,20,0.3);
+            border: 1px solid rgba(100,200,100,0.3);
+            border-radius: 20px;
+            padding: 0.5vh 1.5vw;
+            font-size: 1.4vh;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6fdb6f;
+        }
+        .open-pill::before {
+            content: '';
+            width: 0.6vw; max-width: 8px;
+            height: 0.6vw; max-height: 8px;
+            background: #6fdb6f;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        .header-loc {
+            font-size: 1.6vh;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+        }
+        .header-loc strong { color: var(--white); font-weight: 400; }
+
+        .clock-wrap { text-align: right; }
+        .clock {
+            font-size: 4.5vh;
+            font-weight: 300;
+            color: var(--gold2);
+            letter-spacing: 0.06em;
+            line-height: 1;
+        }
+        .clock-date {
+            font-size: 1.4vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 0.3vh;
+        }
+
+        /* ── MAIN ──────────────────────────────────────── */
+        .main {
+            display: grid;
+            grid-template-columns: 52% 48%;
+            overflow: hidden;
+        }
+
+        /* ── SERVICES PANEL (left) ──────────────────────── */
+        .services-panel {
+            border-right: 1px solid var(--bdr);
+            display: flex;
+            flex-direction: column;
+            padding: 3vh 3vw;
+        }
+        .panel-title {
+            font-size: 1.3vh;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border-bottom: 1px solid var(--bdr);
+            padding-bottom: 1.5vh;
+            margin-bottom: 2vh;
+            display: flex;
+            align-items: center;
+            gap: 0.8vw;
+        }
+
+        .service-list { flex: 1; display: flex; flex-direction: column; gap: 0; }
+
+        .svc-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2vh 1.2vw;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: background 0.3s;
+            gap: 1vw;
+        }
+        .svc-row.highlight {
+            background: rgba(201,168,76,0.07);
+            border-bottom-color: rgba(201,168,76,0.15);
+        }
+        .svc-left { flex: 1; }
+        .svc-name {
+            font-size: 2.8vh;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 0.5vh;
+        }
+        .svc-desc {
+            font-size: 1.5vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+        .svc-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5vh;
+            flex-shrink: 0;
+        }
+        .svc-price {
+            font-size: 3.8vh;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .svc-time {
+            font-size: 1.3vh;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+        }
+        .svc-badge {
+            font-size: 1vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.3vh 0.7vw;
+            border-radius: 2px;
+        }
+        .badge-promo { background: var(--red); color: #fff; }
+        .badge-pop   { background: transparent; border: 1px solid var(--bdr); color: var(--gold); }
+
+        /* ── RIGHT PANEL ──────────────────────────────── */
+        .right-panel {
+            display: grid;
+            grid-template-rows: 50% 50%;
+        }
+
+        /* Team */
+        .team-section {
+            border-bottom: 1px solid var(--bdr);
+            padding: 2.5vh 2.5vw;
+            display: flex;
+            flex-direction: column;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1vw;
+            flex: 1;
+            margin-top: 1.5vh;
+        }
+        .barber-card {
+            background: var(--bg3);
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            padding: 2vh 1vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .barber-avatar {
+            width: 6vh;
+            height: 6vh;
+            border-radius: 50%;
+            background: var(--bg2);
+            border: 2px solid var(--bdr);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3vh;
+            margin-bottom: 1vh;
+        }
+        .barber-name {
+            font-size: 1.8vh;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 0.3vh;
+        }
+        .barber-spec {
+            font-size: 1.2vh;
+            color: var(--gold);
+            font-weight: 300;
+            margin-bottom: 0.8vh;
+        }
+        .barber-avail {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .avail-yes { color: #6fdb6f; }
+        .avail-no  { color: var(--muted); }
+
+        /* Promo */
+        .promo-section {
+            background: linear-gradient(135deg, var(--red) 0%, #6b1010 100%);
+            padding: 3vh 2.5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .promo-section::before {
+            content: '✂';
+            position: absolute;
+            right: -2vw;
+            bottom: -3vh;
+            font-size: 18vh;
+            opacity: 0.08;
+            transform: rotate(-20deg);
+        }
+        .promo-badge {
+            font-size: 1.1vh;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1.2vh;
+        }
+        .promo-title {
+            font-size: 3.2vh;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 1vh;
+        }
+        .promo-desc {
+            font-size: 1.6vh;
+            color: rgba(255,255,255,0.6);
+            font-weight: 300;
+            margin-bottom: 2vh;
+        }
+        .promo-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 1.5vw;
+        }
+        .promo-old {
+            font-size: 2vh;
+            color: rgba(255,255,255,0.35);
+            text-decoration: line-through;
+        }
+        .promo-new {
+            font-size: 5.5vh;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        .footer {
+            background: var(--bg2);
+            border-top: 2px solid var(--gold);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .footer-cell {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            padding: 0 2.5vw;
+            border-right: 1px solid var(--bdr);
+        }
+        .footer-cell:last-child { border-right: none; }
+        .f-icon { font-size: 3vh; flex-shrink: 0; }
+        .f-label {
+            font-size: 1.1vh;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 0.4vh;
+        }
+        .f-val {
+            font-size: 1.9vh;
+            color: var(--white);
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        .f-val small {
+            font-size: 1.3vh;
+            color: var(--muted);
+            font-weight: 300;
+            display: block;
+        }
+
+        /* CATEGORY INDICATOR */
+        .cat-dots {
+            display: flex;
+            gap: 0.6vw;
+            margin-top: 1.5vh;
+            justify-content: center;
+        }
+        .dot {
+            width: 0.6vw; max-width: 8px;
+            height: 0.6vw; max-height: 8px;
+            border-radius: 50%;
+            background: var(--bdr);
+            transition: background 0.4s;
+        }
+        .dot.active { background: var(--gold); }
+
+        /* PROGRESS */
+        .progress-bar {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: var(--gold);
+            z-index: 100;
+        }
+
+        .slide-fade {
+            transition: opacity 0.5s ease;
+        }
+        .slide-fade.fading { opacity: 0; }
+    </style>
+</head>
+<body>
+
+<div class="pole-strip"></div>
+
+<div class="screen">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">💈</div>
+            <div>
+                <div class="brand-name">Barbería <span>El Filo</span></div>
+                <span class="brand-tagline">El arte del buen corte · Est. 2017</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="open-pill">Abierto ahora</div>
+            <div class="header-loc">📍 <strong>Maipú 345</strong> · Ushuaia</div>
+        </div>
+        <div class="clock-wrap">
+            <div class="clock" id="clock">00:00</div>
+            <div class="clock-date" id="clock-date"></div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- SERVICES -->
+        <div class="services-panel">
+            <div class="panel-title" id="panel-title">✂️ Cortes de cabello</div>
+            <div class="service-list slide-fade" id="svc-list"></div>
+            <div class="cat-dots" id="cat-dots"></div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-panel">
+
+            <!-- TEAM -->
+            <div class="team-section">
+                <div class="panel-title">👨 El equipo — Disponibilidad de hoy</div>
+                <div class="team-grid">
+                    <div class="barber-card">
+                        <div class="barber-avatar">🧔</div>
+                        <div class="barber-name">Rodrigo</div>
+                        <div class="barber-spec">Master Barber · Fades</div>
+                        <div class="barber-avail avail-yes">✓ Disponible</div>
+                    </div>
+                    <div class="barber-card">
+                        <div class="barber-avatar">💈</div>
+                        <div class="barber-name">Lucas</div>
+                        <div class="barber-spec">Barba & Afeitado</div>
+                        <div class="barber-avail avail-yes">✓ Disponible</div>
+                    </div>
+                    <div class="barber-card">
+                        <div class="barber-avatar">✂️</div>
+                        <div class="barber-name">Tomás</div>
+                        <div class="barber-spec">Diseño moderno</div>
+                        <div class="barber-avail avail-no">Turno lleno</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROMO -->
+            <div class="promo-section">
+                <div class="promo-badge">🔥 Promo de hoy — Lunes & Martes</div>
+                <div class="promo-title">Día del estudiante<br>Corte clásico</div>
+                <div class="promo-desc">Con credencial universitaria o del ISFD. Todo el día.</div>
+                <div class="promo-prices">
+                    <span class="promo-old">$4.500</span>
+                    <span class="promo-new">$3.200</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-cell">
+            <div class="f-icon">📍</div>
+            <div>
+                <span class="f-label">Dirección</span>
+                <div class="f-val">Maipú 345<small>Ushuaia, TDF</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">🕐</div>
+            <div>
+                <span class="f-label">Horario</span>
+                <div class="f-val">Lun–Sáb 9:00–20:00<small>Dom cerrado</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">💬</div>
+            <div>
+                <span class="f-label">Turnos por WhatsApp</span>
+                <div class="f-val">+54 9 2901 444-789<small>Respondemos al instante</small></div>
+            </div>
+        </div>
+        <div class="footer-cell">
+            <div class="f-icon">💳</div>
+            <div>
+                <span class="f-label">Medios de pago</span>
+                <div class="f-val">Efectivo · Transferencia<small>Mercado Pago</small></div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<div class="progress-bar" id="progress"></div>
+
+<script>
+    const categories = [
+        {
+            title: '✂️ Cortes de cabello',
+            services: [
+                { name:'Corte Clásico',         desc:'Máquina y tijera para todo tipo de cabello.', price:'$4.500', time:'30 min', badge:'pop',   badgeText:'Popular' },
+                { name:'Corte Moderno / Fade',  desc:'Degradado con máquina y definición de perfil.', price:'$5.800', time:'45 min', badge:'',     badgeText:'' },
+                { name:'Corte + Barba',         desc:'El combo completo. Todo incluido.',             price:'$7.500', time:'60 min', badge:'promo', badgeText:'Promo' },
+                { name:'Rapado Total',          desc:'Máquina N°0 o N°1. Rápido y preciso.',          price:'$3.500', time:'20 min', badge:'',     badgeText:'' },
+                { name:'Corte Niños (hasta 12)',desc:'Para los más chicos, con paciencia.',            price:'$3.200', time:'25 min', badge:'',     badgeText:'' },
+            ]
+        },
+        {
+            title: '🧔 Barba & Afeitado',
+            services: [
+                { name:'Arreglo de Barba',     desc:'Delineado, recorte y perfilado con tijera.',    price:'$3.000', time:'20 min', badge:'pop',   badgeText:'Popular' },
+                { name:'Afeitado a Navaja',    desc:'Ritual clásico con toalla caliente y navaja.',  price:'$4.800', time:'35 min', badge:'',     badgeText:'' },
+                { name:'Diseño de Barba',      desc:'Forma personalizada y definición extrema.',      price:'$5.500', time:'45 min', badge:'promo', badgeText:'Premium' },
+                { name:'Tratamiento de Barba', desc:'Hidratación con aceites y masaje facial.',       price:'$3.800', time:'30 min', badge:'',     badgeText:'' },
+                { name:'Cejas + Nariz',        desc:'Depilación con cera o pinza.',                  price:'$1.500', time:'10 min', badge:'',     badgeText:'' },
+            ]
+        },
+    ];
+
+    const INTERVAL = 9000;
+    let current = 0;
+    let progressStart = null;
+    let animFrame;
+
+    // Clock
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2,'0');
+        const m = String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('clock').textContent = `${h}:${m}`;
+        const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        const d = now;
+        document.getElementById('clock-date').textContent = `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    // Dots
+    function buildDots() {
+        const dotsEl = document.getElementById('cat-dots');
+        dotsEl.innerHTML = categories.map((_,i) => `<div class="dot${i===0?' active':''}"></div>`).join('');
+    }
+    buildDots();
+
+    // Render
+    function render(idx, instant) {
+        const cat = categories[idx];
+        const listEl = document.getElementById('svc-list');
+
+        if (!instant) listEl.classList.add('fading');
+
+        setTimeout(() => {
+            document.getElementById('panel-title').textContent = cat.title;
+
+            listEl.innerHTML = cat.services.map((s,i) => `
+                <div class="svc-row${i === 0 ? ' highlight' : ''}">
+                    <div class="svc-left">
+                        <div class="svc-name">${s.name}</div>
+                        <div class="svc-desc">${s.desc}</div>
+                    </div>
+                    <div class="svc-right">
+                        ${s.badge ? `<span class="svc-badge badge-${s.badge}">${s.badgeText}</span>` : ''}
+                        <div class="svc-price">${s.price}</div>
+                        <div class="svc-time">⏱ ${s.time}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === idx));
+
+            if (!instant) listEl.classList.remove('fading');
+        }, instant ? 0 : 450);
+    }
+
+    // Progress
+    function animateProgress(ts) {
+        if (!progressStart) progressStart = ts;
+        const pct = Math.min(((ts - progressStart) / INTERVAL) * 100, 100);
+        document.getElementById('progress').style.width = pct + '%';
+        if (ts - progressStart < INTERVAL) animFrame = requestAnimationFrame(animateProgress);
+    }
+
+    function next() {
+        current = (current + 1) % categories.length;
+        render(current);
+        progressStart = null;
+        cancelAnimationFrame(animFrame);
+        requestAnimationFrame(animateProgress);
+    }
+
+    render(0, true);
+    requestAnimationFrame(animateProgress);
+    setInterval(next, INTERVAL);
+</script>
+</body>
+</html>

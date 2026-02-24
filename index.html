@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Desarrollo web, menús digitales y sistemas a medida en Ushuaia. Soluciones digitales para negocios locales. Atención directa, sin intermediarios.">
+    <meta property="og:title" content="Ushuaia Local — Soluciones digitales para tu negocio">
+    <meta property="og:description" content="Menús digitales, sitios web y sistemas a medida. Hechos acá, en Ushuaia.">
+    <meta property="og:type" content="website">
+    <title>Ushuaia Local — Soluciones digitales para tu negocio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #0f5132;
+            --green-dark: #0a3d25;
+            --green-light: #e8f4ee;
+            --orange: #d97346;
+            --orange-dark: #c4623a;
+            --ink: #0a0a0a;
+            --muted: #525252;
+            --border: rgba(0,0,0,0.07);
+            --bg: #ffffff;
+            --bg-soft: #fafafa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--ink);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== ANNOUNCEMENT BAR ===== */
+        .announcement {
+            background: var(--green);
+            color: #fff;
+            text-align: center;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+        .announcement a {
+            color: #a8d5bc;
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 22px;
+            color: var(--green);
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        nav {
+            display: none;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--ink); }
+
+        .header-cta {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .header-cta:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        @media (min-width: 768px) {
+            nav { display: flex; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 90px 24px 110px;
+            text-align: center;
+            background: linear-gradient(180deg, #f5f9f7 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(15,81,50,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -60px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217,115,70,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(15,81,50,0.15);
+        }
+
+        .hero-badge span { width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--green);
+        }
+
+        .hero > .container > p {
+            font-size: 19px;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            border: 1px solid var(--green);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            border-color: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(15,81,50,0.25);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background: transparent;
+            color: var(--ink);
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 15px;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(0,0,0,0.3);
+            background: var(--bg-soft);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            background: var(--ink);
+            padding: 28px 24px;
+        }
+
+        .stats-inner {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            color: #fff;
+        }
+
+        .stat-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 32px;
+            color: #fff;
+            display: block;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 0.04em;
+        }
+
+        /* ===== SECCIÓN GENÉRICA ===== */
+        section {
+            padding: 80px 24px;
+        }
+
+        h2 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 34px;
+            font-weight: 400;
+            margin-bottom: 56px;
+            text-align: center;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        /* ===== SERVICIOS ===== */
+        #servicios { background: var(--bg); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .service-card {
+            background: var(--bg-soft);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--green);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .service-card:nth-child(even)::before { background: var(--orange); }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(15,81,50,0.1);
+            border-color: rgba(15,81,50,0.2);
+            background: #fff;
+        }
+
+        .service-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* ===== MENÚ DIGITAL SHOWCASE ===== */
+        .menu-digital-section {
+            background: #0d0d0d;
+            color: #fff;
+            padding: 100px 24px;
+        }
+
+        .menu-digital-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        .menu-digital-badge {
+            display: inline-block;
+            background: var(--orange);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .menu-digital-text h2 {
+            font-family: 'DM Serif Display', serif;
+            text-align: left;
+            color: #fff;
+            margin-bottom: 16px;
+            font-size: 34px;
+        }
+
+        .menu-digital-text > p {
+            color: rgba(255,255,255,0.6);
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 480px;
+        }
+
+        .menu-digital-features {
+            list-style: none;
+            margin-bottom: 44px;
+        }
+
+        .menu-digital-features li {
+            padding: 14px 0;
+            padding-left: 24px;
+            color: rgba(255,255,255,0.65);
+            font-size: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .menu-digital-features li:hover { color: rgba(255,255,255,0.9); }
+        .menu-digital-features li:last-child { border-bottom: none; }
+
+        .menu-digital-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        /* ===== MOCKUP WRAPPER ===== */
+        .menu-mockup-wrapper { position: relative; }
+
+        .menu-mockup-label {
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 14px;
+        }
+
+        /* ===== PRECIOS ===== */
+        #precios { background: var(--bg-soft); }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(15,81,50,0.12);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 20px;
+        }
+
+        .pricing-name {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .pricing-price {
+            font-family: 'DM Serif Display', serif;
+            font-size: 48px;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .pricing-price span {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .pricing-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--muted);
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .pricing-features li.muted { color: #ccc; }
+        .pricing-features li.muted::before { content: '–'; color: #ccc; }
+
+        .btn-outline {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1.5px solid var(--green);
+            color: var(--green);
+            background: transparent;
+        }
+
+        .btn-outline:hover { background: var(--green); color: #fff; }
+
+        .btn-filled {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.2s;
+            background: var(--green);
+            color: #fff;
+            border: 1.5px solid var(--green);
+        }
+
+        .btn-filled:hover {
+            background: var(--green-dark);
+            border-color: var(--green-dark);
+            box-shadow: 0 8px 20px rgba(15,81,50,0.3);
+        }
+
+        /* ===== TESTIMONIOS ===== */
+        .testimonios-section {
+            background: #fff;
+            border-top: 1px solid var(--border);
+        }
+
+        .testimonios-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial {
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-family: 'DM Serif Display', serif;
+            font-size: 80px;
+            color: var(--green);
+            opacity: 0.15;
+            position: absolute;
+            top: -10px;
+            left: 24px;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            padding-top: 16px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--ink);
+        }
+
+        .author-business {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        /* ===== BENEFICIOS ===== */
+        .benefits-section {
+            background: var(--bg-soft);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .benefits-list { list-style: none; max-width: 700px; margin: 0 auto; }
+
+        .benefits-list li {
+            padding: 32px 0;
+            padding-left: 20px;
+            border-bottom: 1px solid var(--border);
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .benefits-list li:hover {
+            transform: translateX(8px);
+            border-left-color: var(--orange);
+        }
+
+        .benefits-list li:last-child { border-bottom: none; }
+
+        .benefits-list strong {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .benefits-list span {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ===== PARA QUIÉN ===== */
+        .for-who { background: #fff; }
+
+        .who-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .who-item {
+            padding: 32px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .who-item:hover {
+            border-color: var(--green);
+            box-shadow: 0 8px 24px rgba(15,81,50,0.1);
+        }
+
+        .who-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+
+        .who-item h3 {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--green);
+        }
+
+        .who-item p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+        /* ===== FAQ ===== */
+        .faq-section { background: var(--bg-soft); }
+
+        .faq-list { max-width: 720px; margin: 0 auto; }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+            gap: 16px;
+            user-select: none;
+        }
+
+        .faq-arrow {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+            transition: transform 0.3s, background 0.3s;
+            color: var(--muted);
+        }
+
+        .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--green); color: #fff; }
+
+        .faq-answer {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-bottom: 24px;
+        }
+
+        /* ===== CTA FINAL ===== */
+        .cta-section {
+            background: var(--green);
+            color: #fff;
+            text-align: center;
+            padding: 90px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 400px; height: 400px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%; left: -5%;
+            width: 300px; height: 300px;
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .cta-section .container { position: relative; z-index: 1; }
+
+        .cta-section h2 {
+            font-family: 'DM Serif Display', serif;
+            color: #fff;
+            margin-bottom: 16px;
+            font-size: 38px;
+        }
+
+        .cta-section > .container > p {
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 36px;
+            font-size: 18px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section .btn-white {
+            display: inline-block;
+            background: #fff;
+            color: var(--green);
+            padding: 16px 36px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.2s;
+            border: 1px solid #fff;
+        }
+
+        .cta-section .btn-white:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .cta-guarantee {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--ink);
+            padding: 48px 24px;
+            text-align: center;
+            color: rgba(255,255,255,0.35);
+            font-size: 14px;
+        }
+
+        footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+        footer a:hover { color: #fff; }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 640px) {
+            h1 { font-size: 52px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .who-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+            .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+            .testimonios-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 58px; }
+            h2 { font-size: 40px; }
+            .hero { padding: 120px 24px 140px; }
+            section { padding: 100px 24px; }
+            .container { padding: 0 40px; }
+            .menu-digital-grid { grid-template-columns: 1fr 1fr; gap: 72px; }
+            .menu-digital-text h2 { font-size: 38px; }
+        }
+
+        @media (min-width: 1024px) { h1 { font-size: 64px; } }
+
+        /* ===== FADE IN ON SCROLL ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA ANUNCIO -->
+    <div class="announcement">
+        📺 Mirá cómo queda el menú digital en tu TV — 5 demos reales.
+        <a href="demos/index.html">Ver demos →</a>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">Ushuaia Local</a>
+                <nav>
+                    <a href="#servicios">Servicios</a>
+                    <a href="#precios">Precios</a>
+                    <a href="#para-quien">Para quién</a>
+                    <a href="#faq">FAQ</a>
+                </nav>
+                <a href="https://wa.me/5492901410793?text=Hola,%20quiero%20consultar%20sobre%20servicios%20web" class="header-cta">Hablemos →</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span></span>
+                Disponible en Ushuaia
+            </div>
+            <h1>Tu negocio, <em>digital</em><br>desde hoy.</h1>
+            <p>Sitios web, menús digitales y sistemas a medida. Hechos acá, con atención directa. Sin intermediarios, sin vueltas.</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/5492901410793?text=Hola,%20quiero%20consultar%20sobre%20servicios%20web" class="btn-primary">Hablemos por WhatsApp</a>
+                <a href="demos/index.html" class="btn-secondary">Ver 5 demos de menú digital →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat">
+                <span class="stat-number">48hs</span>
+                <span class="stat-label">Tiempo de respuesta máximo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">$0</span>
+                <span class="stat-label">Costo de la primera consulta</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Local. Hecho en Ushuaia.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+        <div class="container">
+            <h2>Lo que hacemos</h2>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <span class="service-icon">🌐</span>
+                    <h3>Sitios web</h3>
+                    <p>Armamos tu sitio desde cero. Que aparezca en Google, que cargue rápido, que se vea bien en el celular.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <span class="service-icon">📺</span>
+                    <h3>Menú Digital</h3>
+                    <p>Una pantalla con tus platos, precios y promos. Actualizás todo desde el celular. Sin impresiones, sin errores.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <span class="service-icon">⚙️</span>
+                    <h3>Sistemas a medida</h3>
+                    <p>Gestión de turnos, reservas, stock. ¿Necesitás algo específico? Lo armamos para vos.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <span class="service-icon">🖥️</span>
+                    <h3>Hosting y dominios</h3>
+                    <p>Tu sitio queda alojado en nuestros servidores. No tenés que contratar nada aparte.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <span class="service-icon">🔧</span>
+                    <h3>Mantenimiento</h3>
+                    <p>¿Querés cambiar algo? Nos avisás y lo hacemos. Sin vueltas ni tickets de soporte.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <span class="service-icon">💬</span>
+                    <h3>Soporte directo</h3>
+                    <p>Un mensaje por WhatsApp y listo. Nada de esperar 72 horas hábiles por algo urgente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENÚ DIGITAL SHOWCASE -->
+    <section class="menu-digital-section" id="menu-digital">
+        <div class="container">
+            <div class="menu-digital-grid">
+                <div class="menu-digital-text">
+                    <span class="menu-digital-badge">⚡ Producto estrella</span>
+                    <h2>Menú digital para tu TV</h2>
+                    <p>Una pantalla en tu negocio con tus productos, precios y promos. Rota sola, se ve desde lejos y no necesitás tocar nada.</p>
+                    <ul class="menu-digital-features">
+                        <li>Funciona en cualquier Smart TV o monitor</li>
+                        <li>Las categorías rotan automáticamente</li>
+                        <li>Diseño profesional adaptado a tu rubro</li>
+                        <li>Actualizás precios desde el celular</li>
+                        <li>Reloj en vivo y promos del día siempre visibles</li>
+                    </ul>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+                        <a href="demos/index.html" class="btn-primary" style="background: var(--orange); border-color: var(--orange);">Ver los 4 demos →</a>
+                        <a href="https://wa.me/5492901410793?text=Hola,%20quiero%20saber%20más%20sobre%20el%20menú%20digital" class="btn-primary">Quiero el mío</a>
+                    </div>
+                </div>
+                <div class="menu-mockup-wrapper">
+                    <p class="menu-mockup-label">4 demos disponibles — hacé click para verlos</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        <a href="demos/cafeteria.html" target="_blank" style="text-decoration:none;" title="Demo Cafetería">
+                            <div style="background:#2c1a0e; border-radius:10px; padding:16px; border:1px solid rgba(200,135,78,0.3); transition:all 0.2s; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(200,135,78,0.7)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(200,135,78,0.3)'">
+                                <span style="font-size:28px;">☕</span>
+                                <span style="font-size:11px; font-weight:700; color:#c8874e; letter-spacing:0.08em; text-transform:uppercase;">Cafetería</span>
+                                <span style="font-size:10px; color:rgba(255,255,255,0.4); text-align:center;">Tonos cálidos · Categorías</span>
+                            </div>
+                        </a>
+                        <a href="demos/barberia.html" target="_blank" style="text-decoration:none;" title="Demo Barbería">
+                            <div style="background:#0a0a0a; border-radius:10px; padding:16px; border:1px solid rgba(201,168,76,0.3); transition:all 0.2s; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(201,168,76,0.7)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(201,168,76,0.3)'">
+                                <span style="font-size:28px;">💈</span>
+                                <span style="font-size:11px; font-weight:700; color:#c9a84c; letter-spacing:0.08em; text-transform:uppercase;">Barbería</span>
+                                <span style="font-size:10px; color:rgba(255,255,255,0.4); text-align:center;">Oscuro & dorado · Servicios</span>
+                            </div>
+                        </a>
+                        <a href="demos/hamburgueseria.html" target="_blank" style="text-decoration:none;" title="Demo Hamburguesería">
+                            <div style="background:#0d0d0d; border-radius:10px; padding:16px; border:1px solid rgba(204,43,43,0.3); transition:all 0.2s; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(204,43,43,0.7)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(204,43,43,0.3)'">
+                                <span style="font-size:28px;">🍔</span>
+                                <span style="font-size:11px; font-weight:700; color:#ff3b3b; letter-spacing:0.08em; text-transform:uppercase;">Hamburguesería</span>
+                                <span style="font-size:10px; color:rgba(255,255,255,0.4); text-align:center;">Rojo & negro · Ticker</span>
+                            </div>
+                        </a>
+                        <a href="demos/taller.html" target="_blank" style="text-decoration:none;" title="Demo Taller Mecánico">
+                            <div style="background:#111418; border-radius:10px; padding:16px; border:1px solid rgba(249,115,22,0.3); transition:all 0.2s; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(249,115,22,0.7)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(249,115,22,0.3)'">
+                                <span style="font-size:28px;">🔧</span>
+                                <span style="font-size:11px; font-weight:700; color:#f97316; letter-spacing:0.08em; text-transform:uppercase;">Taller Mecánico</span>
+                                <span style="font-size:10px; color:rgba(255,255,255,0.4); text-align:center;">Industrial · Servicios</span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Demo extra: estilo visual / fondo claro -->
+                    <a href="demos/fastfood.html" target="_blank" style="text-decoration:none; display:block; margin-top:10px;" title="Demo Fast Food — Estilo Visual">
+                        <div style="background:#ffffff; border-radius:10px; padding:14px 16px; border:2px solid rgba(212,27,27,0.4); transition:all 0.2s; display:flex; align-items:center; gap:14px; cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='rgba(212,27,27,0.85)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(212,27,27,0.4)'">
+                            <span style="font-size:28px;">🍔</span>
+                            <div>
+                                <span style="font-size:11px; font-weight:700; color:#d41b1b; letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:3px;">Fast Food · Estilo Visual ★ NUEVO</span>
+                                <span style="font-size:10px; color:#888;">Fondo blanco · Grilla con números rojos · Estilo McDonald's</span>
+                            </div>
+                        </div>
+                    </a>
+                    <p style="text-align:center; margin-top:12px; font-size:11px; color:rgba(255,255,255,0.2); letter-spacing:0.06em;">CLICK PARA VER A PANTALLA COMPLETA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRECIOS -->
+    <section id="precios">
+        <div class="container">
+            <h2>Precios claros, sin sorpresas</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <p class="pricing-name">Básico</p>
+                    <div class="pricing-price">$18.000<span>/mes</span></div>
+                    <p class="pricing-desc">Para negocios que arrancan. Un menú, actualizable desde el celular.</p>
+                    <ul class="pricing-features">
+                        <li>1 pantalla / URL</li>
+                        <li>Hasta 30 productos</li>
+                        <li>Sin límite de categorías</li>
+                        <li>Soporte por WhatsApp</li>
+                        <li class="muted">Sin imágenes de productos</li>
+                        <li class="muted">Sin personalización de colores</li>
+                    </ul>
+                    <a href="https://wa.me/5492901410793?text=Quiero%20el%20plan%20Básico" class="btn-outline">Consultar</a>
+                </div>
+                <div class="pricing-card featured fade-in">
+                    <div class="pricing-badge">Más elegido</div>
+                    <p class="pricing-name">Pro</p>
+                    <div class="pricing-price">$45.000<span>/mes</span></div>
+                    <p class="pricing-desc">Para locales con identidad. Diseño a medida y todo lo que necesitás.</p>
+                    <ul class="pricing-features">
+                        <li>Hasta 10 pantallas únicas / URLs</li>
+                        <li>Productos ilimitados</li>
+                        <li>Imágenes de productos</li>
+                        <li>Colores y logo personalizados</li>
+                        <li>Soporte prioritario</li>
+                        <li>Actualizaciones en tiempo real</li>
+                    </ul>
+                    <a href="https://wa.me/5492901410793?text=Quiero%20el%20plan%20Pro" class="btn-filled">Quiero este plan</a>
+                </div>
+                <div class="pricing-card fade-in">
+                    <p class="pricing-name">Personalizado</p>
+                    <div class="pricing-price">Contactanos</div>
+                    <p class="pricing-desc">Somos flexibles y nos podemos adaptar a tus planes.</p>
+                    <ul class="pricing-features">
+                        <li>Contanos cuales son tus planes y te decimos como podemos ayudarte.</li>
+                       </ul>
+                    <a href="https://wa.me/5492901410793?text=Quiero%20atencion%20personalizada" class="btn-outline">Consultar</a>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top: 32px; color: var(--muted); font-size: 14px;">¿Tenes dudas sobre que opción elegir? <a href="https://wa.me/5492901410793" style="color: var(--green); font-weight: 600;">Hablemos y te asesoramos gratis.</a></p>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="testimonios-section">
+        <div class="container">
+            <h2>Lo que dicen nuestros clientes</h2>
+            <div class="testimonios-grid">
+                <div class="testimonial fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">Antes imprimíamos la carta cada vez que cambiaban los precios. Ahora lo actualizo desde el celular en dos minutos. Un cambio enorme para el local.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🍕</div>
+                        <div>
+                            <div class="author-name">Marcela R.</div>
+                            <div class="author-business">Pizzería La Ruta, Tolhuin</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">Pusimos pantallas en la vidriera con los precios actualizados en tiempo real y recibimos más consultas</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🏔️</div>
+                        <div>
+                            <div class="author-name">Pablo V.</div>
+                            <div class="author-business">Excursiones Tierra del Fuego</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="benefits-section">
+        <div class="container">
+            <h2>Por qué elegirnos</h2>
+            <ul class="benefits-list">
+                <li class="fade-in">
+                    <strong>Estamos acá</strong>
+                    <span>Somos de Ushuaia. Si hace falta, nos juntamos a tomar un café y lo resolvemos en persona.</span>
+                </li>
+                <li class="fade-in">
+                    <strong>Respondemos rápido</strong>
+                    <span>Un mensaje por WhatsApp y listo. No te dejamos colgado esperando días por algo urgente.</span>
+                </li>
+                <li class="fade-in">
+                    <strong>Vos no tocás nada técnico</strong>
+                    <span>De dominios, servidores y actualizaciones nos encargamos nosotros. Vos te enfocás en tu negocio.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- PARA QUIÉN -->
+    <section class="for-who" id="para-quien">
+        <div class="container">
+            <h2>¿Para quién es este servicio?</h2>
+            <div class="who-grid">
+                <div class="who-item fade-in">
+                    <span class="who-icon">🍽️</span>
+                    <h3>Comercios y restós</h3>
+                    <p>Tiendas, restaurantes, cafés, bares. Que la gente te encuentre en Google y vea tu menú actualizado.</p>
+                </div>
+                <div class="who-item fade-in">
+                    <span class="who-icon">👨‍⚕️</span>
+                    <h3>Profesionales</h3>
+                    <p>Médicos, abogados, contadores. Una web simple que muestre quién sos y cómo contactarte.</p>
+                </div>
+                <div class="who-item fade-in">
+                    <span class="who-icon">🏔️</span>
+                    <h3>Turismo</h3>
+                    <p>Cabañas, excursiones, transfers. Que el turista te encuentre antes de llegar a Ushuaia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2>Preguntas frecuentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Necesito conocimientos técnicos para usar el menú digital?
+                        <span class="faq-arrow">▾</span>
+                    </div>
+                    <div class="faq-answer">Para nada. Lo configuramos nosotros y te enseñamos a usarlo en 10 minutos. Solo necesitás el celular para actualizar los precios.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Funciona en cualquier televisor?
+                        <span class="faq-arrow">▾</span>
+                    </div>
+                    <div class="faq-answer">Sí. Cualquier Smart TV con navegador. También funciona en tablets o monitores conectados a una computadora o chromecast.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cuánto tarda en estar listo?
+                        <span class="faq-arrow">▾</span>
+                    </div>
+                    <div class="faq-answer">Un menú digital básico lo tenés listo en 48 a 72 horas. Un sitio web completo en 5 a 7 días hábiles.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Qué pasa si quiero cambiar algo después?
+                        <span class="faq-arrow">▾</span>
+                    </div>
+                    <div class="faq-answer">Nos escribís por WhatsApp y lo resolvemos. Cambios menores sin costo adicional, cambios grandes los presupuestamos juntos.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Tienen contrato o puedo cancelar cuando quiero?
+                        <span class="faq-arrow">▾</span>
+                    </div>
+                    <div class="faq-answer">Sin contrato de permanencia. Podés cancelar cuando quieras. Preferimos que te quedes porque el servicio vale, no por obligación.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>¿Arrancamos?</h2>
+            <p>Primera consulta sin costo. Nos contás qué necesitás y te decimos exactamente cómo lo hacemos y cuánto sale.</p>
+            <a href="https://wa.me/5492901410793?text=Hola,%20quiero%20empezar%20con%20mi%20proyecto%20digital" class="btn-white">Escribinos ahora →</a>
+            <p class="cta-guarantee">Sin compromiso. Te respondemos en menos de 24 horas.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-links">
+            <a href="#servicios">Servicios</a>
+            <a href="#precios">Precios</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://wa.me/5492901410793">WhatsApp</a>
+        </div>
+        <p>&copy; 2026 Ushuaia Local. Servicios digitales para negocios locales.</p>
+    </footer>
+
+    <script>
+        // ===== FAQ =====
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        // ===== FADE IN ON SCROLL =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demos de Menú Digital para TV — Ushuaia Local</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #0f5132;
+            --green-light: #e8f4ee;
+            --orange: #d97346;
+            --ink: #0a0a0a;
+            --muted: #525252;
+            --border: rgba(0,0,0,0.07);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f8f8f6;
+            color: var(--ink);
+        }
+
+        /* HEADER */
+        .header {
+            background: var(--green);
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .back-link {
+            font-size: 13px;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #fff; }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 72px 24px 60px;
+            background: linear-gradient(180deg, #fff 0%, #f8f8f6 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(15,81,50,0.15);
+        }
+        .badge span {
+            width: 6px; height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            display: inline-block;
+        }
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 44px;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: 18px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        h1 em { font-style: italic; color: var(--green); }
+        .hero-desc {
+            font-size: 17px;
+            color: var(--muted);
+            max-width: 560px;
+            margin: 0 auto 8px;
+            line-height: 1.65;
+        }
+        .hero-note {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 8px;
+        }
+
+        /* GRID */
+        .demos-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 56px 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+        @media (min-width: 1100px) {
+            .demos-wrap { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* CARD */
+        .demo-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            text-decoration: none;
+            color: inherit;
+        }
+        .demo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+        }
+
+        /* TV PREVIEW FRAME */
+        .tv-frame {
+            margin: 20px 20px 0;
+            background: #1a1a1a;
+            border-radius: 12px 12px 0 0;
+            border: 2px solid #2a2a2a;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 6px #141414;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+        /* TV stand */
+        .tv-frame::after {
+            content: '';
+            display: block;
+            height: 0;
+        }
+        .tv-stand {
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tv-stand-neck {
+            width: 40px;
+            height: 14px;
+            background: #1a1a1a;
+            border-left: 2px solid #2a2a2a;
+            border-right: 2px solid #2a2a2a;
+        }
+        .tv-stand-base {
+            width: 100px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 0 0 4px 4px;
+            border: 2px solid #2a2a2a;
+            border-top: none;
+        }
+
+        /* SCREEN PREVIEW */
+        .screen-preview {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* CAFETERÍA preview */
+        .prev-cafe .sp-header { background: #2c1a0e; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-cafe .sp-header-name { color: #faf0e6; font-size: 11px; font-weight: 600; }
+        .prev-cafe .sp-header-time { color: #c8874e; font-size: 10px; }
+        .prev-cafe .sp-cats { background: #1c0d04; padding: 4px 8px; display: flex; gap: 10px; flex-shrink: 0; }
+        .prev-cafe .sp-cat { font-size: 7px; color: rgba(250,240,230,0.4); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; padding: 2px 0; border-bottom: 1px solid transparent; }
+        .prev-cafe .sp-cat.act { color: #c8874e; border-bottom-color: #c8874e; }
+        .prev-cafe .sp-main { flex: 1; display: grid; grid-template-columns: 36% 64%; }
+        .prev-cafe .sp-feat { background: linear-gradient(145deg, #2c1a0e, #3b1a08); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; }
+        .prev-cafe .sp-feat-emoji { font-size: 22px; margin-bottom: 4px; }
+        .prev-cafe .sp-feat-name { color: #faf0e6; font-size: 7px; text-align: center; font-weight: 600; margin-bottom: 2px; }
+        .prev-cafe .sp-feat-price { color: #c8874e; font-size: 12px; font-weight: 700; }
+        .prev-cafe .sp-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px; background: #111; }
+        .prev-cafe .sp-item { background: #2c1a0e; display: flex; flex-direction: column; padding: 5px 6px; }
+        .prev-cafe .sp-item:nth-child(even) { background: #1c0d04; }
+        .prev-cafe .sp-item-e { font-size: 10px; margin-bottom: 2px; }
+        .prev-cafe .sp-item-n { color: rgba(250,240,230,0.8); font-size: 6px; font-weight: 600; margin-bottom: 1px; }
+        .prev-cafe .sp-item-p { color: #c8874e; font-size: 9px; font-weight: 700; }
+        .prev-cafe .sp-footer { background: #2c1a0e; padding: 4px 8px; display: flex; gap: 8px; flex-shrink: 0; border-top: 1px solid rgba(200,135,78,0.2); }
+        .prev-cafe .sp-footer-item { color: rgba(250,240,230,0.45); font-size: 6px; }
+        .prev-cafe .sp-footer-item strong { color: rgba(250,240,230,0.8); }
+
+        /* BARBERÍA preview */
+        .prev-bar .sp-header { background: #101010; border-bottom: 1px solid #c9a84c; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-bar .sp-brand { color: #f0ece4; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; }
+        .prev-bar .sp-brand span { color: #c9a84c; }
+        .prev-bar .sp-clk { color: #c9a84c; font-size: 11px; font-weight: 300; }
+        .prev-bar .sp-main { flex: 1; display: grid; grid-template-columns: 52% 48%; }
+        .prev-bar .sp-svcs { background: #0a0a0a; border-right: 1px solid rgba(201,168,76,0.14); padding: 5px 8px; display: flex; flex-direction: column; gap: 2px; }
+        .prev-bar .sp-svc-title { font-size: 6px; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; border-bottom: 1px solid rgba(201,168,76,0.15); padding-bottom: 3px; margin-bottom: 3px; }
+        .prev-bar .sp-svc { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .prev-bar .sp-svc-name { color: rgba(240,236,228,0.8); font-size: 7px; font-weight: 500; }
+        .prev-bar .sp-svc-price { color: #c9a84c; font-size: 8px; font-weight: 700; }
+        .prev-bar .sp-right { background: #0a0a0a; display: grid; grid-template-rows: 50% 50%; }
+        .prev-bar .sp-team { border-bottom: 1px solid rgba(201,168,76,0.14); padding: 5px 8px; }
+        .prev-bar .sp-team-title { font-size: 6px; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 4px; }
+        .prev-bar .sp-barbers { display: flex; gap: 4px; }
+        .prev-bar .sp-barber { flex: 1; background: #181818; border: 1px solid rgba(201,168,76,0.14); border-radius: 3px; padding: 4px; text-align: center; }
+        .prev-bar .sp-barber-name { color: rgba(240,236,228,0.8); font-size: 6px; font-weight: 600; }
+        .prev-bar .sp-barber-av { font-size: 5px; color: #6fdb6f; margin-top: 1px; }
+        .prev-bar .sp-barber-av.no { color: rgba(240,236,228,0.3); }
+        .prev-bar .sp-promo { background: linear-gradient(135deg, #9b1c1c, #6b1010); padding: 8px; display: flex; flex-direction: column; justify-content: center; }
+        .prev-bar .sp-promo-label { font-size: 6px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+        .prev-bar .sp-promo-title { color: #fff; font-size: 8px; font-weight: 700; margin-bottom: 3px; }
+        .prev-bar .sp-promo-price { color: #fff; font-size: 14px; font-weight: 700; }
+        .prev-bar .sp-footer { background: #101010; border-top: 1px solid #c9a84c; padding: 4px 8px; display: flex; gap: 10px; flex-shrink: 0; }
+        .prev-bar .sp-fi { color: rgba(240,236,228,0.4); font-size: 6px; }
+        .prev-bar .sp-fi strong { color: rgba(240,236,228,0.8); }
+
+        /* BURGER preview */
+        .prev-bur .sp-ticker { background: #cc2b2b; padding: 2px 6px; font-size: 5px; color: #fff; letter-spacing: 0.08em; font-weight: 600; white-space: nowrap; overflow: hidden; flex-shrink: 0; }
+        .prev-bur .sp-header { background: #111; border-bottom: 2px solid #cc2b2b; padding: 5px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-bur .sp-brand { color: #f5f5f5; font-size: 10px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+        .prev-bur .sp-clk { color: #f5f5f5; font-size: 11px; font-weight: 900; }
+        .prev-bur .sp-main { flex: 1; display: grid; grid-template-columns: 38% 62%; }
+        .prev-bur .sp-feat { background: linear-gradient(145deg, #1a0505, #0a0a0a); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; position: relative; }
+        .prev-bur .sp-feat-emoji { font-size: 28px; margin-bottom: 4px; }
+        .prev-bur .sp-feat-name { color: #f5f5f5; font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; margin-bottom: 2px; }
+        .prev-bur .sp-feat-price { color: #ff3b3b; font-size: 14px; font-weight: 900; }
+        .prev-bur .sp-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px; background: #0a0a0a; }
+        .prev-bur .sp-item { background: #111; display: flex; flex-direction: column; padding: 5px 6px; }
+        .prev-bur .sp-item:nth-child(even) { background: #1a1a1a; }
+        .prev-bur .sp-item-e { font-size: 12px; margin-bottom: 2px; }
+        .prev-bur .sp-item-n { color: #f5f5f5; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1px; }
+        .prev-bur .sp-item-p { color: #ff3b3b; font-size: 10px; font-weight: 900; }
+        .prev-bur .sp-footer { background: #111; border-top: 2px solid #cc2b2b; padding: 4px 8px; display: flex; gap: 8px; flex-shrink: 0; }
+        .prev-bur .sp-fi { color: rgba(245,245,245,0.35); font-size: 6px; }
+        .prev-bur .sp-fi strong { color: rgba(245,245,245,0.8); }
+
+        /* TALLER preview */
+        .prev-tal .sp-urg { background: #ef4444; padding: 3px 6px; font-size: 6px; color: #fff; font-weight: 600; letter-spacing: 0.06em; display: flex; justify-content: center; flex-shrink: 0; }
+        .prev-tal .sp-header { background: #141920; border-bottom: 2px solid #f97316; padding: 5px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-tal .sp-brand { color: #e8edf5; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+        .prev-tal .sp-clk { color: #fb923c; font-size: 11px; font-weight: 700; }
+        .prev-tal .sp-main { flex: 1; display: grid; grid-template-columns: 28% 72%; }
+        .prev-tal .sp-sidebar { background: #141920; border-right: 1px solid #f97316; padding: 5px 6px; display: flex; flex-direction: column; gap: 1px; }
+        .prev-tal .sp-scat { padding: 3px 4px; border-left: 2px solid transparent; }
+        .prev-tal .sp-scat.act { background: rgba(249,115,22,0.08); border-left-color: #f97316; }
+        .prev-tal .sp-scat-name { color: rgba(232,237,245,0.5); font-size: 6.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+        .prev-tal .sp-scat.act .sp-scat-name { color: #e8edf5; }
+        .prev-tal .sp-area { padding: 5px 8px; display: flex; flex-direction: column; }
+        .prev-tal .sp-area-title { color: #e8edf5; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+        .prev-tal .sp-sgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px; flex: 1; }
+        .prev-tal .sp-sc { background: #1b222d; border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 4px; display: flex; flex-direction: column; }
+        .prev-tal .sp-sc-e { font-size: 10px; margin-bottom: 2px; }
+        .prev-tal .sp-sc-n { color: rgba(232,237,245,0.85); font-size: 6px; font-weight: 700; text-transform: uppercase; margin-bottom: 1px; }
+        .prev-tal .sp-sc-p { color: #f97316; font-size: 9px; font-weight: 700; margin-top: auto; }
+        .prev-tal .sp-footer { background: #141920; border-top: 2px solid #f97316; padding: 4px 8px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; flex-shrink: 0; }
+        .prev-tal .sp-fi { }
+        .prev-tal .sp-fi-l { color: #f97316; font-size: 5px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; display: block; }
+        .prev-tal .sp-fi-v { color: rgba(232,237,245,0.8); font-size: 6.5px; font-weight: 500; }
+
+        /* CARD BODY */
+        .card-body {
+            padding: 24px 28px 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-type {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .card-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+        .feat-chip {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #f2f2f0;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: gap 0.2s;
+        }
+        .demo-card:hover .card-link { gap: 12px; }
+
+        /* Colors per type */
+        .card-cafe    .card-type { color: #7a4520; }
+        .card-cafe    .card-link { color: #7a4520; }
+        .card-barberia .card-type { color: #9b7a1a; }
+        .card-barberia .card-link { color: #9b7a1a; }
+        .card-burger  .card-type { color: #b52020; }
+        .card-burger  .card-link { color: #b52020; }
+        .card-taller  .card-type { color: #c85c10; }
+        .card-taller  .card-link { color: #c85c10; }
+        .card-fastfood .card-type { color: #b52020; }
+        .card-fastfood .card-link { color: #b52020; }
+
+        /* FAST FOOD (bright) preview */
+        .prev-ff {
+            background: #fff;
+            display: grid;
+            grid-template-rows: 60% 27% 13%;
+        }
+        .prev-ff .sp-main { display: grid; grid-template-columns: 64% 36%; border-bottom: 1px solid #e2e2e2; }
+        /* Left panel */
+        .prev-ff .sp-left { position: relative; padding: 18px 8px 6px; display: flex; flex-direction: column; border-right: 1px solid #e2e2e2; }
+        .prev-ff .sp-badge { position: absolute; top: 0; left: 0; background: #d41b1b; color: #fff; font-size: 9px; font-weight: 900; letter-spacing: 0.08em; padding: 3px 9px 3px 5px; border-bottom-right-radius: 8px; z-index: 2; }
+        .prev-ff .sp-cat { position: absolute; top: 0; right: 5px; background: #111; color: rgba(255,255,255,0.8); font-size: 5px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 6px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; z-index: 2; }
+        .prev-ff .sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px 3px; flex: 1; }
+        .prev-ff .sp-item { display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #e8e8e8; border-radius: 5px; padding: 2px 2px 3px; position: relative; }
+        .prev-ff .sp-num { position: absolute; top: -4px; left: 3px; width: 8px; height: 8px; background: #d41b1b; color: #fff; border-radius: 50%; font-size: 4.5px; font-weight: 900; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; }
+        .prev-ff .sp-emoji { font-size: 10px; line-height: 1; margin-bottom: 1px; }
+        .prev-ff .sp-name { font-size: 4.5px; font-weight: 700; color: #111; letter-spacing: 0.02em; margin-bottom: 1px; }
+        .prev-ff .sp-price { font-size: 5px; font-weight: 900; color: #d41b1b; }
+        /* Right panel */
+        .prev-ff .sp-right { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; text-align: center; }
+        .prev-ff .sp-feat-emoji { font-size: 26px; line-height: 1; margin-bottom: 3px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .prev-ff .sp-feat-name { font-size: 7px; font-weight: 900; color: #111; letter-spacing: 0.04em; margin-bottom: 1px; }
+        .prev-ff .sp-feat-sub { font-size: 4px; color: #666; margin-bottom: 2px; }
+        .prev-ff .sp-feat-price { font-size: 13px; font-weight: 900; color: #d41b1b; line-height: 1; margin-bottom: 3px; }
+        .prev-ff .sp-divider { width: 70%; height: 1px; background: #e2e2e2; margin-bottom: 2px; }
+        .prev-ff .sp-brand { font-family: Georgia, serif; font-style: italic; font-size: 6px; color: #d41b1b; }
+        /* Beverages */
+        .prev-ff .sp-bev { background: #1a1a1a; display: grid; grid-template-columns: auto 1fr; }
+        .prev-ff .sp-bev-title { background: #111; border-right: 1px solid #2e2e2e; display: flex; align-items: center; justify-content: center; padding: 0 6px; font-size: 6px; font-weight: 900; letter-spacing: 0.12em; color: #fff; }
+        .prev-ff .sp-bev-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 3px 6px; gap: 2px 4px; align-content: center; }
+        .prev-ff .sp-bev-item { display: flex; justify-content: space-between; align-items: center; }
+        .prev-ff .sp-bev-name { font-size: 4px; font-weight: 700; color: rgba(255,255,255,0.8); text-transform: uppercase; }
+        .prev-ff .sp-bev-price { font-size: 5px; font-weight: 900; color: #ffcc00; }
+        /* Footer */
+        .prev-ff .sp-footer { background: #111; border-top: 2px solid #d41b1b; display: flex; align-items: center; justify-content: space-between; padding: 2px 6px; }
+        .prev-ff .sp-fi { color: rgba(255,255,255,0.6); font-size: 4.5px; font-weight: 600; }
+        .prev-ff .sp-clock { color: #fff; font-size: 9px; font-weight: 900; }
+
+        /* CTA */
+        .cta-section {
+            background: var(--green);
+            text-align: center;
+            padding: 72px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 400px; height: 400px;
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+        .cta-section .container { position: relative; z-index: 1; }
+        .cta-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 36px;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 14px;
+        }
+        .cta-section p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn-white {
+            display: inline-block;
+            background: #fff;
+            color: var(--green);
+            padding: 16px 36px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-white:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+        }
+        .cta-note {
+            margin-top: 16px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        footer {
+            background: var(--ink);
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+        }
+        footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+        footer a:hover { color: #fff; }
+
+        @media (max-width: 768px) {
+            .demos-wrap { grid-template-columns: 1fr; padding: 32px 16px; }
+            h1 { font-size: 32px; }
+            .header { padding: 16px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <a href="../index.html" class="logo">Ushuaia Local</a>
+        <a href="../index.html" class="back-link">← Volver al sitio</a>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="badge"><span></span> Menús digitales para TV</div>
+        <h1>Así se ve tu negocio<br><em>en pantalla grande</em></h1>
+        <p class="hero-desc">Pantallas diseñadas para TVs y monitores. El contenido rota solo, el cliente lo ve sin tocar nada. Cada rubro con un estilo propio.</p>
+        <p class="hero-note">Hacé click en cada demo para verla a pantalla completa →</p>
+    </div>
+
+    <!-- DEMOS -->
+    <div class="demos-wrap">
+
+        <!-- CAFETERÍA -->
+        <a href="cafeteria.html" target="_blank" class="demo-card card-cafe">
+            <div class="tv-frame">
+                <div class="screen-preview prev-cafe">
+                    <div class="sp-header">
+                        <span class="sp-header-name">☕ La Cumbre Café</span>
+                        <span class="sp-header-time">14:32</span>
+                    </div>
+                    <div class="sp-cats">
+                        <span class="sp-cat act">☕ Cafés</span>
+                        <span class="sp-cat">🧊 Fríos</span>
+                        <span class="sp-cat">🥐 Pastelería</span>
+                        <span class="sp-cat">🥪 Sandwiches</span>
+                    </div>
+                    <div class="sp-main">
+                        <div class="sp-feat">
+                            <div class="sp-feat-emoji">☕</div>
+                            <div class="sp-feat-name">Cappuccino Clásico</div>
+                            <div class="sp-feat-price">$1.200</div>
+                        </div>
+                        <div class="sp-grid">
+                            <div class="sp-item"><div class="sp-item-e">🥛</div><div class="sp-item-n">Flat White</div><div class="sp-item-p">$1.350</div></div>
+                            <div class="sp-item"><div class="sp-item-e">☕</div><div class="sp-item-n">Americano</div><div class="sp-item-p">$980</div></div>
+                            <div class="sp-item"><div class="sp-item-e">🍫</div><div class="sp-item-n">Mochaccino</div><div class="sp-item-p">$1.450</div></div>
+                            <div class="sp-item"><div class="sp-item-e">☕</div><div class="sp-item-n">Cortado</div><div class="sp-item-p">$900</div></div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <span class="sp-footer-item">📍 <strong>San Martín 842</strong></span>
+                        <span class="sp-footer-item">📶 <strong>WiFi: LaCumbre2024</strong></span>
+                        <span class="sp-footer-item">⭐ <strong>Especial: Flat White + Medialunas $2.800</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type">Cafetería</div>
+                <div class="card-name">La Cumbre Café</div>
+                <div class="card-desc">Estilo cálido y elegante, tonos espresso y caramel. Rota automáticamente entre cafés, bebidas frías, pastelería y sandwiches.</div>
+                <div class="card-features">
+                    <span class="feat-chip">🔄 Rota sola</span>
+                    <span class="feat-chip">🕐 Reloj en vivo</span>
+                    <span class="feat-chip">⭐ Especial del día</span>
+                    <span class="feat-chip">📶 Info WiFi</span>
+                </div>
+                <div class="card-link">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+        <!-- BARBERÍA -->
+        <a href="barberia.html" target="_blank" class="demo-card card-barberia">
+            <div class="tv-frame">
+                <div class="screen-preview prev-bar">
+                    <div class="sp-header">
+                        <span class="sp-brand">Barbería <span>El Filo</span></span>
+                        <span class="sp-clk">14:32</span>
+                    </div>
+                    <div class="sp-main">
+                        <div class="sp-svcs">
+                            <div class="sp-svc-title">✂️ Cortes de cabello</div>
+                            <div class="sp-svc"><span class="sp-svc-name">Corte Clásico</span><span class="sp-svc-price">$4.500</span></div>
+                            <div class="sp-svc"><span class="sp-svc-name">Fade / Moderno</span><span class="sp-svc-price">$5.800</span></div>
+                            <div class="sp-svc"><span class="sp-svc-name">Corte + Barba</span><span class="sp-svc-price">$7.500</span></div>
+                            <div class="sp-svc"><span class="sp-svc-name">Rapado</span><span class="sp-svc-price">$3.500</span></div>
+                            <div class="sp-svc"><span class="sp-svc-name">Niños</span><span class="sp-svc-price">$3.200</span></div>
+                        </div>
+                        <div class="sp-right">
+                            <div class="sp-team">
+                                <div class="sp-team-title">👨 Equipo disponible hoy</div>
+                                <div class="sp-barbers">
+                                    <div class="sp-barber"><div>🧔</div><div class="sp-barber-name">Rodrigo</div><div class="sp-barber-av">✓ Libre</div></div>
+                                    <div class="sp-barber"><div>💈</div><div class="sp-barber-name">Lucas</div><div class="sp-barber-av">✓ Libre</div></div>
+                                    <div class="sp-barber"><div>✂️</div><div class="sp-barber-name">Tomás</div><div class="sp-barber-av no">Lleno</div></div>
+                                </div>
+                            </div>
+                            <div class="sp-promo">
+                                <div class="sp-promo-label">🔥 Promo Lun & Mar</div>
+                                <div class="sp-promo-title">Corte estudiantes</div>
+                                <div class="sp-promo-price">$3.200</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <span class="sp-fi">📍 <strong>Maipú 345</strong></span>
+                        <span class="sp-fi">🕐 <strong>Lun–Sáb 9–20hs</strong></span>
+                        <span class="sp-fi">💬 <strong>Turnos WhatsApp</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type">Barbería</div>
+                <div class="card-name">Barbería El Filo</div>
+                <div class="card-desc">Diseño oscuro y elegante con detalles dorados. Muestra servicios con precios, equipo disponible y la promo del día.</div>
+                <div class="card-features">
+                    <span class="feat-chip">🔄 Rota entre cortes y barba</span>
+                    <span class="feat-chip">👨 Disponibilidad del equipo</span>
+                    <span class="feat-chip">🔥 Promo del día</span>
+                </div>
+                <div class="card-link">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+        <!-- HAMBURGUESERÍA -->
+        <a href="hamburgueseria.html" target="_blank" class="demo-card card-burger">
+            <div class="tv-frame">
+                <div class="screen-preview prev-bur">
+                    <div class="sp-ticker">🍔 Martes 2x1 en Classic FDM · Delivery 25–40 min · Pedí por WhatsApp +54 9 2901 333-456</div>
+                    <div class="sp-header">
+                        <span class="sp-brand">🍔 Burger del Fin del Mundo</span>
+                        <span class="sp-clk">14:32</span>
+                    </div>
+                    <div class="sp-main">
+                        <div class="sp-feat">
+                            <div class="sp-feat-emoji">🍔</div>
+                            <div class="sp-feat-name">La Fueguina</div>
+                            <div class="sp-feat-price">$5.800</div>
+                        </div>
+                        <div class="sp-grid">
+                            <div class="sp-item"><div class="sp-item-e">🍔</div><div class="sp-item-n">La Antártida</div><div class="sp-item-p">$6.200</div></div>
+                            <div class="sp-item"><div class="sp-item-e">🍔</div><div class="sp-item-n">La Beagle</div><div class="sp-item-p">$6.500</div></div>
+                            <div class="sp-item"><div class="sp-item-e">🍔</div><div class="sp-item-n">Classic FDM</div><div class="sp-item-p">$4.800</div></div>
+                            <div class="sp-item"><div class="sp-item-e">🍄</div><div class="sp-item-n">La Verde</div><div class="sp-item-p">$4.500</div></div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <span class="sp-fi">📍 <strong>Yaganes 1204</strong></span>
+                        <span class="sp-fi">🕐 <strong>12–23hs</strong></span>
+                        <span class="sp-fi">🛵 <strong>Delivery disponible</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type">Hamburguesería</div>
+                <div class="card-name">Burger del Fin del Mundo</div>
+                <div class="card-desc">Diseño urbano y de alto contraste con rojo y negro. Ticker de promos en la parte superior y rotación entre burgers, combos y bebidas.</div>
+                <div class="card-features">
+                    <span class="feat-chip">📢 Ticker de promos</span>
+                    <span class="feat-chip">🔄 3 slides automáticas</span>
+                    <span class="feat-chip">🛵 Info delivery</span>
+                </div>
+                <div class="card-link">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+        <!-- FAST FOOD VISUAL (NUEVO — FONDO CLARO) -->
+        <a href="fastfood.html" target="_blank" class="demo-card card-fastfood">
+            <div class="tv-frame">
+                <div class="screen-preview prev-ff">
+                    <div class="sp-main">
+                        <div class="sp-left">
+                            <div class="sp-badge">MENÚ</div>
+                            <div class="sp-cat">Burgers Clásicas</div>
+                            <div class="sp-grid">
+                                <div class="sp-item"><div class="sp-num">1</div><div class="sp-emoji">🍔</div><div class="sp-name">Classic FDM</div><div class="sp-price">$4.800</div></div>
+                                <div class="sp-item"><div class="sp-num">2</div><div class="sp-emoji">🍔</div><div class="sp-name">Antártida</div><div class="sp-price">$6.200</div></div>
+                                <div class="sp-item"><div class="sp-num">3</div><div class="sp-emoji">🍔</div><div class="sp-name">La Beagle</div><div class="sp-price">$6.500</div></div>
+                                <div class="sp-item"><div class="sp-num">4</div><div class="sp-emoji">🍔</div><div class="sp-name">Fueguina</div><div class="sp-price">$5.800</div></div>
+                                <div class="sp-item"><div class="sp-num">5</div><div class="sp-emoji">🍄</div><div class="sp-name">La Verde</div><div class="sp-price">$4.500</div></div>
+                                <div class="sp-item"><div class="sp-num">6</div><div class="sp-emoji">🍔</div><div class="sp-name">La Gigante</div><div class="sp-price">$8.900</div></div>
+                                <div class="sp-item"><div class="sp-num">7</div><div class="sp-emoji">🥓</div><div class="sp-name">Bacon Lover</div><div class="sp-price">$7.200</div></div>
+                                <div class="sp-item"><div class="sp-num">8</div><div class="sp-emoji">🧀</div><div class="sp-name">Cheese X2</div><div class="sp-price">$6.800</div></div>
+                            </div>
+                        </div>
+                        <div class="sp-right">
+                            <div class="sp-feat-emoji">🍔</div>
+                            <div class="sp-feat-name">LA FUEGUINA</div>
+                            <div class="sp-feat-sub">Angus 200g · Cheddar</div>
+                            <div class="sp-feat-price">$5.800</div>
+                            <div class="sp-divider"></div>
+                            <div class="sp-brand">Burger del Fin del Mundo</div>
+                        </div>
+                    </div>
+                    <div class="sp-bev">
+                        <div class="sp-bev-title">BEBIDAS</div>
+                        <div class="sp-bev-grid">
+                            <div class="sp-bev-item"><span class="sp-bev-name">Coca-Cola</span><span class="sp-bev-price">$900</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Sprite</span><span class="sp-bev-price">$900</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Milkshake</span><span class="sp-bev-price">$2.400</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Birra Fueguina</span><span class="sp-bev-price">$1.600</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Agua mineral</span><span class="sp-bev-price">$700</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Fanta</span><span class="sp-bev-price">$900</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Americano</span><span class="sp-bev-price">$900</span></div>
+                            <div class="sp-bev-item"><span class="sp-bev-name">Limonada</span><span class="sp-bev-price">$1.300</span></div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <span class="sp-fi">📍 Yaganes 1204, Ushuaia</span>
+                        <span class="sp-fi">🛵 Delivery 25–40 min</span>
+                        <span class="sp-clock">14:32</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type" style="color:#b52020;">Fast Food · Estilo Visual</div>
+                <div class="card-name">Burger del Fin del Mundo</div>
+                <div class="card-desc">Estilo tipo McDonald's: fondo blanco, fotos grandes de productos, números en círculos rojos, sección de bebidas y datos del local. Rota entre 3 categorías.</div>
+                <div class="card-features">
+                    <span class="feat-chip">☀️ Fondo claro</span>
+                    <span class="feat-chip">🔢 Numeración visual</span>
+                    <span class="feat-chip">🔄 3 slides automáticas</span>
+                    <span class="feat-chip">🥤 Sección bebidas</span>
+                </div>
+                <div class="card-link" style="color:#b52020;">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+        <!-- TALLER -->
+        <a href="taller.html" target="_blank" class="demo-card card-taller">
+            <div class="tv-frame">
+                <div class="screen-preview prev-tal">
+                    <div class="sp-urg">🚨 URGENCIAS: +54 9 2901 667-890 · Lun–Sáb 8–20hs · Presupuesto sin cargo</div>
+                    <div class="sp-header">
+                        <span class="sp-brand">🔧 Mecánica Austral</span>
+                        <span class="sp-clk">14:32</span>
+                    </div>
+                    <div class="sp-main">
+                        <div class="sp-sidebar">
+                            <div class="sp-scat act"><div class="sp-scat-name">🛢️ Mantenimiento</div></div>
+                            <div class="sp-scat"><div class="sp-scat-name">🛑 Frenos</div></div>
+                            <div class="sp-scat"><div class="sp-scat-name">🔩 Suspensión</div></div>
+                            <div class="sp-scat"><div class="sp-scat-name">⚡ Electricidad</div></div>
+                        </div>
+                        <div class="sp-area">
+                            <div class="sp-area-title">🛢️ Mantenimiento</div>
+                            <div class="sp-sgrid">
+                                <div class="sp-sc"><div class="sp-sc-e">🛢️</div><div class="sp-sc-n">Cambio aceite</div><div class="sp-sc-p">$8.500</div></div>
+                                <div class="sp-sc"><div class="sp-sc-e">🔧</div><div class="sp-sc-n">Service 10.000km</div><div class="sp-sc-p">$24.000</div></div>
+                                <div class="sp-sc"><div class="sp-sc-e">⚡</div><div class="sp-sc-n">Revisión batería</div><div class="sp-sc-p">$4.200</div></div>
+                                <div class="sp-sc"><div class="sp-sc-e">🔩</div><div class="sp-sc-n">Cambio bujías</div><div class="sp-sc-p">$6.800</div></div>
+                                <div class="sp-sc"><div class="sp-sc-e">💧</div><div class="sp-sc-n">Refrigerante</div><div class="sp-sc-p">$3.500</div></div>
+                                <div class="sp-sc"><div class="sp-sc-e">🌬️</div><div class="sp-sc-n">Filtros cabina</div><div class="sp-sc-p">$2.800</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <div class="sp-fi"><span class="sp-fi-l">Dirección</span><span class="sp-fi-v">Belgrano 1570</span></div>
+                        <div class="sp-fi"><span class="sp-fi-l">Horario</span><span class="sp-fi-v">Lun–Sáb 8–20hs</span></div>
+                        <div class="sp-fi"><span class="sp-fi-l">Garantía</span><span class="sp-fi-v">90 días escritos</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type">Taller Mecánico</div>
+                <div class="card-name">Mecánica Austral</div>
+                <div class="card-desc">Estilo industrial con gris oscuro y naranja. Barra roja de urgencias, sidebar con categorías y grilla de servicios con precios que rota sola.</div>
+                <div class="card-features">
+                    <span class="feat-chip">🚨 Barra de urgencias</span>
+                    <span class="feat-chip">🔄 4 categorías rotativas</span>
+                    <span class="feat-chip">💰 Precios visibles</span>
+                </div>
+                <div class="card-link">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <div class="container">
+            <h2>¿Querés uno así para tu negocio?</h2>
+            <p>Lo armamos con tus productos, tus precios, tus colores y tu logo. En 48–72 horas listo para poner en tu TV.</p>
+            <a href="https://wa.me/5492901410793?text=Hola,%20vi%20los%20demos%20y%20quiero%20un%20menú%20digital%20para%20TV%20para%20mi%20negocio" class="btn-white">Hablemos por WhatsApp →</a>
+            <p class="cta-note">Primera consulta gratis. Sin compromiso.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Demos creados por <a href="../index.html">Ushuaia Local</a> · Soluciones digitales para negocios en Ushuaia</p>
+    </footer>
+
+</body>
+</html>
