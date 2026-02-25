@@ -6,6 +6,7 @@
     <title>Barbería El Filo — Servicios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --bg:    #080808;
@@ -265,14 +266,12 @@
             width: 6vh;
             height: 6vh;
             border-radius: 50%;
-            background: var(--bg2);
             border: 2px solid var(--bdr);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3vh;
+            overflow: hidden;
             margin-bottom: 1vh;
+            flex-shrink: 0;
         }
+        .barber-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
         .barber-name {
             font-size: 1.8vh;
             font-weight: 600;
@@ -433,7 +432,7 @@
     <!-- HEADER -->
     <header class="header">
         <div class="brand">
-            <div class="brand-icon">💈</div>
+            <div class="brand-icon"><i class="fa-solid fa-scissors"></i></div>
             <div>
                 <div class="brand-name">Barbería <span>El Filo</span></div>
                 <span class="brand-tagline">El arte del buen corte · Est. 2017</span>
@@ -441,7 +440,7 @@
         </div>
         <div class="header-center">
             <div class="open-pill">Abierto ahora</div>
-            <div class="header-loc">📍 <strong>Maipú 345</strong> · Ushuaia</div>
+            <div class="header-loc"><i class="fa-solid fa-location-dot"></i> <strong>Maipú 345</strong> · Ushuaia</div>
         </div>
         <div class="clock-wrap">
             <div class="clock" id="clock">00:00</div>
@@ -454,7 +453,7 @@
 
         <!-- SERVICES -->
         <div class="services-panel">
-            <div class="panel-title" id="panel-title">✂️ Cortes de cabello</div>
+            <div class="panel-title" id="panel-title"><i class="fa-solid fa-scissors"></i> Cortes de cabello</div>
             <div class="service-list slide-fade" id="svc-list"></div>
             <div class="cat-dots" id="cat-dots"></div>
         </div>
@@ -464,22 +463,22 @@
 
             <!-- TEAM -->
             <div class="team-section">
-                <div class="panel-title">👨 El equipo — Disponibilidad de hoy</div>
+                <div class="panel-title"><i class="fa-solid fa-users"></i> El equipo — Disponibilidad de hoy</div>
                 <div class="team-grid">
                     <div class="barber-card">
-                        <div class="barber-avatar">🧔</div>
+                        <div class="barber-avatar"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=200&h=200&fit=crop&q=80" alt="Rodrigo" loading="lazy"></div>
                         <div class="barber-name">Rodrigo</div>
                         <div class="barber-spec">Master Barber · Fades</div>
                         <div class="barber-avail avail-yes">✓ Disponible</div>
                     </div>
                     <div class="barber-card">
-                        <div class="barber-avatar">💈</div>
+                        <div class="barber-avatar"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=200&h=200&fit=crop&q=80" alt="Lucas" loading="lazy"></div>
                         <div class="barber-name">Lucas</div>
                         <div class="barber-spec">Barba & Afeitado</div>
                         <div class="barber-avail avail-yes">✓ Disponible</div>
                     </div>
                     <div class="barber-card">
-                        <div class="barber-avatar">✂️</div>
+                        <div class="barber-avatar"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&q=80" alt="Tomás" loading="lazy"></div>
                         <div class="barber-name">Tomás</div>
                         <div class="barber-spec">Diseño moderno</div>
                         <div class="barber-avail avail-no">Turno lleno</div>
@@ -489,7 +488,7 @@
 
             <!-- PROMO -->
             <div class="promo-section">
-                <div class="promo-badge">🔥 Promo de hoy — Lunes & Martes</div>
+                <div class="promo-badge"><i class="fa-solid fa-fire"></i> Promo de hoy — Lunes & Martes</div>
                 <div class="promo-title">Día del estudiante<br>Corte clásico</div>
                 <div class="promo-desc">Con credencial universitaria o del ISFD. Todo el día.</div>
                 <div class="promo-prices">
@@ -504,28 +503,28 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-cell">
-            <div class="f-icon">📍</div>
+            <div class="f-icon"><i class="fa-solid fa-location-dot"></i></div>
             <div>
                 <span class="f-label">Dirección</span>
                 <div class="f-val">Maipú 345<small>Ushuaia, TDF</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">🕐</div>
+            <div class="f-icon"><i class="fa-regular fa-clock"></i></div>
             <div>
                 <span class="f-label">Horario</span>
                 <div class="f-val">Lun–Sáb 9:00–20:00<small>Dom cerrado</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">💬</div>
+            <div class="f-icon"><i class="fa-brands fa-whatsapp"></i></div>
             <div>
                 <span class="f-label">Turnos por WhatsApp</span>
                 <div class="f-val">+54 9 2901 444-789<small>Respondemos al instante</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">💳</div>
+            <div class="f-icon"><i class="fa-solid fa-credit-card"></i></div>
             <div>
                 <span class="f-label">Medios de pago</span>
                 <div class="f-val">Efectivo · Transferencia<small>Mercado Pago</small></div>
@@ -540,7 +539,7 @@
 <script>
     const categories = [
         {
-            title: '✂️ Cortes de cabello',
+            title: '<i class="fa-solid fa-scissors"></i> Cortes de cabello',
             services: [
                 { name:'Corte Clásico',         desc:'Máquina y tijera para todo tipo de cabello.', price:'$4.500', time:'30 min', badge:'pop',   badgeText:'Popular' },
                 { name:'Corte Moderno / Fade',  desc:'Degradado con máquina y definición de perfil.', price:'$5.800', time:'45 min', badge:'',     badgeText:'' },
@@ -550,7 +549,7 @@
             ]
         },
         {
-            title: '🧔 Barba & Afeitado',
+            title: '<i class="fa-solid fa-star"></i> Barba & Afeitado',
             services: [
                 { name:'Arreglo de Barba',     desc:'Delineado, recorte y perfilado con tijera.',    price:'$3.000', time:'20 min', badge:'pop',   badgeText:'Popular' },
                 { name:'Afeitado a Navaja',    desc:'Ritual clásico con toalla caliente y navaja.',  price:'$4.800', time:'35 min', badge:'',     badgeText:'' },
@@ -595,7 +594,7 @@
         if (!instant) listEl.classList.add('fading');
 
         setTimeout(() => {
-            document.getElementById('panel-title').textContent = cat.title;
+            document.getElementById('panel-title').innerHTML = cat.title;
 
             listEl.innerHTML = cat.services.map((s,i) => `
                 <div class="svc-row${i === 0 ? ' highlight' : ''}">
@@ -606,7 +605,7 @@
                     <div class="svc-right">
                         ${s.badge ? `<span class="svc-badge badge-${s.badge}">${s.badgeText}</span>` : ''}
                         <div class="svc-price">${s.price}</div>
-                        <div class="svc-time">⏱ ${s.time}</div>
+                        <div class="svc-time"><i class="fa-regular fa-clock"></i> ${s.time}</div>
                     </div>
                 </div>
             `).join('');

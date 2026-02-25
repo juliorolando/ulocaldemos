@@ -351,14 +351,15 @@
         .prev-ff .sp-badge { position: absolute; top: 0; left: 0; background: #d41b1b; color: #fff; font-size: 9px; font-weight: 900; letter-spacing: 0.08em; padding: 3px 9px 3px 5px; border-bottom-right-radius: 8px; z-index: 2; }
         .prev-ff .sp-cat { position: absolute; top: 0; right: 5px; background: #111; color: rgba(255,255,255,0.8); font-size: 5px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 6px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; z-index: 2; }
         .prev-ff .sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px 3px; flex: 1; }
-        .prev-ff .sp-item { display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #e8e8e8; border-radius: 5px; padding: 2px 2px 3px; position: relative; }
-        .prev-ff .sp-num { position: absolute; top: -4px; left: 3px; width: 8px; height: 8px; background: #d41b1b; color: #fff; border-radius: 50%; font-size: 4.5px; font-weight: 900; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; }
-        .prev-ff .sp-emoji { font-size: 10px; line-height: 1; margin-bottom: 1px; }
-        .prev-ff .sp-name { font-size: 4.5px; font-weight: 700; color: #111; letter-spacing: 0.02em; margin-bottom: 1px; }
-        .prev-ff .sp-price { font-size: 5px; font-weight: 900; color: #d41b1b; }
+        .prev-ff .sp-item { display: flex; flex-direction: column; border: 1px solid #e8e8e8; border-radius: 5px; overflow: hidden; }
+        .prev-ff .sp-img-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #e8e8e8; }
+        .prev-ff .sp-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .prev-ff .sp-num { position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; background: #d41b1b; color: #fff; border-radius: 50%; font-size: 4.5px; font-weight: 900; display: flex; align-items: center; justify-content: center; z-index: 2; }
+        .prev-ff .sp-name { font-size: 4.5px; font-weight: 700; color: #111; text-align: center; padding: 1px 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prev-ff .sp-price { font-size: 5px; font-weight: 900; color: #d41b1b; text-align: center; padding-bottom: 2px; }
         /* Right panel */
         .prev-ff .sp-right { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; text-align: center; }
-        .prev-ff .sp-feat-emoji { font-size: 26px; line-height: 1; margin-bottom: 3px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .prev-ff .sp-feat-img { width: 100%; height: 32px; object-fit: cover; border-radius: 4px; margin-bottom: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
         .prev-ff .sp-feat-name { font-size: 7px; font-weight: 900; color: #111; letter-spacing: 0.04em; margin-bottom: 1px; }
         .prev-ff .sp-feat-sub { font-size: 4px; color: #666; margin-bottom: 2px; }
         .prev-ff .sp-feat-price { font-size: 13px; font-weight: 900; color: #d41b1b; line-height: 1; margin-bottom: 3px; }
@@ -375,6 +376,63 @@
         .prev-ff .sp-footer { background: #111; border-top: 2px solid #d41b1b; display: flex; align-items: center; justify-content: space-between; padding: 2px 6px; }
         .prev-ff .sp-fi { color: rgba(255,255,255,0.6); font-size: 4.5px; font-weight: 600; }
         .prev-ff .sp-clock { color: #fff; font-size: 9px; font-weight: 900; }
+
+        /* ADMIN preview */
+        .prev-admin { background: #F4F4F5; display: flex; flex-direction: column; }
+        .prev-admin .sp-header { background: #fff; border-bottom: 1px solid #E4E4E7; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-admin .sp-logo { font-size: 8px; font-weight: 700; color: #D41B1B; letter-spacing: 0.03em; }
+        .prev-admin .sp-btns { display: flex; gap: 3px; }
+        .prev-admin .sp-btn-save { background: #D41B1B; color: #fff; font-size: 5px; font-weight: 600; padding: 2px 5px; border-radius: 3px; }
+        .prev-admin .sp-btn-prev { background: #E4E4E7; color: #555; font-size: 5px; font-weight: 600; padding: 2px 5px; border-radius: 3px; }
+        .prev-admin .sp-body { flex: 1; display: grid; grid-template-columns: 28% 72%; gap: 5px; padding: 5px; min-height: 0; overflow: hidden; }
+        .prev-admin .sp-sidebar { display: flex; flex-direction: column; gap: 2px; }
+        .prev-admin .sp-nav { background: #fff; border: 1px solid #E4E4E7; border-radius: 4px; padding: 3px 5px; font-size: 6px; font-weight: 600; color: #71717A; }
+        .prev-admin .sp-nav.act { background: #FEF2F2; border-color: #FECACA; color: #D41B1B; }
+        .prev-admin .sp-rows { display: flex; flex-direction: column; gap: 2.5px; overflow: hidden; }
+        .prev-admin .sp-row { background: #fff; border: 1px solid #E4E4E7; border-radius: 4px; padding: 3px 5px; display: flex; align-items: center; gap: 4px; }
+        .prev-admin .sp-thumb { width: 16px; height: 16px; flex-shrink: 0; border-radius: 3px; overflow: hidden; background: #e8e8e8; }
+        .prev-admin .sp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .prev-admin .sp-rinfo { flex: 1; min-width: 0; }
+        .prev-admin .sp-rname { font-size: 6px; font-weight: 600; color: #18181B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prev-admin .sp-rprice { font-size: 5px; color: #71717A; }
+        .prev-admin .sp-tag { background: #DCFCE7; color: #166534; font-size: 4px; font-weight: 700; padding: 1px 3px; border-radius: 3px; flex-shrink: 0; }
+        .prev-admin .sp-tag.off { background: #F3F4F6; color: #9CA3AF; }
+        .prev-admin .sp-footer { background: #fff; border-top: 1px solid #E4E4E7; padding: 3px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .prev-admin .sp-status { display: flex; align-items: center; gap: 3px; font-size: 5px; color: #16a34a; font-weight: 600; }
+        .prev-admin .sp-dot { width: 4px; height: 4px; background: #16a34a; border-radius: 50%; }
+        .prev-admin .sp-hint { font-size: 4.5px; color: #9CA3AF; }
+
+        /* COMBOS preview */
+        .prev-comb { background: #111; display: grid; grid-template-rows: 12% 65% 23%; overflow: hidden; }
+        .prev-comb .sp-header { background: #090909; border-bottom: 2px solid #D41B1B; display: flex; align-items: center; justify-content: space-between; padding: 0 8px; }
+        .prev-comb .sp-title { font-size: 8px; font-weight: 900; letter-spacing: 0.15em; color: #fff; }
+        .prev-comb .sp-clock { font-size: 10px; font-weight: 900; color: #fff; }
+        .prev-comb .sp-main { display: grid; grid-template-columns: 55% 45%; overflow: hidden; }
+        .prev-comb .sp-img-col { position: relative; overflow: hidden; background: #0a0a0a; }
+        .prev-comb .sp-img-col img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .prev-comb .sp-img-fade { position: absolute; inset: 0; background: linear-gradient(to right, transparent 45%, #111 100%); }
+        .prev-comb .sp-info-col { background: #111; display: flex; flex-direction: column; justify-content: center; padding: 5px 7px; }
+        .prev-comb .sp-eyebrow { font-size: 4px; color: #555; letter-spacing: 0.3em; margin-bottom: 1px; }
+        .prev-comb .sp-cname { font-size: 20px; font-weight: 900; color: #fff; line-height: 0.9; margin-bottom: 3px; letter-spacing: 0.01em; }
+        .prev-comb .sp-div { width: 100%; height: 1px; background: #2a2a2a; margin: 2px 0; }
+        .prev-comb .sp-inc { font-size: 5px; color: rgba(255,255,255,0.7); font-weight: 600; padding: 0.5px 0; }
+        .prev-comb .sp-solo { font-size: 5px; color: #555; text-decoration: line-through; }
+        .prev-comb .sp-price { font-size: 20px; font-weight: 900; color: #FFCC00; line-height: 1; }
+        .prev-comb .sp-saving { display: inline-block; background: #D41B1B; color: #fff; font-size: 4px; font-weight: 700; padding: 1.5px 4px; border-radius: 2px; margin-top: 2px; }
+        .prev-comb .sp-strip { background: #080808; border-top: 1px solid #1c1c1c; display: grid; grid-template-columns: repeat(4, 1fr); }
+        .prev-comb .sp-si { position: relative; overflow: hidden; border-right: 1px solid #1c1c1c; }
+        .prev-comb .sp-si:last-child { border-right: none; }
+        .prev-comb .sp-si img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .prev-comb .sp-si-ov { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
+        .prev-comb .sp-si:first-child .sp-si-ov { background: rgba(0,0,0,0.25); }
+        .prev-comb .sp-si::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; z-index: 2; }
+        .prev-comb .sp-si:first-child::before { background: #D41B1B; }
+        .prev-comb .sp-si-cnt { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 2px 3px; z-index: 2; }
+        .prev-comb .sp-si-num { font-size: 4px; color: rgba(255,255,255,0.5); }
+        .prev-comb .sp-si:first-child .sp-si-num { color: #FFCC00; }
+        .prev-comb .sp-si-bot { display: flex; justify-content: space-between; align-items: flex-end; }
+        .prev-comb .sp-si-name { font-size: 6px; font-weight: 900; color: #fff; }
+        .prev-comb .sp-si-price { font-size: 5.5px; font-weight: 900; color: #FFCC00; }
 
         /* CTA */
         .cta-section {
@@ -621,18 +679,18 @@
                             <div class="sp-badge">MENÚ</div>
                             <div class="sp-cat">Burgers Clásicas</div>
                             <div class="sp-grid">
-                                <div class="sp-item"><div class="sp-num">1</div><div class="sp-emoji">🍔</div><div class="sp-name">Classic FDM</div><div class="sp-price">$4.800</div></div>
-                                <div class="sp-item"><div class="sp-num">2</div><div class="sp-emoji">🍔</div><div class="sp-name">Antártida</div><div class="sp-price">$6.200</div></div>
-                                <div class="sp-item"><div class="sp-num">3</div><div class="sp-emoji">🍔</div><div class="sp-name">La Beagle</div><div class="sp-price">$6.500</div></div>
-                                <div class="sp-item"><div class="sp-num">4</div><div class="sp-emoji">🍔</div><div class="sp-name">Fueguina</div><div class="sp-price">$5.800</div></div>
-                                <div class="sp-item"><div class="sp-num">5</div><div class="sp-emoji">🍄</div><div class="sp-name">La Verde</div><div class="sp-price">$4.500</div></div>
-                                <div class="sp-item"><div class="sp-num">6</div><div class="sp-emoji">🍔</div><div class="sp-name">La Gigante</div><div class="sp-price">$8.900</div></div>
-                                <div class="sp-item"><div class="sp-num">7</div><div class="sp-emoji">🥓</div><div class="sp-name">Bacon Lover</div><div class="sp-price">$7.200</div></div>
-                                <div class="sp-item"><div class="sp-num">8</div><div class="sp-emoji">🧀</div><div class="sp-name">Cheese X2</div><div class="sp-price">$6.800</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">1</div><img src="img/fastfood/01-classic-fdm.jpg" alt=""></div><div class="sp-name">Classic FDM</div><div class="sp-price">$4.800</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">2</div><img src="img/fastfood/02-antartida.jpg" alt=""></div><div class="sp-name">Antártida</div><div class="sp-price">$6.200</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">3</div><img src="img/fastfood/03-beagle.jpg" alt=""></div><div class="sp-name">La Beagle</div><div class="sp-price">$6.500</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">4</div><img src="img/fastfood/04-fueguina.jpg" alt=""></div><div class="sp-name">Fueguina</div><div class="sp-price">$5.800</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">5</div><img src="img/fastfood/05-verde.jpg" alt=""></div><div class="sp-name">La Verde</div><div class="sp-price">$4.500</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">6</div><img src="img/fastfood/06-gigante.jpg" alt=""></div><div class="sp-name">La Gigante</div><div class="sp-price">$8.900</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">7</div><img src="img/fastfood/07-bacon-lover.jpg" alt=""></div><div class="sp-name">Bacon Lover</div><div class="sp-price">$7.200</div></div>
+                                <div class="sp-item"><div class="sp-img-wrap"><div class="sp-num">8</div><img src="img/fastfood/08-cheese-x2.jpg" alt=""></div><div class="sp-name">Cheese X2</div><div class="sp-price">$6.800</div></div>
                             </div>
                         </div>
                         <div class="sp-right">
-                            <div class="sp-feat-emoji">🍔</div>
+                            <img class="sp-feat-img" src="img/fastfood/featured-fueguina.jpg" alt="">
                             <div class="sp-feat-name">LA FUEGUINA</div>
                             <div class="sp-feat-sub">Angus 200g · Cheddar</div>
                             <div class="sp-feat-price">$5.800</div>
@@ -670,6 +728,116 @@
                     <span class="feat-chip">🔢 Numeración visual</span>
                     <span class="feat-chip">🔄 3 slides automáticas</span>
                     <span class="feat-chip">🥤 Sección bebidas</span>
+                </div>
+                <div class="card-link" style="color:#b52020;">Ver a pantalla completa →</div>
+            </div>
+        </a>
+
+        <!-- ADMIN PANEL -->
+        <a href="fastfood-admin.html" target="_blank" class="demo-card">
+            <div class="tv-frame">
+                <div class="screen-preview prev-admin">
+                    <div class="sp-header">
+                        <div class="sp-logo">Burger del Fin del Mundo · Admin</div>
+                        <div class="sp-btns">
+                            <span class="sp-btn-prev">👁 Ver pantalla</span>
+                            <span class="sp-btn-save">Guardar cambios</span>
+                        </div>
+                    </div>
+                    <div class="sp-body">
+                        <div class="sp-sidebar">
+                            <div class="sp-nav act">🍔 Burgers</div>
+                            <div class="sp-nav">🥤 Bebidas</div>
+                            <div class="sp-nav">⭐ Destacado</div>
+                            <div class="sp-nav">⚙️ Config.</div>
+                        </div>
+                        <div class="sp-rows">
+                            <div class="sp-row">
+                                <div class="sp-thumb"><img src="img/fastfood/04-fueguina.jpg" alt=""></div>
+                                <div class="sp-rinfo"><div class="sp-rname">La Fueguina</div><div class="sp-rprice">$5.800</div></div>
+                                <span class="sp-tag">Visible</span>
+                            </div>
+                            <div class="sp-row">
+                                <div class="sp-thumb"><img src="img/fastfood/03-beagle.jpg" alt=""></div>
+                                <div class="sp-rinfo"><div class="sp-rname">La Beagle</div><div class="sp-rprice">$6.500</div></div>
+                                <span class="sp-tag">Visible</span>
+                            </div>
+                            <div class="sp-row">
+                                <div class="sp-thumb"><img src="img/fastfood/07-bacon-lover.jpg" alt=""></div>
+                                <div class="sp-rinfo"><div class="sp-rname">Bacon Lover</div><div class="sp-rprice">$7.200</div></div>
+                                <span class="sp-tag off">Oculto</span>
+                            </div>
+                            <div class="sp-row">
+                                <div class="sp-thumb"><img src="img/fastfood/01-classic-fdm.jpg" alt=""></div>
+                                <div class="sp-rinfo"><div class="sp-rname">Classic FdM</div><div class="sp-rprice">$4.800</div></div>
+                                <span class="sp-tag">Visible</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sp-footer">
+                        <div class="sp-status"><div class="sp-dot"></div>TV actualizada</div>
+                        <div class="sp-hint">Cambios en tiempo real</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type" style="color:#b52020;">Fast Food · Panel Admin</div>
+                <div class="card-name">Panel de Control</div>
+                <div class="card-desc">Interfaz de administración para editar precios, ocultar productos y cambiar el destacado en tiempo real. Todo desde el celular, sin tocar código.</div>
+                <div class="card-features">
+                    <span class="feat-chip">✏️ Edición en tiempo real</span>
+                    <span class="feat-chip">👁 Activar/Desactivar</span>
+                    <span class="feat-chip">🔐 Con contraseña</span>
+                </div>
+                <div class="card-link" style="color:#b52020;">Ver panel →</div>
+            </div>
+        </a>
+
+        <!-- COMBOS PANTALLA 2 -->
+        <a href="fastfood-combos.html" target="_blank" class="demo-card">
+            <div class="tv-frame">
+                <div class="screen-preview prev-comb">
+                    <div class="sp-header">
+                        <div class="sp-title">NUESTROS COMBOS</div>
+                        <div class="sp-clock">14:32</div>
+                    </div>
+                    <div class="sp-main">
+                        <div class="sp-img-col">
+                            <img src="img/fastfood/04-fueguina.jpg" alt="">
+                            <div class="sp-img-fade"></div>
+                        </div>
+                        <div class="sp-info-col">
+                            <div class="sp-eyebrow">COMBO Nº3</div>
+                            <div class="sp-cname">FUEGUINA</div>
+                            <div class="sp-div"></div>
+                            <div class="sp-inc">✓ La Fueguina picante</div>
+                            <div class="sp-inc">✓ Papas grandes</div>
+                            <div class="sp-inc">✓ Bebida 500ml</div>
+                            <div class="sp-div"></div>
+                            <div class="sp-solo">$7.600</div>
+                            <div class="sp-price">$6.800</div>
+                            <div class="sp-saving">Ahorrás $800</div>
+                        </div>
+                    </div>
+                    <div class="sp-strip">
+                        <div class="sp-si"><img src="img/fastfood/01-classic-fdm.jpg" alt=""><div class="sp-si-ov"></div><div class="sp-si-cnt"><div class="sp-si-num">COMBO 1</div><div class="sp-si-bot"><span class="sp-si-name">CLÁSICO</span><span class="sp-si-price">$5.200</span></div></div></div>
+                        <div class="sp-si"><img src="img/fastfood/03-beagle.jpg" alt=""><div class="sp-si-ov"></div><div class="sp-si-cnt"><div class="sp-si-num">COMBO 2</div><div class="sp-si-bot"><span class="sp-si-name">BEAGLE</span><span class="sp-si-price">$5.900</span></div></div></div>
+                        <div class="sp-si"><img src="img/fastfood/04-fueguina.jpg" alt=""><div class="sp-si-ov"></div><div class="sp-si-cnt"><div class="sp-si-num">COMBO 3</div><div class="sp-si-bot"><span class="sp-si-name">FUEGUINA</span><span class="sp-si-price">$6.800</span></div></div></div>
+                        <div class="sp-si"><img src="img/fastfood/06-gigante.jpg" alt=""><div class="sp-si-ov"></div><div class="sp-si-cnt"><div class="sp-si-num">COMBO 4</div><div class="sp-si-bot"><span class="sp-si-name">GIGANTE</span><span class="sp-si-price">$8.500</span></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tv-stand"><div class="tv-stand-neck"></div><div class="tv-stand-base"></div></div>
+            <div class="card-body">
+                <div class="card-type" style="color:#b52020;">Fast Food · Pantalla 2</div>
+                <div class="card-name">Combos del Día</div>
+                <div class="card-desc">Segunda pantalla para mostrar combos con fotos grandes, precio individual vs. combo y cuánto ahorra el cliente. Rota entre los 4 combos automáticamente.</div>
+                <div class="card-features">
+                    <span class="feat-chip">🔄 Rotación automática</span>
+                    <span class="feat-chip">💰 Precio ahorro visible</span>
+                    <span class="feat-chip">🖼 Fotos de producto</span>
+                    <span class="feat-chip">📺 Strip navegable</span>
                 </div>
                 <div class="card-link" style="color:#b52020;">Ver a pantalla completa →</div>
             </div>

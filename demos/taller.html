@@ -6,6 +6,7 @@
     <title>Mecánica Austral — Servicios TV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --bg:    #0e1117;
@@ -410,7 +411,7 @@
 <!-- URGENCIAS -->
 <div class="urgencias">
     <div class="urgencias-dot"></div>
-    <p>🚨 URGENCIAS MECÁNICAS — Llamanos al:</p>
+    <p><i class="fa-solid fa-triangle-exclamation"></i> URGENCIAS MECÁNICAS — Llamanos al:</p>
     <span class="urgencias-tel">+54 9 2901 667-890</span>
     <p>Lun–Sáb 8:00 – 20:00 hs · Presupuesto SIEMPRE sin cargo</p>
     <div class="urgencias-dot"></div>
@@ -421,7 +422,7 @@
     <!-- HEADER -->
     <header class="header">
         <div class="brand">
-            <div class="brand-hex">🔧</div>
+            <div class="brand-hex"><i class="fa-solid fa-wrench"></i></div>
             <div>
                 <div class="brand-name">Mecánica Austral</div>
                 <span class="brand-sub">Taller integral · Av. Belgrano 1570, Ushuaia · Desde 2011</span>
@@ -429,19 +430,19 @@
         </div>
         <div class="header-certs">
             <div class="cert">
-                <span class="cert-icon">✅</span>
+                <span class="cert-icon"><i class="fa-solid fa-circle-check"></i></span>
                 <span class="cert-label">RTO oficial</span>
             </div>
             <div class="cert">
-                <span class="cert-icon">🏆</span>
+                <span class="cert-icon"><i class="fa-solid fa-trophy"></i></span>
                 <span class="cert-label">Taller cert.</span>
             </div>
             <div class="cert">
-                <span class="cert-icon">🛡️</span>
+                <span class="cert-icon"><i class="fa-solid fa-shield-halved"></i></span>
                 <span class="cert-label">Garantía 90d</span>
             </div>
             <div class="cert">
-                <span class="cert-icon">🚗</span>
+                <span class="cert-icon"><i class="fa-solid fa-car"></i></span>
                 <span class="cert-label">Todas marcas</span>
             </div>
         </div>
@@ -463,7 +464,7 @@
         <!-- SERVICES AREA -->
         <div class="services-area">
             <div class="area-header">
-                <div class="area-icon" id="area-icon">🛢️</div>
+                <div class="area-icon" id="area-icon"><i class="fa-solid fa-oil-can"></i></div>
                 <div>
                     <div class="area-title" id="area-title">Mantenimiento</div>
                     <div class="area-subtitle">Precios de referencia · Presupuesto sin cargo</div>
@@ -478,35 +479,35 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-cell">
-            <div class="f-icon">📍</div>
+            <div class="f-icon"><i class="fa-solid fa-location-dot"></i></div>
             <div>
                 <span class="f-label">Dirección</span>
                 <div class="f-val">Av. Belgrano 1570<small>Ushuaia, Tierra del Fuego</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">🕐</div>
+            <div class="f-icon"><i class="fa-regular fa-clock"></i></div>
             <div>
                 <span class="f-label">Horario</span>
                 <div class="f-val">Lun–Sáb 8:00–20:00<small>Dom cerrado</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">📞</div>
+            <div class="f-icon"><i class="fa-solid fa-phone"></i></div>
             <div>
                 <span class="f-label">Urgencias</span>
                 <div class="f-val">+54 9 2901 667-890<small>WhatsApp y llamadas</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">🛡️</div>
+            <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
             <div>
                 <span class="f-label">Garantía</span>
                 <div class="f-val">90 días escritos<small>En todos los trabajos</small></div>
             </div>
         </div>
         <div class="footer-cell">
-            <div class="f-icon">💳</div>
+            <div class="f-icon"><i class="fa-solid fa-credit-card"></i></div>
             <div>
                 <span class="f-label">Medios de pago</span>
                 <div class="f-val">Efectivo · Transferencia<small>Mercado Pago · Cuotas</small></div>
@@ -521,52 +522,52 @@
 <script>
     const categories = [
         {
-            icon: '🛢️',
+            icon: '<i class="fa-solid fa-oil-can"></i>',
             name: 'Mantenimiento',
             count: '6 servicios',
             services: [
-                { icon:'🛢️', badge:'pop', badgeText:'Popular', name:'Cambio de aceite y filtro', desc:'Mineral, semisintético o sintético. Revisión de niveles incluida.', price:'$8.500', from:true, time:'45 min' },
-                { icon:'🔧', badge:'', badgeText:'', name:'Service 10.000 km', desc:'Aceite + filtros (aceite, aire, habitáculo) + revisión general.', price:'$24.000', from:true, time:'2 hs' },
-                { icon:'⚡', badge:'avail', badgeText:'Sin turno', name:'Revisión de batería', desc:'Diagnóstico de batería, alternador y carga. Rápido y sin espera.', price:'$4.200', from:false, time:'30 min' },
-                { icon:'🔩', badge:'', badgeText:'', name:'Cambio de bujías', desc:'Bujías originales o equivalentes. Ajuste de inyección si aplica.', price:'$6.800', from:true, time:'1 hs' },
-                { icon:'💧', badge:'', badgeText:'', name:'Refrigerante y líquidos', desc:'Control y cambio de líquido de frenos, refrigerante y dirección.', price:'$3.500', from:true, time:'45 min' },
-                { icon:'🌬️', badge:'', badgeText:'', name:'Filtros de cabina y aire', desc:'Limpia el aire del habitáculo. Importante para la salud.', price:'$2.800', from:true, time:'20 min' },
+                { icon:'<i class="fa-solid fa-oil-can"></i>', badge:'pop', badgeText:'Popular', name:'Cambio de aceite y filtro', desc:'Mineral, semisintético o sintético. Revisión de niveles incluida.', price:'$8.500', from:true, time:'45 min' },
+                { icon:'<i class="fa-solid fa-wrench"></i>', badge:'', badgeText:'', name:'Service 10.000 km', desc:'Aceite + filtros (aceite, aire, habitáculo) + revisión general.', price:'$24.000', from:true, time:'2 hs' },
+                { icon:'<i class="fa-solid fa-bolt"></i>', badge:'avail', badgeText:'Sin turno', name:'Revisión de batería', desc:'Diagnóstico de batería, alternador y carga. Rápido y sin espera.', price:'$4.200', from:false, time:'30 min' },
+                { icon:'<i class="fa-solid fa-gear"></i>', badge:'', badgeText:'', name:'Cambio de bujías', desc:'Bujías originales o equivalentes. Ajuste de inyección si aplica.', price:'$6.800', from:true, time:'1 hs' },
+                { icon:'<i class="fa-solid fa-droplet"></i>', badge:'', badgeText:'', name:'Refrigerante y líquidos', desc:'Control y cambio de líquido de frenos, refrigerante y dirección.', price:'$3.500', from:true, time:'45 min' },
+                { icon:'<i class="fa-solid fa-wind"></i>', badge:'', badgeText:'', name:'Filtros de cabina y aire', desc:'Limpia el aire del habitáculo. Importante para la salud.', price:'$2.800', from:true, time:'20 min' },
             ]
         },
         {
-            icon: '🛑',
+            icon: '<i class="fa-solid fa-circle-stop"></i>',
             name: 'Frenos',
             count: '5 servicios',
             services: [
-                { icon:'🛑', badge:'pop', badgeText:'Popular', name:'Pastillas delanteras', desc:'Pastillas de alta duración. Revisión de discos incluida.', price:'$12.000', from:true, time:'1 hs' },
-                { icon:'💧', badge:'', badgeText:'', name:'Líquido de frenos DOT 4', desc:'Purgado completo. Fundamental en rutas de montaña.', price:'$5.800', from:false, time:'45 min' },
-                { icon:'⭕', badge:'', badgeText:'', name:'Rectificado de discos', desc:'Diagnóstico con micrómetro. Rectificado si el espesor lo permite.', price:'$8.000', from:true, time:'1.5 hs' },
-                { icon:'⭕', badge:'', badgeText:'', name:'Cambio de discos', desc:'Discos originales o equivalentes certificados.', price:'$18.000', from:true, time:'2 hs' },
-                { icon:'🔩', badge:'avail', badgeText:'Sin turno', name:'Revisión de frenos', desc:'Diagnóstico completo del sistema. Sin cargo si hacemos el trabajo.', price:'Gratis', from:false, time:'20 min' },
+                { icon:'<i class="fa-solid fa-circle-stop"></i>', badge:'pop', badgeText:'Popular', name:'Pastillas delanteras', desc:'Pastillas de alta duración. Revisión de discos incluida.', price:'$12.000', from:true, time:'1 hs' },
+                { icon:'<i class="fa-solid fa-droplet"></i>', badge:'', badgeText:'', name:'Líquido de frenos DOT 4', desc:'Purgado completo. Fundamental en rutas de montaña.', price:'$5.800', from:false, time:'45 min' },
+                { icon:'<i class="fa-solid fa-circle"></i>', badge:'', badgeText:'', name:'Rectificado de discos', desc:'Diagnóstico con micrómetro. Rectificado si el espesor lo permite.', price:'$8.000', from:true, time:'1.5 hs' },
+                { icon:'<i class="fa-solid fa-circle"></i>', badge:'', badgeText:'', name:'Cambio de discos', desc:'Discos originales o equivalentes certificados.', price:'$18.000', from:true, time:'2 hs' },
+                { icon:'<i class="fa-solid fa-gear"></i>', badge:'avail', badgeText:'Sin turno', name:'Revisión de frenos', desc:'Diagnóstico completo del sistema. Sin cargo si hacemos el trabajo.', price:'Gratis', from:false, time:'20 min' },
             ]
         },
         {
-            icon: '🔩',
+            icon: '<i class="fa-solid fa-screwdriver-wrench"></i>',
             name: 'Suspensión',
             count: '5 servicios',
             services: [
-                { icon:'🚗', badge:'pop', badgeText:'Popular', name:'Alineación y balanceo', desc:'Alineación computarizada 4 ruedas. Balanceo incluido.', price:'$6.500', from:false, time:'1 hs' },
-                { icon:'🔄', badge:'', badgeText:'', name:'Cambio de amortiguadores', desc:'Por par. Con repuestos originales o equivalentes.', price:'$28.000', from:true, time:'2-3 hs' },
-                { icon:'🔩', badge:'', badgeText:'', name:'Bujes y rótulas', desc:'Revisión de articulaciones. Cambio según diagnóstico.', price:'$15.000', from:true, time:'2 hs' },
-                { icon:'🔧', badge:'', badgeText:'', name:'Tren delantero completo', desc:'Diagnóstico integral. Presupuesto sin cargo.', price:'Presupuesto', from:false, time:'Consultar' },
-                { icon:'⚙️', badge:'', badgeText:'', name:'Rotación de neumáticos', desc:'Rotación en cruz. Inspección de desgaste y presión.', price:'$2.500', from:false, time:'30 min' },
+                { icon:'<i class="fa-solid fa-car"></i>', badge:'pop', badgeText:'Popular', name:'Alineación y balanceo', desc:'Alineación computarizada 4 ruedas. Balanceo incluido.', price:'$6.500', from:false, time:'1 hs' },
+                { icon:'<i class="fa-solid fa-arrows-rotate"></i>', badge:'', badgeText:'', name:'Cambio de amortiguadores', desc:'Por par. Con repuestos originales o equivalentes.', price:'$28.000', from:true, time:'2-3 hs' },
+                { icon:'<i class="fa-solid fa-gear"></i>', badge:'', badgeText:'', name:'Bujes y rótulas', desc:'Revisión de articulaciones. Cambio según diagnóstico.', price:'$15.000', from:true, time:'2 hs' },
+                { icon:'<i class="fa-solid fa-wrench"></i>', badge:'', badgeText:'', name:'Tren delantero completo', desc:'Diagnóstico integral. Presupuesto sin cargo.', price:'Presupuesto', from:false, time:'Consultar' },
+                { icon:'<i class="fa-solid fa-rotate"></i>', badge:'', badgeText:'', name:'Rotación de neumáticos', desc:'Rotación en cruz. Inspección de desgaste y presión.', price:'$2.500', from:false, time:'30 min' },
             ]
         },
         {
-            icon: '⚡',
+            icon: '<i class="fa-solid fa-bolt"></i>',
             name: 'Electricidad',
             count: '5 servicios',
             services: [
-                { icon:'💻', badge:'avail', badgeText:'Sin turno', name:'Diagnóstico OBD', desc:'Lectura de códigos de falla con scanner profesional.', price:'$3.500', from:false, time:'30 min' },
-                { icon:'🔌', badge:'', badgeText:'', name:'Reparación eléctrica', desc:'Luces, bocinas, vidrios eléctricos, fusibles, cableado.', price:'Presupuesto', from:false, time:'Consultar' },
-                { icon:'❄️', badge:'', badgeText:'', name:'Carga de aire acondicionado', desc:'Recarga de gas refrigerante. Revisión de compresor.', price:'$9.800', from:true, time:'1.5 hs' },
-                { icon:'⚡', badge:'', badgeText:'', name:'Cambio de batería', desc:'Batería original para tu vehículo. Instalación incluida.', price:'$22.000', from:true, time:'30 min' },
-                { icon:'🔦', badge:'', badgeText:'', name:'Luces y ópticas', desc:'Reemplazo de ópticas, LED y sistemas de iluminación.', price:'$4.500', from:true, time:'1 hs' },
+                { icon:'<i class="fa-solid fa-laptop"></i>', badge:'avail', badgeText:'Sin turno', name:'Diagnóstico OBD', desc:'Lectura de códigos de falla con scanner profesional.', price:'$3.500', from:false, time:'30 min' },
+                { icon:'<i class="fa-solid fa-plug"></i>', badge:'', badgeText:'', name:'Reparación eléctrica', desc:'Luces, bocinas, vidrios eléctricos, fusibles, cableado.', price:'Presupuesto', from:false, time:'Consultar' },
+                { icon:'<i class="fa-solid fa-snowflake"></i>', badge:'', badgeText:'', name:'Carga de aire acondicionado', desc:'Recarga de gas refrigerante. Revisión de compresor.', price:'$9.800', from:true, time:'1.5 hs' },
+                { icon:'<i class="fa-solid fa-bolt"></i>', badge:'', badgeText:'', name:'Cambio de batería', desc:'Batería original para tu vehículo. Instalación incluida.', price:'$22.000', from:true, time:'30 min' },
+                { icon:'<i class="fa-solid fa-lightbulb"></i>', badge:'', badgeText:'', name:'Luces y ópticas', desc:'Reemplazo de ópticas, LED y sistemas de iluminación.', price:'$4.500', from:true, time:'1 hs' },
             ]
         },
     ];
@@ -605,7 +606,7 @@
         if (!instant) gridEl.classList.add('fading');
 
         setTimeout(() => {
-            document.getElementById('area-icon').textContent  = cat.icon;
+            document.getElementById('area-icon').innerHTML  = cat.icon;
             document.getElementById('area-title').textContent = cat.name;
             document.getElementById('area-count').textContent = cat.count;
 
@@ -627,7 +628,7 @@
                         <div>
                             <div class="svc-price">${s.price}${s.from ? '<span class="svc-from"> desde</span>' : ''}</div>
                         </div>
-                        <div class="svc-time">⏱ ${s.time}</div>
+                        <div class="svc-time"><i class="fa-regular fa-clock"></i> ${s.time}</div>
                     </div>
                 </div>
             `}).join('');

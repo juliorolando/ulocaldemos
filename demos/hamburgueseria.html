@@ -202,11 +202,15 @@
             margin-bottom: 1.5vh;
         }
         .feat-emoji {
-            font-size: 14vh;
-            line-height: 1;
+            width: 100%;
+            height: 18vh;
+            border-radius: 14px;
+            overflow: hidden;
             margin-bottom: 2vh;
-            filter: drop-shadow(0 4px 30px rgba(204,43,43,0.4));
+            box-shadow: 0 4px 30px rgba(204,43,43,0.35);
+            flex-shrink: 0;
         }
+        .feat-emoji img { width:100%; height:100%; object-fit:cover; display:block; }
         .feat-badge {
             font-size: 1.1vh;
             font-weight: 700;
@@ -286,9 +290,12 @@
             margin-bottom: 1.5vh;
         }
         .item-emoji {
-            font-size: 5.5vh;
-            line-height: 1;
+            width: 100%;
+            height: 9vh;
+            border-radius: 10px;
+            overflow: hidden;
         }
+        .item-emoji img { width:100%; height:100%; object-fit:cover; display:block; }
         .item-badge {
             font-size: 1vh;
             font-weight: 700;
@@ -474,7 +481,7 @@
         <!-- FEATURED -->
         <div class="featured">
             <div class="feat-eyebrow" id="feat-eye">🔥 La más pedida</div>
-            <div class="feat-emoji" id="feat-emoji">🍔</div>
+            <div class="feat-emoji" id="feat-emoji"><img src="" alt="" loading="lazy"></div>
             <div class="feat-badge" id="feat-badge">⭐ DESTACADA</div>
             <div class="feat-name" id="feat-name">La Fueguina</div>
             <div class="feat-desc" id="feat-desc">Angus 200g, cheddar fundido, panceta crocante, cebolla caramelizada y salsa secreta.</div>
@@ -525,35 +532,36 @@
 <div class="progress-bar" id="progress"></div>
 
 <script>
+    const U = 'https://images.unsplash.com/';
     const slides = [
         {
             cat: 'Burgers — Carne Angus 200g',
-            featured: { eye:'🔥 La más pedida', emoji:'🍔', badge:'⭐ DESTACADA', name:'La Fueguina', desc:'Angus 200g, cheddar fundido, panceta crocante, cebolla caramelizada y salsa secreta.', price:'$5.800', sub:'Angus 200g · Pan brioche' },
+            featured: { eye:'🔥 La más pedida', img: U+'photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&q=80', badge:'⭐ DESTACADA', name:'La Fueguina', desc:'Angus 200g, cheddar fundido, panceta crocante, cebolla caramelizada y salsa secreta.', price:'$5.800', sub:'Angus 200g · Pan brioche' },
             items: [
-                { emoji:'🍔', badge:'hot', badgeText:'🔥 Picante', name:'La Antártida', desc:'Jalapeños, pepper jack, guacamole y sriracha. Para valientes.', price:'$6.200', tags:['Angus 200g'] },
-                { emoji:'🍔', badge:'new', badgeText:'Nuevo', name:'La Beagle', desc:'Angus, rúcula, brie, mermelada de calafate y mostaza Dijon.', price:'$6.500', tags:['Gourmet'] },
-                { emoji:'🍔', badge:'', badgeText:'', name:'Classic FDM', desc:'Lechuga, tomate, cebolla, pepinillos, queso americano y ketchup.', price:'$4.800', tags:['Sin TACC disp.'] },
-                { emoji:'🍄', badge:'new', badgeText:'Veggie', name:'La Verde', desc:'Medallón de garbanzos, queso de cabra, rúcula y alioli de lima.', price:'$4.500', tags:['Vegetariana'] },
+                { img: U+'photo-1553979459-d2229ba7433b?w=500&h=350&fit=crop&q=80', badge:'hot', badgeText:'🔥 Picante', name:'La Antártida', desc:'Jalapeños, pepper jack, guacamole y sriracha. Para valientes.', price:'$6.200', tags:['Angus 200g'] },
+                { img: U+'photo-1550547660-d9450f859349?w=500&h=350&fit=crop&q=80', badge:'new', badgeText:'Nuevo', name:'La Beagle', desc:'Angus, rúcula, brie, mermelada de calafate y mostaza Dijon.', price:'$6.500', tags:['Gourmet'] },
+                { img: U+'photo-1586190848861-99aa4a171e90?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Classic FDM', desc:'Lechuga, tomate, cebolla, pepinillos, queso americano y ketchup.', price:'$4.800', tags:['Sin TACC disp.'] },
+                { img: U+'photo-1512621776951-a57141f2eefd?w=500&h=350&fit=crop&q=80', badge:'new', badgeText:'Veggie', name:'La Verde', desc:'Medallón de garbanzos, queso de cabra, rúcula y alioli de lima.', price:'$4.500', tags:['Vegetariana'] },
             ]
         },
         {
             cat: 'Combos — Todo incluido',
-            featured: { eye:'⭐ Más elegido', emoji:'🍔🍟🥤', badge:'OFERTA COMBO', name:'Combo Simple', desc:'Cualquier burger clásica + papas fritas medianas + bebida 500ml.', price:'$6.200', sub:'vs $7.300 por separado' },
+            featured: { eye:'⭐ Más elegido', img: U+'photo-1561758033-d89a9ad46330?w=600&h=400&fit=crop&q=80', badge:'OFERTA COMBO', name:'Combo Simple', desc:'Cualquier burger clásica + papas fritas medianas + bebida 500ml.', price:'$6.200', sub:'vs $7.300 por separado' },
             items: [
-                { emoji:'🍔🍟🧅🥤', badge:'best', badgeText:'⭐ Popular', name:'Combo Premium', desc:'Burger Fueguina + papas + aros de cebolla + bebida.', price:'$7.800', tags:['Para 1'] },
-                { emoji:'👫', badge:'', badgeText:'', name:'Combo Pareja', desc:'2 burgers a elección + papas compartidas + 2 bebidas.', price:'$12.500', tags:['Para 2'] },
-                { emoji:'👨‍👩‍👧‍👦', badge:'hot', badgeText:'¡Familiar!', name:'Combo Familiar', desc:'4 burgers Classic + 2 papas grandes + 4 bebidas.', price:'$22.000', tags:['Para 4'] },
-                { emoji:'🍟🧀', badge:'', badgeText:'', name:'Papas con Cheddar', desc:'Papas fritas bañadas en cheddar caliente y panceta.', price:'$2.800', tags:['Acomp.'] },
+                { img: U+'photo-1572802419224-296b0aeee0d9?w=500&h=350&fit=crop&q=80', badge:'best', badgeText:'⭐ Popular', name:'Combo Premium', desc:'Burger Fueguina + papas + aros de cebolla + bebida.', price:'$7.800', tags:['Para 1'] },
+                { img: U+'photo-1571091718767-18b5b1457add?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Combo Pareja', desc:'2 burgers a elección + papas compartidas + 2 bebidas.', price:'$12.500', tags:['Para 2'] },
+                { img: U+'photo-1565299507177-b0ac66763828?w=500&h=350&fit=crop&q=80', badge:'hot', badgeText:'¡Familiar!', name:'Combo Familiar', desc:'4 burgers Classic + 2 papas grandes + 4 bebidas.', price:'$22.000', tags:['Para 4'] },
+                { img: U+'photo-1573080496219-bb080dd4f877?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Papas con Cheddar', desc:'Papas fritas bañadas en cheddar caliente y panceta.', price:'$2.800', tags:['Acomp.'] },
             ]
         },
         {
             cat: 'Burgers especiales & Bebidas',
-            featured: { eye:'🍺 Artesanal local', emoji:'🍺', badge:'CERVEZA DEL DÍA', name:'Birra Fueguina', desc:'Birra artesanal elaborada en Ushuaia. Rubia o stout. Tirada o en lata.', price:'$1.600', sub:'330 ml · Fresca siempre' },
+            featured: { eye:'🍺 Artesanal local', img: U+'photo-1608270586620-248524c67de9?w=600&h=400&fit=crop&q=80', badge:'CERVEZA DEL DÍA', name:'Birra Fueguina', desc:'Birra artesanal elaborada en Ushuaia. Rubia o stout. Tirada o en lata.', price:'$1.600', sub:'330 ml · Fresca siempre' },
             items: [
-                { emoji:'🍔', badge:'hot', badgeText:'Doble', name:'La Gigante', desc:'Doble Angus 400g, doble cheddar, doble panceta y huevo frito.', price:'$8.900', tags:['400g Angus'] },
-                { emoji:'🥛', badge:'new', badgeText:'Nuevo', name:'Milkshake', desc:'Vainilla, chocolate o frutilla. Espeso y cremoso.', price:'$2.400', tags:['Postre'] },
-                { emoji:'🧅', badge:'', badgeText:'', name:'Aros de Cebolla', desc:'Rebozados en panko. Crujientes. Con dip de mostaza y miel.', price:'$2.200', tags:['Acomp.'] },
-                { emoji:'🥤', badge:'', badgeText:'', name:'Gaseosa 500ml', desc:'Coca-Cola, Sprite, Fanta o agua con gas. Bien fría.', price:'$900', tags:['Bebida'] },
+                { img: U+'photo-1568901346375-23c9450c58cd?w=500&h=350&fit=crop&q=80', badge:'hot', badgeText:'Doble', name:'La Gigante', desc:'Doble Angus 400g, doble cheddar, doble panceta y huevo frito.', price:'$8.900', tags:['400g Angus'] },
+                { img: U+'photo-1479088540796-1bc8e1de20c2?w=500&h=350&fit=crop&q=80', badge:'new', badgeText:'Nuevo', name:'Milkshake', desc:'Vainilla, chocolate o frutilla. Espeso y cremoso.', price:'$2.400', tags:['Postre'] },
+                { img: U+'photo-1569050467447-ce54b3bbc37d?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Aros de Cebolla', desc:'Rebozados en panko. Crujientes. Con dip de mostaza y miel.', price:'$2.200', tags:['Acomp.'] },
+                { img: U+'photo-1622483767028-3f66f32aef97?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Gaseosa 500ml', desc:'Coca-Cola, Sprite, Fanta o agua con gas. Bien fría.', price:'$900', tags:['Bebida'] },
             ]
         },
     ];
@@ -587,7 +595,7 @@
         setTimeout(() => {
             const f = slide.featured;
             document.getElementById('feat-eye').textContent   = f.eye;
-            document.getElementById('feat-emoji').textContent = f.emoji;
+            document.getElementById('feat-emoji').innerHTML = `<img src="${f.img}" alt="${f.name}" loading="lazy">`;
             document.getElementById('feat-badge').textContent = f.badge;
             document.getElementById('feat-name').textContent  = f.name;
             document.getElementById('feat-desc').textContent  = f.desc;
@@ -597,7 +605,7 @@
             grid.innerHTML = slide.items.map(it => `
                 <div class="item-card">
                     <div class="item-top">
-                        <span class="item-emoji">${it.emoji}</span>
+                        <div class="item-emoji"><img src="${it.img}" alt="${it.name}" loading="lazy"></div>
                         ${it.badge ? `<span class="item-badge bb-${it.badge}">${it.badgeText}</span>` : ''}
                     </div>
                     <div class="item-name">${it.name}</div>

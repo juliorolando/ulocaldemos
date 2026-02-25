@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super del Sur — Ofertas de la Semana</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --green:   #1a7a3c;
+            --green2:  #27ae60;
+            --red:     #e8281e;
+            --yellow:  #FFD700;
+            --white:   #FFFFFF;
+            --light:   #f5f8f5;
+            --dark:    #111111;
+            --gray:    #666666;
+            --line:    #e0e0e0;
+            --bank-bg: #0d1b2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--white);
+            font-family: 'Barlow', sans-serif;
+            cursor: none;
+        }
+
+        /* ═══════════════════════════════════════
+           LAYOUT: 3 filas fijas = 100vh exactos
+        ═══════════════════════════════════════ */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 79vh 14vh 7vh;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 1 — OFERTAS DEL DÍA
+        ═══════════════════════════════════════ */
+        .main {
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 64% 36%;
+        }
+
+        /* ── PANEL IZQUIERDO: grilla de ofertas ── */
+        .offers-panel {
+            position: relative;
+            background: var(--light);
+            border-right: 2px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1.2vw 1vh;
+        }
+
+        .offers-badge {
+            position: absolute;
+            top: 0; left: 0;
+            background: var(--green);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5.8vh;
+            letter-spacing: 0.08em;
+            padding: 0.7vh 3.5vw 0.8vh 1.8vw;
+            border-bottom-right-radius: 28px;
+            z-index: 10;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5vw;
+        }
+        .offers-badge i { font-size: 0.72em; }
+
+        .cat-label {
+            position: absolute;
+            top: 0; right: 1.2vw;
+            background: var(--dark);
+            color: rgba(255,255,255,0.85);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.9vh;
+            letter-spacing: 0.16em;
+            padding: 0.6vh 1.5vw;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 10;
+        }
+
+        .grid-top { height: 7.8vh; flex-shrink: 0; }
+
+        /* Grilla de productos — 4 columnas, 2 filas */
+        .items-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 0.9vh 0.7vw;
+            overflow: hidden;
+        }
+
+        /* Tarjeta individual */
+        .item-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        }
+
+        .item-img-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            background: #e8e8e8;
+        }
+
+        .item-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Badge de descuento — esquina superior derecha */
+        .discount-badge {
+            position: absolute;
+            top: 0.6vh; right: 0.6vh;
+            background: var(--red);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5vh;
+            padding: 0.35vh 0.55vw;
+            border-radius: 6px;
+            line-height: 1;
+            z-index: 2;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.35);
+        }
+
+        /* Badge de tipo — esquina superior izquierda */
+        .type-badge {
+            position: absolute;
+            top: 0.6vh; left: 0.6vh;
+            font-size: 0.95vh;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.3vh 0.45vw;
+            border-radius: 4px;
+            line-height: 1;
+            z-index: 2;
+        }
+        .b-promo  { background: var(--green);  color: #fff; }
+        .b-oferta { background: var(--red);    color: #fff; }
+        .b-precio { background: var(--yellow); color: var(--dark); }
+        .b-none   { display: none; }
+
+        /* Franja inferior: nombre + sub + precio */
+        .item-info {
+            flex-shrink: 0;
+            padding: 0.45vh 0.7vw 0.55vh;
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        .item-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.3vh;
+            letter-spacing: 0.03em;
+            color: var(--dark);
+            line-height: 1.05;
+            margin-bottom: 0.05vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-sub {
+            font-size: 1.05vh;
+            color: var(--gray);
+            font-style: italic;
+            line-height: 1.1;
+            margin-bottom: 0.1vh;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-prices {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.5vw;
+        }
+
+        .item-old {
+            font-size: 1.3vh;
+            color: var(--gray);
+            text-decoration: line-through;
+            line-height: 1;
+        }
+
+        .item-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.3vh;
+            color: var(--red);
+            line-height: 1;
+        }
+
+        /* ── PANEL DERECHO: oferta destacada ── */
+        .featured-panel {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5vh 2vw;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .feat-label {
+            background: var(--red);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.9vh;
+            letter-spacing: 0.14em;
+            padding: 0.4vh 1.8vw;
+            border-radius: 6px;
+            margin-bottom: 0.9vh;
+            flex-shrink: 0;
+        }
+
+        .feat-visual {
+            width: 100%;
+            height: 22vh;
+            margin-bottom: 0.9vh;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            background: #f0f0f0;
+        }
+
+        .feat-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .feat-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.8vh;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+            line-height: 1;
+            margin-bottom: 0.3vh;
+        }
+
+        .feat-sub {
+            font-size: 1.35vh;
+            color: var(--gray);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.3vh;
+        }
+
+        .feat-old {
+            font-size: 1.9vh;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+
+        .feat-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 10vh;
+            color: var(--red);
+            line-height: 1;
+        }
+
+        .feat-unit {
+            font-size: 1.2vh;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.5vh;
+        }
+
+        .brand-divider {
+            width: 70%;
+            height: 1px;
+            background: var(--line);
+            margin: 0.7vh auto;
+            flex-shrink: 0;
+        }
+
+        .brand-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15vh;
+        }
+
+        .brand-icon { font-size: 2.8vh; color: var(--green); }
+
+        .brand-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8vh;
+            letter-spacing: 0.12em;
+            color: var(--dark);
+        }
+
+        .brand-tagline {
+            font-size: 1.15vh;
+            letter-spacing: 0.22em;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        /* ═══════════════════════════════════════
+           FILA 2 — PROMOCIONES BANCARIAS
+        ═══════════════════════════════════════ */
+        .promos {
+            background: var(--bank-bg);
+            display: grid;
+            grid-template-columns: 12vw 1fr;
+            overflow: hidden;
+            border-top: 3px solid #1f3a57;
+        }
+
+        .promo-title-col {
+            background: #091522;
+            border-right: 2px solid #1f3a57;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1.2vw;
+            gap: 0.2vh;
+        }
+
+        .promo-icon {
+            font-size: 2.2vh;
+            color: var(--yellow);
+        }
+
+        .promo-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.7vh;
+            letter-spacing: 0.18em;
+            color: #fff;
+            text-align: center;
+            line-height: 1.15;
+        }
+
+        .promo-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 0.7vh 2vw;
+            gap: 0 1.4vw;
+            align-content: stretch;
+        }
+
+        .promo-card {
+            border-left: 4px solid;
+            border-radius: 0 8px 8px 0;
+            padding: 0.6vh 0.9vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.25vh;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .promo-card.bna       { border-color: #4a90d9; }
+        .promo-card.galicia   { border-color: #00b140; }
+        .promo-card.patagonia { border-color: #00c4e8; }
+        .promo-card.macro     { border-color: #f5a623; }
+
+        .promo-bank {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3vh;
+            letter-spacing: 0.14em;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+        }
+
+        .promo-benefit {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.2vh;
+            line-height: 0.95;
+        }
+
+        .bna       .promo-benefit { color: #4a90d9; }
+        .galicia   .promo-benefit { color: #00b140; }
+        .patagonia .promo-benefit { color: #00c4e8; }
+        .macro     .promo-benefit { color: #f5a623; }
+
+        .promo-desc {
+            display: none;
+        }
+
+        .promo-day {
+            display: inline-block;
+            padding: 0.18vh 0.5vw;
+            border-radius: 4px;
+            font-size: 1.0vh;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        .bna       .promo-day { background: #4a90d9; color: #fff; }
+        .galicia   .promo-day { background: #00b140; color: #fff; }
+        .patagonia .promo-day { background: #00c4e8; color: #000; }
+        .macro     .promo-day { background: #f5a623; color: #000; }
+
+        /* ═══════════════════════════════════════
+           FILA 3 — FOOTER
+        ═══════════════════════════════════════ */
+        .footer-bar {
+            background: var(--dark);
+            border-top: 3px solid var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2vw;
+            overflow: hidden;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 2.2vw;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5vw;
+            font-size: 1.5vh;
+            font-weight: 700;
+            color: rgba(255,255,255,0.78);
+            white-space: nowrap;
+        }
+
+        .fi-icon {
+            font-size: 1.6vh;
+            color: var(--green2);
+            width: 1.8vh;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .footer-right { text-align: right; }
+
+        .footer-clock {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2vh;
+            letter-spacing: 0.06em;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .footer-date {
+            font-size: 0.9vh;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        /* ═══════════════════════════════════════
+           SLIDER DE SLIDES
+        ═══════════════════════════════════════ */
+        .main {
+            position: relative;
+            transition: opacity 0.38s ease;
+        }
+
+        .main.fading { opacity: 0; }
+
+        .slide-track {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: rgba(0,0,0,0.07);
+            z-index: 10;
+        }
+
+        .slide-fill {
+            height: 100%;
+            background: var(--green);
+            width: 0%;
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 1.1vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.55vw;
+            z-index: 10;
+        }
+
+        .slide-dot {
+            width: 0.65vw;
+            height: 0.65vw;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.18);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .slide-dot.active {
+            background: var(--green);
+            transform: scale(1.35);
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- ═══ FILA 1: OFERTAS DEL DÍA ═══ -->
+    <div class="main" id="main-area">
+
+        <!-- PANEL IZQUIERDO: grilla 4×3 -->
+        <div class="offers-panel">
+            <div class="offers-badge">
+                <i class="fa-solid fa-tag"></i> OFERTAS
+            </div>
+            <div class="cat-label" id="cat-label"></div>
+            <div class="grid-top"></div>
+            <div class="items-grid" id="items-grid"></div>
+        </div>
+
+        <!-- PANEL DERECHO: producto destacado -->
+        <div class="featured-panel" id="featured-panel"></div>
+
+        <!-- Indicadores de slide -->
+        <div class="slide-track"><div class="slide-fill" id="slide-fill"></div></div>
+        <div class="slide-dots" id="slide-dots"></div>
+
+    </div><!-- /main -->
+
+    <!-- ═══ FILA 2: PROMOCIONES BANCARIAS ═══ -->
+    <div class="promos">
+        <div class="promo-title-col">
+            <i class="fa-solid fa-percent promo-icon"></i>
+            <div class="promo-title">PROMOS<br>BANCO</div>
+        </div>
+        <div class="promo-cards">
+
+            <div class="promo-card bna">
+                <div class="promo-bank">Banco Nación · BNA</div>
+                <div class="promo-benefit">30% OFF</div>
+                <div class="promo-desc">En todas las compras<br>con débito BNA</div>
+                <div class="promo-day">Todos los Martes</div>
+            </div>
+
+            <div class="promo-card galicia">
+                <div class="promo-bank">Banco Galicia</div>
+                <div class="promo-benefit">3 CUOTAS</div>
+                <div class="promo-desc">Sin interés con Visa<br>y Mastercard Galicia</div>
+                <div class="promo-day">Todos los Viernes</div>
+            </div>
+
+            <div class="promo-card patagonia">
+                <div class="promo-bank">Banco Patagonia</div>
+                <div class="promo-benefit">20% OFF</div>
+                <div class="promo-desc">En compras +$5.000<br>con tarjeta Patagonia</div>
+                <div class="promo-day">Todos los Miércoles</div>
+            </div>
+
+            <div class="promo-card macro">
+                <div class="promo-bank">Banco Macro</div>
+                <div class="promo-benefit">6 CUOTAS</div>
+                <div class="promo-desc">Sin interés en todos<br>los productos del super</div>
+                <div class="promo-day">Todo el Mes</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ FILA 3: FOOTER ═══ -->
+    <div class="footer-bar">
+        <div class="footer-info">
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-solid fa-location-dot"></i></span>
+                San Martín 745, Ushuaia
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-brands fa-whatsapp"></i></span>
+                +54 9 2901 444-567
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-regular fa-clock"></i></span>
+                Lun–Sáb 8–21hs &nbsp;·&nbsp; Dom 9–14hs
+            </div>
+            <div class="footer-item">
+                <span class="fi-icon"><i class="fa-solid fa-credit-card"></i></span>
+                Efectivo · Tarjeta · Mercado Pago
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-clock" id="clock">--:--</div>
+            <div class="footer-date"  id="clock-date"></div>
+        </div>
+    </div>
+
+</div><!-- /screen -->
+
+<script>
+    /* ── Reloj ─────────────────────────────────────────────── */
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent =
+            String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        const DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+        const MO   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        document.getElementById('clock-date').textContent =
+            DAYS[now.getDay()] + ' ' + now.getDate() + ' ' + MO[now.getMonth()];
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    /* ── Slides ─────────────────────────────────────────────── */
+    const SLIDES = [
+        {
+            label: 'Almacén · Bebidas',
+            featured: {
+                name: 'Asado de Tira', sub: 'Carne Vacuna Premium · Por kg',
+                price: '$3.290', oldPrice: '$4.200', unit: 'precio por kilogramo',
+                image: 'https://images.unsplash.com/photo-1558030006-450675393462?w=600&h=400&fit=crop&auto=format&q=80'
+            },
+            products: [
+                { name: 'Arroz Gallo Oro',      sub: 'Parboil · 1 kg',         price: '$1.290', oldPrice: '$1.800', discount: '-28%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Aceite Natura',         sub: 'Girasol · 1.5 L',        price: '$2.150', oldPrice: '$2.870', discount: '-25%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Fideos Matarazzo',      sub: 'Spaghetti · 500 g',      price: '$980',   oldPrice: '$1.400', discount: '-30%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Leche La Serenísima',   sub: 'Entera · 1 L × 6',       price: '$4.200', oldPrice: '$5.600', discount: '-25%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Coca-Cola',             sub: '2.25 L · retornable',    price: '$1.490', oldPrice: '$2.100', discount: '-29%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Pan Lactal Fargo',      sub: 'Sandwich · 500 g',       price: '$1.190', oldPrice: '$1.650', discount: '-28%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Cerveza Quilmes',       sub: 'Clásica · 970 ml',       price: '$1.350', oldPrice: '$1.800', discount: '-25%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Yogur La Serenísima',   sub: 'Natural · 6 × 125 g',    price: '$2.290', oldPrice: '$2.980', discount: '-23%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Atún Coto',             sub: 'Al natural · 3 × 170 g', price: '$2.850', oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1510693206972-df098062cb71?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Harina 000 Cañuelas',   sub: '1 kg',                   price: '$870',   oldPrice: '$1.200', discount: '-27%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Galletitas Oreo',       sub: 'Vainilla · 276 g',       price: '$1.490', oldPrice: '$2.100', discount: '-29%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Agua Mineral Ser',      sub: 'Sin gas · 2.25 L × 6',   price: '$3.290', oldPrice: '$4.200', discount: '-22%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=280&fit=crop&auto=format&q=75' },
+            ]
+        },
+        {
+            label: 'Carnes · Verduras · Lácteos',
+            featured: {
+                name: 'Salmón Rosado', sub: 'Filete fresco · Por kg',
+                price: '$4.890', oldPrice: '$6.200', unit: 'precio por kilogramo',
+                image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&h=400&fit=crop&auto=format&q=80'
+            },
+            products: [
+                { name: 'Pollo Entero',          sub: 'Pollos del Sur · kg',     price: '$2.490', oldPrice: '$3.100', discount: '-20%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Verduras Frescas',      sub: 'Mix estacional · kg',     price: '$890',   oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Tomates Perita',        sub: 'Bandeja · 500 g',         price: '$1.290', oldPrice: '$1.700', discount: '-24%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1546094096-0df4bcabd337?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Queso Cremoso',         sub: 'Por kg · cortado',        price: '$3.890', oldPrice: '$5.200', discount: '-25%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Huevos Blancos',        sub: 'Docena · calibre 2',      price: '$1.890', oldPrice: '$2.400', discount: '-21%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1518569656558-1f25e69d2b2d?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Manteca La Serenísima', sub: '200 g',                   price: '$980',   oldPrice: '$1.350', discount: '-27%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Manzanas Rojas',        sub: 'Río Negro · kg',          price: '$1.190', oldPrice: '$1.600', discount: '-26%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Bananas',               sub: 'Del norte · kg',          price: '$680',   oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Carne Molida Especial', sub: 'Vacuna · kg',             price: '$2.890', oldPrice: '$3.800', discount: '-24%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1602473860399-b9916f5b1fce?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Naranjas para Jugo',    sub: 'Por kg',                  price: '$590',   oldPrice: '$850',   discount: '-30%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1547514701-42782101795e?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Crema de Leche',        sub: 'La Serenísima · 200 ml',  price: '$620',   oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Salchichas Vienesas',   sub: 'Paty · 4 unidades',       price: '$1.150', oldPrice: '$1.600', discount: '-28%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=280&fit=crop&auto=format&q=75' },
+            ]
+        },
+        {
+            label: 'Limpieza · Higiene Personal',
+            featured: {
+                name: 'Ariel Automático', sub: 'Jabón en polvo · 3 kg',
+                price: '$3.990', oldPrice: '$5.200', unit: 'precio por unidad',
+                image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=600&h=400&fit=crop&auto=format&q=80'
+            },
+            products: [
+                { name: 'Detergente Magistral',  sub: 'Limón · 750 ml',          price: '$1.150', oldPrice: '$1.600', discount: '-28%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Lavandina Ayudín',      sub: 'Concentrada · 1 L',       price: '$890',   oldPrice: '$1.200', discount: '-26%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Suavizante Downy',      sub: 'Brisa primavera · 800 ml',price: '$1.490', oldPrice: '$2.100', discount: '-29%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Papel Higiénico Elite', sub: 'Doble hoja · 4 rollos',   price: '$1.290', oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1584515979956-97b72bdb2e38?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Shampoo Pantene',       sub: 'Liso extremo · 400 ml',   price: '$2.890', oldPrice: '$3.800', discount: '-24%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Jabón Dove',            sub: 'Hidratante · 90 g × 4',   price: '$1.650', oldPrice: '$2.200', discount: '-25%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1584302179602-e4c3d3fd629d?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Desodorante Rexona',    sub: 'Clinical · 58 g',         price: '$2.490', oldPrice: '$3.200', discount: '-22%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Limpiador Cif Crema',   sub: 'Multiusos · 500 g',       price: '$980',   oldPrice: '$1.350', discount: '-27%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Pasta Dental Colgate',  sub: 'Triple acción · 90 ml',   price: '$1.290', oldPrice: '$1.800', discount: '-28%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1559304787-5e19c8c23a70?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Servilletas Renova',    sub: '100 uds · doble hoja',    price: '$620',   oldPrice: null,     discount: null,   badge: 'precio', image: 'https://images.unsplash.com/photo-1584515979956-97b72bdb2e38?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Esponjas Scotch-Brite', sub: 'Pack × 3',               price: '$690',   oldPrice: '$980',   discount: '-30%', badge: 'oferta', image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400&h=280&fit=crop&auto=format&q=75' },
+                { name: 'Toall. Húmedas Pampers',sub: 'Sensitive · 80 uds',      price: '$1.890', oldPrice: '$2.600', discount: '-27%', badge: 'promo',  image: 'https://images.unsplash.com/photo-1590005354167-6da97870c757?w=400&h=280&fit=crop&auto=format&q=75' },
+            ]
+        }
+    ];
+
+    const BADGE_MAP = {
+        promo:  ['b-promo',  '★ PROMO'],
+        oferta: ['b-oferta', 'OFERTA'],
+        precio: ['b-precio', 'MEJOR PRECIO'],
+    };
+
+    const INTERVAL = 10000; // ms por slide
+
+    let current     = 0;
+    let slideTimer  = null;
+
+    /* ── Render grilla ──────────────────────────────────────── */
+    function renderProducts(products) {
+        const grid = document.getElementById('items-grid');
+        grid.innerHTML = products.map(p => {
+            const [badgeCls, badgeTxt] = BADGE_MAP[p.badge] || ['b-none', ''];
+            const discountHTML = p.discount ? `<div class="discount-badge">${p.discount}</div>` : '';
+            const oldHTML      = p.oldPrice ? `<span class="item-old">${p.oldPrice}</span>` : '';
+            return `
+            <div class="item-card">
+                <div class="item-img-wrap">
+                    <div class="type-badge ${badgeCls}">${badgeTxt}</div>
+                    ${discountHTML}
+                    <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async">
+                </div>
+                <div class="item-info">
+                    <div class="item-name">${p.name}</div>
+                    <div class="item-sub">${p.sub}</div>
+                    <div class="item-prices">${oldHTML}<div class="item-price">${p.price}</div></div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    /* ── Render destacado ───────────────────────────────────── */
+    function renderFeatured(f) {
+        document.getElementById('featured-panel').innerHTML = `
+            <div class="feat-label">★ OFERTA DEL DÍA ★</div>
+            <div class="feat-visual">
+                <img src="${f.image}" alt="${f.name}" loading="eager" decoding="async">
+            </div>
+            <div class="feat-name">${f.name}</div>
+            <div class="feat-sub">${f.sub}</div>
+            <div class="feat-old">Antes ${f.oldPrice}</div>
+            <div class="feat-price">${f.price}</div>
+            <div class="feat-unit">${f.unit}</div>
+            <div class="brand-divider"></div>
+            <div class="brand-block">
+                <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+                <div class="brand-name">Super del Sur</div>
+                <div class="brand-tagline">Ushuaia · Desde 2010</div>
+            </div>`;
+    }
+
+    /* ── Dots ───────────────────────────────────────────────── */
+    function initDots() {
+        document.getElementById('slide-dots').innerHTML =
+            SLIDES.map((_, i) =>
+                `<div class="slide-dot${i === 0 ? ' active' : ''}" onclick="goTo(${i})"></div>`
+            ).join('');
+    }
+
+    function updateDots(idx) {
+        document.querySelectorAll('.slide-dot').forEach((d, i) =>
+            d.classList.toggle('active', i === idx)
+        );
+    }
+
+    /* ── Barra de progreso ──────────────────────────────────── */
+    function startProgress() {
+        const fill = document.getElementById('slide-fill');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        fill.getBoundingClientRect(); // force reflow
+        fill.style.transition = `width ${INTERVAL}ms linear`;
+        fill.style.width = '100%';
+    }
+
+    /* ── Cambio de slide ────────────────────────────────────── */
+    function goTo(idx) {
+        clearTimeout(slideTimer);
+        const main = document.getElementById('main-area');
+        main.classList.add('fading');
+        setTimeout(() => {
+            current = idx;
+            const s = SLIDES[current];
+            document.getElementById('cat-label').textContent = s.label;
+            renderProducts(s.products);
+            renderFeatured(s.featured);
+            updateDots(current);
+            main.classList.remove('fading');
+            startProgress();
+            slideTimer = setTimeout(() => goTo((current + 1) % SLIDES.length), INTERVAL);
+        }, 380);
+    }
+
+    /* ── Inicio ─────────────────────────────────────────────── */
+    initDots();
+    document.getElementById('cat-label').textContent = SLIDES[0].label;
+    renderProducts(SLIDES[0].products);
+    renderFeatured(SLIDES[0].featured);
+    startProgress();
+    slideTimer = setTimeout(() => goTo(1), INTERVAL);
+
+    /* ── Reload cada hora (limpieza TV) ─────────────────────── */
+    setTimeout(() => location.reload(), 60 * 60 * 1000);
+</script>
+
+</body>
+</html>

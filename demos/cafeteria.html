@@ -189,11 +189,15 @@
             margin-bottom: 2.5vh;
         }
         .featured-emoji {
-            font-size: 11vh;
+            width: 100%;
+            height: 18vh;
+            border-radius: 14px;
+            overflow: hidden;
             margin-bottom: 2.5vh;
-            line-height: 1;
-            filter: drop-shadow(0 4px 20px rgba(200,135,78,0.3));
+            box-shadow: 0 4px 20px rgba(200,135,78,0.3);
+            flex-shrink: 0;
         }
+        .featured-emoji img { width:100%; height:100%; object-fit:cover; display:block; }
         .featured-tag {
             font-size: 1.1vh;
             font-weight: 700;
@@ -278,9 +282,12 @@
             margin-bottom: 1.5vh;
         }
         .item-emoji {
-            font-size: 5vh;
-            line-height: 1;
+            width: 100%;
+            height: 9vh;
+            border-radius: 10px;
+            overflow: hidden;
         }
+        .item-emoji img { width:100%; height:100%; object-fit:cover; display:block; }
         .item-badge {
             font-size: 1.1vh;
             font-weight: 700;
@@ -421,7 +428,7 @@
         <!-- FEATURED -->
         <div class="featured">
             <div class="featured-badge">✦ Destacado del día</div>
-            <div class="featured-emoji" id="feat-emoji">☕</div>
+            <div class="featured-emoji" id="feat-emoji"><img src="" alt="" loading="lazy"></div>
             <div class="featured-tag" id="feat-tag">MÁS PEDIDO</div>
             <div class="featured-name" id="feat-name">Cappuccino Clásico</div>
             <div class="featured-desc" id="feat-desc">Espresso doble, leche vaporizada y espuma sedosa. El favorito de la casa.</div>
@@ -473,45 +480,46 @@
 
 <script>
     // ── DATA ──────────────────────────────────────────────
+    const U = 'https://images.unsplash.com/';
     const slides = [
         {
             cat: 0,
-            featured: { emoji:'☕', tag:'MÁS PEDIDO', name:'Cappuccino Clásico', desc:'Espresso doble, leche vaporizada y espuma sedosa. El favorito de la casa.', price:'$1.200', size:'180 ml' },
+            featured: { img: U+'photo-1572442388796-11668a67e53d?w=600&h=400&fit=crop&q=80', tag:'MÁS PEDIDO', name:'Cappuccino Clásico', desc:'Espresso doble, leche vaporizada y espuma sedosa. El favorito de la casa.', price:'$1.200', size:'180 ml' },
             items: [
-                { emoji:'🥛', badge:'nuevo', badgeText:'Nuevo', name:'Flat White', desc:'Doble espresso con microespuma. Intenso y cremoso.', price:'$1.350', size:'160 ml' },
-                { emoji:'☕', badge:'', badgeText:'', name:'Americano', desc:'Espresso con agua. Grande, suave y reconfortante.', price:'$980', size:'250 ml' },
-                { emoji:'🍫', badge:'promo', badgeText:'Promo', name:'Mochaccino', desc:'Espresso, chocolate belga y leche caliente.', price:'$1.450', size:'220 ml' },
-                { emoji:'☕', badge:'', badgeText:'', name:'Cortado', desc:'Espresso con un toque de leche para suavizar.', price:'$900', size:'90 ml' },
+                { img: U+'photo-1509042239860-f550ce710b93?w=500&h=350&fit=crop&q=80', badge:'nuevo', badgeText:'Nuevo', name:'Flat White', desc:'Doble espresso con microespuma. Intenso y cremoso.', price:'$1.350', size:'160 ml' },
+                { img: U+'photo-1485808191679-5f86510bd9d7?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Americano', desc:'Espresso con agua. Grande, suave y reconfortante.', price:'$980', size:'250 ml' },
+                { img: U+'photo-1461023058943-07fcbe16d735?w=500&h=350&fit=crop&q=80', badge:'promo', badgeText:'Promo', name:'Mochaccino', desc:'Espresso, chocolate belga y leche caliente.', price:'$1.450', size:'220 ml' },
+                { img: U+'photo-1525193612562-0ec53b0e5d7c?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Cortado', desc:'Espresso con un toque de leche para suavizar.', price:'$900', size:'90 ml' },
             ]
         },
         {
             cat: 1,
-            featured: { emoji:'🧊', tag:'FAVORITO', name:'Cold Brew', desc:'Café macerado en frío por 18 horas. Sin amargor, muy suave y concentrado.', price:'$1.600', size:'300 ml' },
+            featured: { img: U+'photo-1461023058943-07fcbe16d735?w=600&h=400&fit=crop&q=80', tag:'FAVORITO', name:'Cold Brew', desc:'Café macerado en frío por 18 horas. Sin amargor, muy suave y concentrado.', price:'$1.600', size:'300 ml' },
             items: [
-                { emoji:'🍵', badge:'nuevo', badgeText:'Nuevo', name:'Matcha Latte Frío', desc:'Matcha ceremonial con leche de avena y hielo.', price:'$1.800', size:'350 ml' },
-                { emoji:'🍓', badge:'', badgeText:'', name:'Smoothie Calafate', desc:'Calafate, banana y yogur. Antioxidante natural.', price:'$1.950', size:'400 ml' },
-                { emoji:'🍋', badge:'', badgeText:'', name:'Limonada Jengibre', desc:'Limón natural, jengibre fresco y agua con gas.', price:'$1.200', size:'350 ml' },
-                { emoji:'🥤', badge:'promo', badgeText:'Promo', name:'Granizado de café', desc:'Cold brew sobre hielo con leche de coco.', price:'$1.700', size:'350 ml' },
+                { img: U+'photo-1515823662972-da6a2e4d3002?w=500&h=350&fit=crop&q=80', badge:'nuevo', badgeText:'Nuevo', name:'Matcha Latte Frío', desc:'Matcha ceremonial con leche de avena y hielo.', price:'$1.800', size:'350 ml' },
+                { img: U+'photo-1553530666-ba11a7da3888?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Smoothie Calafate', desc:'Calafate, banana y yogur. Antioxidante natural.', price:'$1.950', size:'400 ml' },
+                { img: U+'photo-1570831739435-6601aa3fa4fb?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Limonada Jengibre', desc:'Limón natural, jengibre fresco y agua con gas.', price:'$1.200', size:'350 ml' },
+                { img: U+'photo-1572490122747-3e92ad298f05?w=500&h=350&fit=crop&q=80', badge:'promo', badgeText:'Promo', name:'Granizado de café', desc:'Cold brew sobre hielo con leche de coco.', price:'$1.700', size:'350 ml' },
             ]
         },
         {
             cat: 2,
-            featured: { emoji:'🥐', tag:'CLÁSICO', name:'Medialunas de manteca', desc:'Horneadas cada mañana. Hojaldradas, doradas y con azúcar glaseado.', price:'$350', size:'por unidad' },
+            featured: { img: U+'photo-1555507036-ab1f4038808a?w=600&h=400&fit=crop&q=80', tag:'CLÁSICO', name:'Medialunas de manteca', desc:'Horneadas cada mañana. Hojaldradas, doradas y con azúcar glaseado.', price:'$350', size:'por unidad' },
             items: [
-                { emoji:'🍰', badge:'nuevo', badgeText:'Nuevo', name:'Tarta de Calafate', desc:'Base sablée, crema pastelera y mermelada de calafate.', price:'$1.800', size:'porción' },
-                { emoji:'🧁', badge:'', badgeText:'', name:'Brownie con nueces', desc:'Chocolate amargo, nueces y sal marina en escamas.', price:'$1.200', size:'porción' },
-                { emoji:'🍩', badge:'', badgeText:'', name:'Banana Bread', desc:'Húmedo, con chips de chocolate y semillas de chía.', price:'$1.100', size:'porción' },
-                { emoji:'🍪', badge:'promo', badgeText:'Promo', name:'Cookies artesanales', desc:'Chocolate amargo y chips. Crujientes afuera, suaves adentro.', price:'$600', size:'x2 unidades' },
+                { img: U+'photo-1551024601-bec78aea704b?w=500&h=350&fit=crop&q=80', badge:'nuevo', badgeText:'Nuevo', name:'Tarta de Calafate', desc:'Base sablée, crema pastelera y mermelada de calafate.', price:'$1.800', size:'porción' },
+                { img: U+'photo-1606313564200-e75d5e30476c?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Brownie con nueces', desc:'Chocolate amargo, nueces y sal marina en escamas.', price:'$1.200', size:'porción' },
+                { img: U+'photo-1484723091739-30a097e8f929?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Banana Bread', desc:'Húmedo, con chips de chocolate y semillas de chía.', price:'$1.100', size:'porción' },
+                { img: U+'photo-1499636136210-6f4ee915583e?w=500&h=350&fit=crop&q=80', badge:'promo', badgeText:'Promo', name:'Cookies artesanales', desc:'Chocolate amargo y chips. Crujientes afuera, suaves adentro.', price:'$600', size:'x2 unidades' },
             ]
         },
         {
             cat: 3,
-            featured: { emoji:'🥪', tag:'MÁS PEDIDO', name:'Tostado Caprese', desc:'Mozzarella fresca, tomate cherry, albahaca y pesto casero en pan ciabatta.', price:'$2.200', size:'con papas fritas' },
+            featured: { img: U+'photo-1528735602780-2552fd46c7af?w=600&h=400&fit=crop&q=80', tag:'MÁS PEDIDO', name:'Tostado Caprese', desc:'Mozzarella fresca, tomate cherry, albahaca y pesto casero en pan ciabatta.', price:'$2.200', size:'con papas fritas' },
             items: [
-                { emoji:'🥑', badge:'nuevo', badgeText:'Nuevo', name:'Avocado Toast', desc:'Pan de masa madre, palta, huevo pochado y semillas.', price:'$2.600', size:'' },
-                { emoji:'🍗', badge:'promo', badgeText:'Promo', name:'Club Sándwich', desc:'Pollo, panceta, lechuga, tomate y mayonesa casera.', price:'$3.100', size:'triple piso' },
-                { emoji:'🧀', badge:'', badgeText:'', name:'Tostado Mixto', desc:'Jamón cocido y queso gouda fundido. Clásico infalible.', price:'$1.600', size:'' },
-                { emoji:'🍳', badge:'', badgeText:'', name:'Sándwich de huevo', desc:'Huevo revuelto, queso brie y rúcula en croissant.', price:'$2.100', size:'' },
+                { img: U+'photo-1588137378633-dea1336ce1e2?w=500&h=350&fit=crop&q=80', badge:'nuevo', badgeText:'Nuevo', name:'Avocado Toast', desc:'Pan de masa madre, palta, huevo pochado y semillas.', price:'$2.600', size:'' },
+                { img: U+'photo-1567234669003-dce7a7a88821?w=500&h=350&fit=crop&q=80', badge:'promo', badgeText:'Promo', name:'Club Sándwich', desc:'Pollo, panceta, lechuga, tomate y mayonesa casera.', price:'$3.100', size:'triple piso' },
+                { img: U+'photo-1528736235302-52922df5c122?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Tostado Mixto', desc:'Jamón cocido y queso gouda fundido. Clásico infalible.', price:'$1.600', size:'' },
+                { img: U+'photo-1525351484163-7529414344d8?w=500&h=350&fit=crop&q=80', badge:'', badgeText:'', name:'Sándwich de huevo', desc:'Huevo revuelto, queso brie y rúcula en croissant.', price:'$2.100', size:'' },
             ]
         },
     ];
@@ -543,7 +551,7 @@
 
         setTimeout(() => {
             // Featured
-            document.getElementById('feat-emoji').textContent = slide.featured.emoji;
+            document.getElementById('feat-emoji').innerHTML = `<img src="${slide.featured.img}" alt="${slide.featured.name}" loading="lazy">`;
             document.getElementById('feat-tag').textContent   = slide.featured.tag;
             document.getElementById('feat-name').textContent  = slide.featured.name;
             document.getElementById('feat-desc').textContent  = slide.featured.desc;
@@ -554,7 +562,7 @@
             grid.innerHTML = slide.items.map(it => `
                 <div class="item-card">
                     <div class="item-top">
-                        <span class="item-emoji">${it.emoji}</span>
+                        <div class="item-emoji"><img src="${it.img}" alt="${it.name}" loading="lazy"></div>
                         ${it.badge ? `<span class="item-badge badge-${it.badge}">${it.badgeText}</span>` : ''}
                     </div>
                     <div class="item-name">${it.name}</div>

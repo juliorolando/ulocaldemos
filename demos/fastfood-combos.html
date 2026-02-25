@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger del Fin del Mundo — Combos TV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --red:    #D41B1B;
+            --yellow: #FFCC00;
+            --white:  #FFFFFF;
+            --dark:   #111111;
+            --gray:   #666666;
+            --line:   #2a2a2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--dark);
+            font-family: 'Barlow', sans-serif;
+            cursor: none;
+        }
+
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 10vh 68vh 22vh;
+            overflow: hidden;
+        }
+
+        /* ═══════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════ */
+        .header {
+            background: #090909;
+            border-bottom: 3px solid var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5vw;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2vw;
+        }
+
+        .combos-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5.2vh;
+            letter-spacing: 0.2em;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .combos-sub {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.6vh;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            border: 1px solid var(--yellow);
+            padding: 0.35vh 0.8vw;
+            border-radius: 4px;
+            line-height: 1;
+        }
+
+        .brand-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .brand-script {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 2.4vh;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        .header-clock {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5.5vh;
+            letter-spacing: 0.06em;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        /* Barra de progreso debajo del header */
+        .progress-track {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.07);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--yellow);
+            width: 0%;
+        }
+
+        /* ═══════════════════════════════════════
+           MAIN — imagen + info combo
+        ═══════════════════════════════════════ */
+        .main {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            overflow: hidden;
+            opacity: 1;
+            transition: opacity 0.35s ease;
+        }
+
+        .main.fading { opacity: 0; }
+
+        /* ── Columna imagen ── */
+        .img-col {
+            position: relative;
+            overflow: hidden;
+            background: #0a0a0a;
+        }
+
+        .img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Funde la foto con el panel oscuro */
+        .img-fade-right {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                transparent 45%,
+                rgba(17,17,17,0.55) 72%,
+                #111111 100%
+            );
+        }
+
+        /* Viñeta inferior suave */
+        .img-fade-bottom {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.45) 0%,
+                transparent 45%
+            );
+        }
+
+        /* ── Columna info ── */
+        .info-col {
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3.5vh 3.5vw 3.5vh 2vw;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Número gigante watermark */
+        .num-watermark {
+            position: absolute;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 70vh;
+            color: rgba(255,255,255,0.022);
+            bottom: -16vh;
+            right: -4vw;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+
+        .info-body {
+            position: relative;
+            z-index: 1;
+        }
+
+        .combo-eyebrow {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2vh;
+            letter-spacing: 0.4em;
+            color: var(--gray);
+            margin-bottom: 0.5vh;
+        }
+
+        .combo-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 9vh;
+            letter-spacing: 0.02em;
+            color: var(--white);
+            line-height: 0.92;
+            margin-bottom: 0.8vh;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4vw;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.55vh;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.45vh 1.1vw;
+            border-radius: 30px;
+            line-height: 1;
+            margin-bottom: 1.2vh;
+        }
+        .badge-pill.hot     { background: var(--red);    color: #fff; }
+        .badge-pill.new     { background: var(--yellow); color: var(--dark); }
+        .badge-pill.popular { background: #f97316;       color: #fff; }
+        .badge-pill.hidden  { display: none; }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--line);
+            margin: 1.6vh 0;
+        }
+
+        .includes-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+        }
+
+        .includes-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.8vw;
+            font-size: 2.2vh;
+            font-weight: 700;
+            color: rgba(255,255,255,0.82);
+            letter-spacing: 0.02em;
+        }
+
+        .includes-list li i {
+            color: var(--yellow);
+            font-size: 1.8vh;
+            width: 2vh;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .price-solo-label {
+            font-size: 1.55vh;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 0.1vh;
+        }
+
+        .price-solo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2vh;
+            color: var(--gray);
+            letter-spacing: 0.04em;
+            text-decoration: line-through;
+            text-decoration-color: var(--red);
+            text-decoration-thickness: 2px;
+            margin-bottom: 0.2vh;
+        }
+
+        .price-combo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 11.5vh;
+            color: var(--yellow);
+            line-height: 0.92;
+            letter-spacing: 0.01em;
+            margin-bottom: 1vh;
+        }
+
+        .saving-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6vw;
+            background: var(--red);
+            color: #fff;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.8vh;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.55vh 1.2vw;
+            border-radius: 5px;
+        }
+
+        .saving-tag i {
+            font-size: 1.6vh;
+        }
+
+        /* ═══════════════════════════════════════
+           STRIP — miniaturas de combos
+        ═══════════════════════════════════════ */
+        .strip {
+            background: #080808;
+            border-top: 2px solid #1c1c1c;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            overflow: hidden;
+        }
+
+        .strip-item {
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid #1c1c1c;
+        }
+
+        .strip-item:last-child { border-right: none; }
+
+        .strip-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .strip-item.active img {
+            transform: scale(1.04);
+        }
+
+        .strip-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.62);
+            transition: background 0.3s ease;
+        }
+
+        .strip-item.active .strip-overlay {
+            background: rgba(0,0,0,0.28);
+        }
+
+        /* Línea roja superior en el activo */
+        .strip-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--red);
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .strip-item.active::before { opacity: 1; }
+
+        .strip-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.2vh 1.3vw 1.4vh;
+            z-index: 2;
+        }
+
+        .strip-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2vh;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.3s ease;
+        }
+
+        .strip-item.active .strip-num {
+            color: var(--yellow);
+        }
+
+        .strip-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 0.5vw;
+        }
+
+        .strip-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8vh;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.04em;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .strip-item.active .strip-name {
+            color: #fff;
+        }
+
+        .strip-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5vh;
+            color: var(--yellow);
+            white-space: nowrap;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="header">
+        <div class="header-left">
+            <div class="combos-title">NUESTROS COMBOS</div>
+        </div>
+        <div class="brand-center">
+            <div class="brand-script">Burger del Fin del Mundo &middot; Ushuaia</div>
+        </div>
+        <div class="header-clock" id="clock">--:--</div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- ═══ MAIN ═══ -->
+    <div class="main" id="main-panel">
+
+        <!-- Foto del combo -->
+        <div class="img-col">
+            <img src="" alt="" id="combo-img" loading="eager">
+            <div class="img-fade-right"></div>
+            <div class="img-fade-bottom"></div>
+        </div>
+
+        <!-- Info del combo -->
+        <div class="info-col">
+            <div class="num-watermark" id="num-watermark">1</div>
+            <div class="info-body">
+                <div class="combo-eyebrow">COMBO Nº<span id="eyebrow-num">1</span></div>
+                <div class="combo-name" id="combo-name">CLÁSICO</div>
+                <div class="badge-pill hidden" id="badge-pill"></div>
+
+                <div class="divider"></div>
+
+                <ul class="includes-list" id="includes-list"></ul>
+
+                <div class="divider"></div>
+
+                <div class="price-solo-label">Precio individual</div>
+                <div class="price-solo" id="price-solo">$5.800</div>
+                <div class="price-combo" id="price-combo">$5.200</div>
+                <div class="saving-tag">
+                    <i class="fa-solid fa-tag"></i>
+                    <span id="saving-text">Ahorrás $600</span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /main -->
+
+    <!-- ═══ STRIP ═══ -->
+    <div class="strip" id="strip"></div>
+
+</div><!-- /screen -->
+
+<script>
+    /* ── Datos ─────────────────────────────────────────────────── */
+    const COMBOS = [
+        {
+            id: 1,
+            name: 'Clásico',
+            includes: ['Classic FdM', 'Papas medianas', 'Bebida 350ml'],
+            image: 'img/fastfood/01-classic-fdm.jpg',
+            price: '$5.200',
+            priceSolo: '$5.800',
+            saving: 'Ahorrás $600',
+            badge: null
+        },
+        {
+            id: 2,
+            name: 'Beagle',
+            includes: ['Beagle doble queso', 'Papas medianas', 'Bebida 350ml'],
+            image: 'img/fastfood/03-beagle.jpg',
+            price: '$5.900',
+            priceSolo: '$6.600',
+            saving: 'Ahorrás $700',
+            badge: 'popular'
+        },
+        {
+            id: 3,
+            name: 'Fueguina',
+            includes: ['La Fueguina picante', 'Papas grandes', 'Bebida 500ml'],
+            image: 'img/fastfood/04-fueguina.jpg',
+            price: '$6.800',
+            priceSolo: '$7.600',
+            saving: 'Ahorrás $800',
+            badge: 'hot'
+        },
+        {
+            id: 4,
+            name: 'Gigante',
+            includes: ['El Gigante doble', 'Papas XL', 'Bebida 500ml', 'Postre incluido'],
+            image: 'img/fastfood/06-gigante.jpg',
+            price: '$8.500',
+            priceSolo: '$9.800',
+            saving: 'Ahorrás $1.300',
+            badge: 'new'
+        }
+    ];
+
+    const BADGE_LABELS = {
+        hot:     ['hot',     '🔥 Picante'],
+        new:     ['new',     '★ Nuevo'],
+        popular: ['popular', '❤ Popular']
+    };
+
+    const INTERVAL = 7000; // ms por combo
+
+    let current = 0;
+    let rotationTimer = null;
+
+    /* ── Preload de imágenes ────────────────────────────────────── */
+    COMBOS.forEach(c => { const i = new Image(); i.src = c.image; });
+
+    /* ── Reloj ─────────────────────────────────────────────────── */
+    function updateClock() {
+        const now = new Date();
+        const h   = String(now.getHours()).padStart(2, '0');
+        const m   = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    /* ── Render main panel ─────────────────────────────────────── */
+    function renderMain(idx) {
+        const c = COMBOS[idx];
+
+        document.getElementById('combo-img').src        = c.image;
+        document.getElementById('combo-img').alt        = c.name;
+        document.getElementById('num-watermark').textContent = c.id;
+        document.getElementById('eyebrow-num').textContent   = c.id;
+        document.getElementById('combo-name').textContent    = c.name.toUpperCase();
+
+        // Badge
+        const pill = document.getElementById('badge-pill');
+        if (c.badge && BADGE_LABELS[c.badge]) {
+            const [cls, label] = BADGE_LABELS[c.badge];
+            pill.className   = `badge-pill ${cls}`;
+            pill.textContent = label;
+        } else {
+            pill.className   = 'badge-pill hidden';
+        }
+
+        // Includes
+        document.getElementById('includes-list').innerHTML =
+            c.includes.map(item =>
+                `<li><i class="fa-solid fa-circle-check"></i>${item}</li>`
+            ).join('');
+
+        document.getElementById('price-solo').textContent  = c.priceSolo;
+        document.getElementById('price-combo').textContent = c.price;
+        document.getElementById('saving-text').textContent = c.saving;
+    }
+
+    /* ── Render strip ──────────────────────────────────────────── */
+    function renderStrip(activeIdx) {
+        document.getElementById('strip').innerHTML = COMBOS.map((c, i) => `
+            <div class="strip-item ${i === activeIdx ? 'active' : ''}"
+                 onclick="goTo(${i})">
+                <img src="${c.image}" alt="${c.name}" loading="lazy">
+                <div class="strip-overlay"></div>
+                <div class="strip-content">
+                    <div class="strip-num">COMBO ${c.id}</div>
+                    <div class="strip-bottom">
+                        <div class="strip-name">${c.name.toUpperCase()}</div>
+                        <div class="strip-price">${c.price}</div>
+                    </div>
+                </div>
+            </div>`
+        ).join('');
+    }
+
+    /* ── Barra de progreso ─────────────────────────────────────── */
+    function startProgress() {
+        const fill = document.getElementById('progress-fill');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        fill.getBoundingClientRect(); // force reflow
+        fill.style.transition = `width ${INTERVAL}ms linear`;
+        fill.style.width = '100%';
+    }
+
+    /* ── Transición de combo ───────────────────────────────────── */
+    function goTo(idx) {
+        clearTimeout(rotationTimer);
+        const panel = document.getElementById('main-panel');
+        panel.classList.add('fading');
+        setTimeout(() => {
+            current = idx;
+            renderMain(current);
+            renderStrip(current);
+            panel.classList.remove('fading');
+            startProgress();
+            rotationTimer = setTimeout(() => goTo((current + 1) % COMBOS.length), INTERVAL);
+        }, 350);
+    }
+
+    /* ── Inicio ────────────────────────────────────────────────── */
+    renderMain(0);
+    renderStrip(0);
+    startProgress();
+    rotationTimer = setTimeout(() => goTo(1), INTERVAL);
+
+    /* ── Reload cada hora (limpieza TV) ────────────────────────── */
+    setTimeout(() => location.reload(), 60 * 60 * 1000);
+</script>
+
+</body>
+</html>
