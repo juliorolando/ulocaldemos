@@ -85,6 +85,23 @@ app.get('/api/session', (req, res) => {
   res.json({ authenticated: !!(req.session && req.session.authenticated) });
 });
 
+// ─── API: Demo Login ──────────────────────────────────────────────────────────
+app.post('/api/demo-login', (req, res) => {
+  const { username, password } = req.body;
+  const DEMO_USER = process.env.DEMO_USER || 'demo';
+  const DEMO_PASS = process.env.DEMO_PASS || 'demo';
+  if (username === DEMO_USER && password === DEMO_PASS) {
+    req.session.demoAuthenticated = true;
+    return res.json({ ok: true });
+  }
+  res.status(401).json({ error: 'Credenciales incorrectas.' });
+});
+
+// ─── API: Estado de sesión demo ───────────────────────────────────────────────
+app.get('/api/demo-session', (req, res) => {
+  res.json({ authenticated: !!(req.session && req.session.demoAuthenticated) });
+});
+
 // ─── API: GET menú (público — lo consume fastfood.html) ──────────────────────
 app.get('/api/menu', (_req, res) => {
   try {
